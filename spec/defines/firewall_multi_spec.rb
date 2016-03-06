@@ -86,4 +86,30 @@ describe 'firewall_multi' do
       }
     end
   end
+
+  context 'passes dst_range through' do
+    sources = [
+      '1.1.1.1/24',
+      '2.2.2.2/24',
+    ]
+    dst_range = '3.3.3.3-3.3.3.10'
+    let(:title) { '00100 accept on port 80' }
+    let(:params) {{
+      'action' => 'accept',
+      'dport'  => '80',
+      'proto'  => 'tcp',
+      'source'    => sources,
+      'dst_range' => dst_range,
+    }}
+    it {
+      is_expected.to contain_firewall("00100 accept on port 80 from 1.1.1.1/24 to 0.0.0.0/0").with(
+        'action' => 'accept',
+        'dport'  => '80',
+        'proto'  => 'tcp',
+        'source'      => '1.1.1.1/24',
+        'destination' => '0.0.0.0/0',
+        'dst_range'   => dst_range,
+      )
+    }
+  end
 end
