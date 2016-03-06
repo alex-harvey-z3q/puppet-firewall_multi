@@ -1,0 +1,30 @@
+{
+  "name": "alexharv074-firewall_multi",
+  "version": "1.0.0",
+  "author": "Alex Harvey",
+  "summary": "Handles firewall resources using arrays of sources/destinations",
+  "license": "MIT",
+  "source": "https://github.com/alexharv074/puppet-firewall_multi",
+  "project_page": "http://github.com/alexharv074/puppet-firewall_multi",
+  "issues_url": "https://github.com/alexharv074/puppet-firewall_multi/issues",
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "name": "puppet",
+      "version_requirement": ">= 3.0.0 < 4.0.0"
+    }
+  ],
+  "dependencies": [
+    {
+      "name": "puppetlabs/firewall"
+    }
+  ]
+}
