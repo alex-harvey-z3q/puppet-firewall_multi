@@ -6,9 +6,9 @@ The `firewall_multi` module provides a defined type wrapper for spawning [puppet
 
 ##Usage
 
-It is expected that a standard set up for the `firewall` module is followed, in particular with respect to the purging of firewall rules.  If a user of this module, for instance, removed addresses from the array of sources, expecting that these rules would be deleted, this would not happen if purging is not enabled, and might be surprising to the user in a way that impacts security.
+It is expected that a standard set up for the `firewall` module is followed, in particular with respect to the purging of firewall rules.  If a user of this module, for instance, removes addresses from the array of sources, the corresponding firewall resources will only be removed if purging is enabled.  This might be surprising to the user in a way that impacts security.
 
-Otherwise, usage of the `firewall_multi` type is used in the same way as a `firewall` type, except that source and/or destination may optionally be an array of IP addresses or networks, and a string `from x.x.x.x/x to y.y.y.y/x` is appended to each rule to ensure their uniqueness in the catalog.
+Otherwise, usage of the `firewall_multi` defined type is the same as with the `firewall` custom type, the only exceptions being that the `source` and `destination` parameters optionally accept arrays of IP addresses or networks, and that a string `from x.x.x.x/x to y.y.y.y/x` is appended to each rule to ensure their uniqueness in the catalog.
 
 ##Parameters
 
@@ -38,6 +38,10 @@ This will cause three rules to be created:
 * `Firewall['100 allow http and https access from 10.0.0.10/24 to 0.0.0.0/0']`
 * `Firewall['100 allow http and https access from 10.0.0.12/24 to 0.0.0.0/0']`
 * `Firewall['100 allow http and https access from 10.1.1.128 to 0.0.0.0/0']`
+
+##Known Issues
+
+While it is possible to use the `dst_range` parameter, and it will be correctly proxied to the `firewall` resources, the rule will be named `to 0.0.0.0/0` in the catalog, and this name also appears in comments when a system administrator runs `iptables -nL`.  This may be confusing, and it is therefore recommended to instead use an array of destinations, rather than `dst_range`.
 
 ##Development
 
