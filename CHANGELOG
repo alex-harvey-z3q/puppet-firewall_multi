@@ -1,2 +1,7 @@
+2016-03-07 - Version 1.0.2
+- Fix up styling to satisfy lint
+- Modify lint config
+- Updates documentation
+
 2016-03-07 - Version 1.0.1
 - Initial public release

@@ -1,6 +1,6 @@
 {
   "name": "alexharvey-firewall_multi",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "Alex Harvey",
   "summary": "Handles firewall resources using arrays of sources/destinations",
   "license": "MIT",
