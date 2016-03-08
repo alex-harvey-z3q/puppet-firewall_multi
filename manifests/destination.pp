@@ -1,6 +1,7 @@
 define firewall_multi::destination (
   # source and destination are expected to be in $name.
   # all arguments are proxied to the puppetlabs/firewall type.
+  $ensure                = undef,
   $action                = undef,
   $burst                 = undef,
   $clusterip_new         = undef,
@@ -21,7 +22,6 @@ define firewall_multi::destination (
   $dport                 = undef,
   $dst_range             = undef,
   $dst_type              = undef,
-  $ensure                = undef,
   $gateway               = undef,
   $gid                   = undef,
   $hop_limit             = undef,
@@ -92,15 +92,18 @@ define firewall_multi::destination (
   # $_name will afterwards contain 'description from x.x.x.x/x to y.y.y.y/y'
   $_name = regsubst(regsubst($name, '__', ' from '), '__', ' to ')
 
-  # array will contain three elements, 0th will be discarded
+  # array will contain three elements:
   # array[0]  - contains description (discarded; we use $_name instead)
   # array[1]  - contains x.x.x.x/x
   # array[2]  - contains y.y.y.y/y
   $array = split($name, '__')
 
   firewall { $_name:
-    source          => $array[1],
-    destination     => $array[2],
+    # I put this here to make the Forge's lint happy.
+    ensure                => $ensure,
+    source                => $array[1],
+    destination           => $array[2],
+    # all other arguments are proxied to the puppetlabs/firewall type.
     action                => $action,
     burst                 => $burst,
     clusterip_new         => $clusterip_new,
@@ -121,7 +124,6 @@ define firewall_multi::destination (
     dport                 => $dport,
     dst_range             => $dst_range,
     dst_type              => $dst_type,
-    ensure                => $ensure,
     gateway               => $gateway,
     gid                   => $gid,
     hop_limit             => $hop_limit,

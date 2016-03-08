@@ -1,4 +1,5 @@
 define firewall_multi (
+  $ensure                = undef,
   $action                = undef,
   $burst                 = undef,
   $clusterip_new         = undef,
@@ -19,7 +20,6 @@ define firewall_multi (
   $dport                 = undef,
   $dst_range             = undef,
   $dst_type              = undef,
-  $ensure                = undef,
   $gateway               = undef,
   $gid                   = undef,
   $hop_limit             = undef,
@@ -104,6 +104,8 @@ define firewall_multi (
   $_source = regsubst($source, '(.*)', "${name}__\\1")
 
   firewall_multi::source { $_source:
+    # I put this here to make the Forge's lint happy.
+    ensure                => $ensure,
     # source is passed as a string in the title, see comment above.
     destination           => $destination,
     # all other arguments are proxied to the puppetlabs/firewall type.
@@ -127,7 +129,6 @@ define firewall_multi (
     dport                 => $dport,
     dst_range             => $dst_range,
     dst_type              => $dst_type,
-    ensure                => $ensure,
     gateway               => $gateway,
     gid                   => $gid,
     hop_limit             => $hop_limit,

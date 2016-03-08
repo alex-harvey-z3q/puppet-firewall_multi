@@ -1,4 +1,7 @@
 define firewall_multi::source (
+  # source is passed in $name.
+  $destination,
+  $ensure                = undef,
   $action                = undef,
   $burst                 = undef,
   $clusterip_new         = undef,
@@ -19,7 +22,6 @@ define firewall_multi::source (
   $dport                 = undef,
   $dst_range             = undef,
   $dst_type              = undef,
-  $ensure                = undef,
   $gateway               = undef,
   $gid                   = undef,
   $hop_limit             = undef,
@@ -84,8 +86,6 @@ define firewall_multi::source (
   $to                    = undef,
   $uid                   = undef,
   $week_days             = undef,
-  # source is passed in $name.
-  $destination,
 ) {
 
   # $name is expected to contain something like 'description__x.x.x.x/x'
@@ -99,7 +99,9 @@ define firewall_multi::source (
   $_destination = regsubst($destination, '(.*)', "${name}__\\1")
 
   firewall_multi::destination { $_destination:
-    # all other arguments are proxied to the puppetlabs/firewall type.
+    # I put this here to make the Forge's lint happy.
+    ensure                => $ensure,
+    # all arguments are proxied to the puppetlabs/firewall type.
     action                => $action,
     burst                 => $burst,
     clusterip_new         => $clusterip_new,
@@ -120,7 +122,6 @@ define firewall_multi::source (
     dport                 => $dport,
     dst_range             => $dst_range,
     dst_type              => $dst_type,
-    ensure                => $ensure,
     gateway               => $gateway,
     gid                   => $gid,
     hop_limit             => $hop_limit,
