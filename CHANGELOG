@@ -1,3 +1,6 @@
+2016-03-08 - Version 1.0.3
+- Ok, satisfy Forge's lint rather than my preferred lint config.
+
 2016-03-07 - Version 1.0.2
 - Fix up styling to satisfy lint
 - Modify lint config
