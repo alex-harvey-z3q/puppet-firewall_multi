@@ -43,6 +43,8 @@ This will cause three resources to be created:
 
 While it is possible to use the `dst_range` parameter, and it will be correctly proxied to the `firewall` resources, the resource will be named `to 0.0.0.0/0` in the catalog, and this name also appears in comments when a system administrator runs `iptables -nL`.  This may be confusing, and it is therefore recommended to instead use an array of destinations, rather than `dst_range`.
 
+At the moment, only the latest version of `puppetlabs/firewall` is supported, namely version `1.8.0`.
+
 ##Development
 
 Please read CONTRIBUTING.md before contributing.
