@@ -1,3 +1,6 @@
+2016-03-11 - Version 1.0.5
+- Add PE support to metadata.json.
+
 2016-03-09 - Version 1.0.4
 - Clarify that only puppetlabs/firewall 1.8.0 and later is supported.
 
