@@ -2,7 +2,7 @@
   "name": "alexharvey-firewall_multi",
   "version": "1.0.4",
   "author": "Alex Harvey",
-  "summary": "Handles firewall resources using arrays of sources/destinations",
+  "summary": "A source/dest multiplexer frontend for puppetlabs/firewall",
   "license": "MIT",
   "source": "https://github.com/alexharv074/puppet-firewall_multi",
   "project_page": "http://github.com/alexharv074/puppet-firewall_multi",
@@ -33,6 +33,10 @@
     }
   ],
   "requirements": [
+    {
+      "name": "pe",
+      "version_requirement": ">= 3.0.0 < 2015.4.0"
+    },
     {
       "name": "puppet",
       "version_requirement": ">= 3.0.0 < 5.0.0"
