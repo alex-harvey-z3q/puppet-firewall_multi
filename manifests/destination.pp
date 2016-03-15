@@ -1,6 +1,4 @@
 define firewall_multi::destination (
-  # source and destination are expected to be in $name.
-  # all arguments are proxied to the puppetlabs/firewall type.
   $ensure                = undef,
   $action                = undef,
   $burst                 = undef,
@@ -25,7 +23,6 @@ define firewall_multi::destination (
   $gateway               = undef,
   $gid                   = undef,
   $hop_limit             = undef,
-  $icmp                  = undef,
   $iniface               = undef,
   $ipsec_dir             = undef,
   $ipsec_policy          = undef,
@@ -86,42 +83,33 @@ define firewall_multi::destination (
   $to                    = undef,
   $uid                   = undef,
   $week_days             = undef,
+  # source and destination are expected to be in $name.
+  $icmp                  = undef,
 ) {
 
   # $name is expected to contain something like
   # 'description__x.x.x.x/x__y.y.y.y/y' (or
   # 'description__undef__y.y.y.y/y' etc)
 
-  # $_name will afterwards contain 'description from x.x.x.x/x to y.y.y.y/y'
-  # or 'description from x.x.x.x/x' if there is no destination
-  # or 'description to y.y.y.y/y' if there is no source
-  # or just description if there is neither.
+  # $_icmp will afterwards contain something like
+  # 'description__x.x.x.x/x__y.y.y.y/y__nn' (or
+  # 'description__undef__y.y.y.y/y__nn' etc).
+  # 'description__x.x.x.x/x__y.y.y.y/y__undef' etc).
 
-  $_name = regsubst(regsubst(regsubst(regsubst($name, '__', ' from '),
-             '__', ' to '), ' from undef', ''), ' to undef', '')
+  # Therefore, all information about source, destination and icmp is
+  # passed via the resource title.
 
-  # array will contain three elements:
-  # array[0]  - contains description (discarded; we use $_name instead)
-  # array[1]  - contains x.x.x.x/x
-  # array[2]  - contains y.y.y.y/y
-  $array = split($name, '__')
-
-  if $array[1] == 'undef' {
-    $source = undef
+  # NOTE: The regsubst function accepts and returns either a string or
+  # array of strings.
+  if $icmp {
+    $_icmp = regsubst($icmp, '(.*)', "${name}__\\1")
   } else {
-    $source = $array[1]
-  }
-  if $array[2] == 'undef' {
-    $destination = undef
-  } else {
-    $destination = $array[2]
+    $_icmp = regsubst('undef', '(.*)', "${name}__\\1")
   }
 
-  firewall { $_name:
+  firewall_multi::icmp { $_icmp:
     # I put this here to make the Forge's lint happy.
     ensure                => $ensure,
-    source                => $source,
-    destination           => $destination,
     # all other arguments are proxied to the puppetlabs/firewall type.
     action                => $action,
     burst                 => $burst,
@@ -146,7 +134,6 @@ define firewall_multi::destination (
     gateway               => $gateway,
     gid                   => $gid,
     hop_limit             => $hop_limit,
-    icmp                  => $icmp,
     iniface               => $iniface,
     ipsec_dir             => $ipsec_dir,
     ipsec_policy          => $ipsec_policy,

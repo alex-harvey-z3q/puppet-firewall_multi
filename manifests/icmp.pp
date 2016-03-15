@@ -1,4 +1,6 @@
-define firewall_multi::source (
+define firewall_multi::icmp (
+  # source, destination and icmp are expected to be in $name.
+  # all arguments are proxied to the puppetlabs/firewall type.
   $ensure                = undef,
   $action                = undef,
   $burst                 = undef,
@@ -83,36 +85,53 @@ define firewall_multi::source (
   $to                    = undef,
   $uid                   = undef,
   $week_days             = undef,
-  # source is passed in $name.
-  $destination           = undef,
-  $icmp                  = undef,
 ) {
 
-  # $name is expected to contain something like 'description__x.x.x.x/x' or
-  # 'description__undef' if there is no source.
+  # $name is expected to contain something like
+  # 'description__x.x.x.x/x__y.y.y.y/y__nn' (or
+  # 'description__undef__y.y.y.y/y__undef' etc)
 
-  # $_destination will afterwards contain something like
-  # 'description__x.x.x.x/x__y.y.y.y/y' (or
-  # 'description__undef__y.y.y.y/y' etc).
+  # $_name will afterwards contain
+  #  'description from x.x.x.x/x to y.y.y.y/y icmp type nn'
+  # or 'description from x.x.x.x/x'
+  # or 'description to y.y.y.y/y'
+  # or 'description icmp type nn' etc.
+  # or just description if none of the above.
 
-  # Therefore, all information about source and destination is passed via the
-  # firewall_multi::destination type's resource title.
+  $_name = regsubst(regsubst(regsubst(regsubst(regsubst(regsubst(
+    $name, '__', ' from '), '__', ' to '), '__', ' icmp type '),
+      ' from undef', ''), ' to undef', ''), ' icmp type undef', '')
 
-  # NOTE: The regsubst function accepts and returns either a string or
-  # array of strings.
-  if $destination {
-    $_destination = regsubst($destination, '(.*)', "${name}__\\1")
+  # array will contain three elements:
+  # array[0]  - contains description (discarded; we use $_name instead)
+  # array[1]  - contains x.x.x.x/x
+  # array[2]  - contains y.y.y.y/y
+  # array[3]  - contains nn
+  $array = split($name, '__')
+
+  if $array[1] == 'undef' {
+    $source = undef
   } else {
-    $_destination = regsubst('undef', '(.*)', "${name}__\\1")
+    $source = $array[1]
+  }
+  if $array[2] == 'undef' {
+    $destination = undef
+  } else {
+    $destination = $array[2]
+  }
+  if $array[3] == 'undef' {
+    $icmp = undef
+  } else {
+    $icmp = $array[3]
   }
 
-  firewall_multi::destination { $_destination:
+  firewall { $_name:
     # I put this here to make the Forge's lint happy.
     ensure                => $ensure,
-    # source and destination are passed as strings in the title, see comment
-    # above.
+    source                => $source,
+    destination           => $destination,
     icmp                  => $icmp,
-    # all arguments are proxied to the puppetlabs/firewall type.
+    # all other arguments are proxied to the puppetlabs/firewall type.
     action                => $action,
     burst                 => $burst,
     clusterip_new         => $clusterip_new,

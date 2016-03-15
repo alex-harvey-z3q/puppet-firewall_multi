@@ -23,7 +23,6 @@ define firewall_multi (
   $gateway               = undef,
   $gid                   = undef,
   $hop_limit             = undef,
-  $icmp                  = undef,
   $iniface               = undef,
   $ipsec_dir             = undef,
   $ipsec_policy          = undef,
@@ -84,19 +83,28 @@ define firewall_multi (
   $to                    = undef,
   $uid                   = undef,
   $week_days             = undef,
-  # all other arguments are proxied to the puppetlabs/firewall type.
+  # the above arguments are just proxied to the puppetlabs/firewall type.
   $source                = undef,
   $destination           = undef,
+  $icmp                  = undef,
 ) {
 
   if $name =~ /__/ {
     fail("a firewall_multi resource may not contain the string '__'")
   }
 
+  # The regsubst function can only use arrays of strings so we handle the
+  # possibility of an array of integers passed in using a custom function.
+
+  if $icmp {
+    $icmp_str = arrofint2arrofstr($icmp)
+  }
+
   # Welcome to nested loops in Puppet 3 and earlier.
   # We spawn an array of firewall::source resources for each $source.
   # The firewall::source type then spawns an array of firewall::destination
-  # resources for each $destination.
+  # resources for each $destination.  The firewall::destination then
+  # spawns an array of firewall::icmp resources.
 
   # However, we need to preserve undef values too.  These must be passed
   # as a string 'undef' in the title and will be converted to real undef
@@ -116,6 +124,7 @@ define firewall_multi (
     ensure                => $ensure,
     # source is passed as a string in the title, see comment above.
     destination           => $destination,
+    icmp                  => $icmp_str,
     # all other arguments are proxied to the puppetlabs/firewall type.
     action                => $action,
     burst                 => $burst,
@@ -140,7 +149,6 @@ define firewall_multi (
     gateway               => $gateway,
     gid                   => $gid,
     hop_limit             => $hop_limit,
-    icmp                  => $icmp,
     iniface               => $iniface,
     ipsec_dir             => $ipsec_dir,
     ipsec_policy          => $ipsec_policy,
