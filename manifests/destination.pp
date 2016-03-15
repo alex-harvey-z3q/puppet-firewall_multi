@@ -88,9 +88,17 @@ define firewall_multi::destination (
   $week_days             = undef,
 ) {
 
-  # $name is expected to contain 'description__x.x.x.x/x__y.y.y.y/y'
+  # $name is expected to contain something like
+  # 'description__x.x.x.x/x__y.y.y.y/y' (or
+  # 'description__undef__y.y.y.y/y' etc)
+
   # $_name will afterwards contain 'description from x.x.x.x/x to y.y.y.y/y'
-  $_name = regsubst(regsubst($name, '__', ' from '), '__', ' to ')
+  # or 'description from x.x.x.x/x' if there is no destination
+  # or 'description to y.y.y.y/y' if there is no source
+  # or just description if there is neither.
+
+  $_name = regsubst(regsubst(regsubst(regsubst($name, '__', ' from '),
+             '__', ' to '), ' from undef', ''), ' to undef', '')
 
   # array will contain three elements:
   # array[0]  - contains description (discarded; we use $_name instead)
@@ -98,11 +106,22 @@ define firewall_multi::destination (
   # array[2]  - contains y.y.y.y/y
   $array = split($name, '__')
 
+  if $array[1] == 'undef' {
+    $source = undef
+  } else {
+    $source = $array[1]
+  }
+  if $array[2] == 'undef' {
+    $destination = undef
+  } else {
+    $destination = $array[2]
+  }
+
   firewall { $_name:
     # I put this here to make the Forge's lint happy.
     ensure                => $ensure,
-    source                => $array[1],
-    destination           => $array[2],
+    source                => $source,
+    destination           => $destination,
     # all other arguments are proxied to the puppetlabs/firewall type.
     action                => $action,
     burst                 => $burst,

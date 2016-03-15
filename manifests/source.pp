@@ -1,6 +1,4 @@
 define firewall_multi::source (
-  # source is passed in $name.
-  $destination,
   $ensure                = undef,
   $action                = undef,
   $burst                 = undef,
@@ -86,17 +84,27 @@ define firewall_multi::source (
   $to                    = undef,
   $uid                   = undef,
   $week_days             = undef,
+  # source is passed in $name.
+  $destination           = undef,
 ) {
 
-  # $name is expected to contain something like 'description__x.x.x.x/x'
-  # $_destination will afterwards contain 'description__x.x.x.x/x__y.y.y.y/y'
+  # $name is expected to contain something like 'description__x.x.x.x/x' or
+  # 'description__undef' if there is no source.
+
+  # $_destination will afterwards contain something like
+  # 'description__x.x.x.x/x__y.y.y.y/y' (or
+  # 'description__undef__y.y.y.y/y' etc).
 
   # Therefore, all information about source and destination is passed via the
   # firewall_multi::destination type's resource title.
 
   # NOTE: The regsubst function accepts and returns either a string or
   # array of strings.
-  $_destination = regsubst($destination, '(.*)', "${name}__\\1")
+  if $destination {
+    $_destination = regsubst($destination, '(.*)', "${name}__\\1")
+  } else {
+    $_destination = regsubst('undef', '(.*)', "${name}__\\1")
+  }
 
   firewall_multi::destination { $_destination:
     # I put this here to make the Forge's lint happy.

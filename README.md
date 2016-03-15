@@ -12,9 +12,9 @@ Otherwise, usage of the `firewall_multi` defined type is the same as with the `f
 
 ##Parameters
 
-* `source`: the source IP address or network or an array of sources.  If not specified, a default of `0.0.0.0/0` is used.
+* `source`: the source IP address or network or an array of sources.  If not specified, a default of `undef` is used and the resultant `firewall` resource provider will not be passed a source.
 
-* `destination`: the destination IP address or network or an array of destinations.  If not specified, a default of `0.0.0.0/0` is used.
+* `destination`: the destination IP address or network or an array of destinations.  If not specified, a default of `undef` is used and the resultant `firewall` resource provider will not be passed a destination.
 
 * Any other parameter accepted by `firewall` is also accepted and set for each `firewall` resource created without error-checking.
 
@@ -35,13 +35,45 @@ firewall_multi { '100 allow http and https access':
 
 This will cause three resources to be created:
 
-* `Firewall['100 allow http and https access from 10.0.0.10/24 to 0.0.0.0/0']`
-* `Firewall['100 allow http and https access from 10.0.0.12/24 to 0.0.0.0/0']`
-* `Firewall['100 allow http and https access from 10.1.1.128 to 0.0.0.0/0']`
+* `Firewall['100 allow http and https access from 10.0.0.10/24']`
+* `Firewall['100 allow http and https access from 10.0.0.12/24']`
+* `Firewall['100 allow http and https access from 10.1.1.128']`
+
+~~~puppet
+firewall_multi { '100 allow http and https access':
+  source => [
+    '10.0.0.10/24',
+    '10.0.0.12/24',
+  ],
+  destination => [
+    '10.2.0.0/24',
+    '10.3.0.0/24',
+  ],
+  dport  => [80, 443],
+  proto  => tcp,
+  action => accept,
+}
+
+This will cause four resources to be created:
+
+* `Firewall['100 allow http and https access from 10.0.0.10/24 to 10.2.0.0/24']`
+* `Firewall['100 allow http and https access from 10.0.0.10/24 to 10.3.0.0/24']`
+* `Firewall['100 allow http and https access from 10.0.0.12/24 to 10.2.0.0/24']`
+* `Firewall['100 allow http and https access from 10.0.0.12/24 to 10.3.0.0/24']`
+
+~~~puppet
+firewall_multi { '100 allow http and https access':
+  dport  => [80, 443],
+  proto  => tcp,
+  action => accept,
+}
+~~~
+
+This will cause one resource to be created:
+
+* `Firewall['100 allow http and https']`
 
 ##Known Issues
-
-While it is possible to use the `dst_range` parameter, and it will be correctly proxied to the `firewall` resources, the resource will be named `to 0.0.0.0/0` in the catalog, and this name also appears in comments when a system administrator runs `iptables -nL`.  This may be confusing, and it is therefore recommended to instead use an array of destinations, rather than `dst_range`.
 
 At the moment, only the latest version of `puppetlabs/firewall` is supported, namely version `1.8.0`.
 
@@ -59,8 +91,6 @@ Make sure you have:
 Install the necessary gems:
 
     bundle install
-
-Note that gems are installed in `.gems` and binaries in `.bin`.  See `.bundle/config`.
 
 To run the tests from the root of the source code:
 

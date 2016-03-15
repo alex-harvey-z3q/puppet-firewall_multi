@@ -85,8 +85,8 @@ define firewall_multi (
   $uid                   = undef,
   $week_days             = undef,
   # all other arguments are proxied to the puppetlabs/firewall type.
-  $source          = '0.0.0.0/0',
-  $destination     = '0.0.0.0/0',
+  $source                = undef,
+  $destination           = undef,
 ) {
 
   if $name =~ /__/ {
@@ -98,10 +98,18 @@ define firewall_multi (
   # The firewall::source type then spawns an array of firewall::destination
   # resources for each $destination.
 
+  # However, we need to preserve undef values too.  These must be passed
+  # as a string 'undef' in the title and will be converted to real undef
+  # values later.
+
   # NOTE: The regsubst function accepts and returns either a string or
   # array of strings.
 
-  $_source = regsubst($source, '(.*)', "${name}__\\1")
+  if $source {
+    $_source = regsubst($source, '(.*)', "${name}__\\1")
+  } else {
+    $_source = regsubst('undef', '(.*)', "${name}__\\1")
+  }
 
   firewall_multi::source { $_source:
     # I put this here to make the Forge's lint happy.
