@@ -1,8 +1,8 @@
 {
   "name": "alexharvey-firewall_multi",
-  "version": "1.0.5",
+  "version": "1.1.0",
   "author": "Alex Harvey",
-  "summary": "A source/dest multiplexer frontend for puppetlabs/firewall",
+  "summary": "A multiplexer frontend for puppetlabs/firewall",
   "license": "MIT",
   "source": "https://github.com/alexharv074/puppet-firewall_multi",
   "project_page": "http://github.com/alexharv074/puppet-firewall_multi",

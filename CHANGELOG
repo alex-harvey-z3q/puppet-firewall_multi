@@ -1,3 +1,9 @@
+2016-03-15 - Version 1.1.0
+- (Issue 1) Add feature supporting arrays of ICMP types.
+- Improved design
+  * source and destination now default to undef
+  * if passed undef, there is no 'from 0.0.0.0/0' added in the title.
+
 2016-03-11 - Version 1.0.5
 - Add PE support to metadata.json.
 
