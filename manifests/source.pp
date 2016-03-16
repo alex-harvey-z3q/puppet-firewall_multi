@@ -95,24 +95,32 @@ define firewall_multi::source (
   # 'description__x.x.x.x/x__y.y.y.y/y' (or
   # 'description__undef__y.y.y.y/y' etc).
 
-  # Therefore, all information about source and destination is passed via the
-  # firewall_multi::destination type's resource title.
+  # regsubst
+  # Perform regexp replacement on a string or array of strings.
 
-  # NOTE: The regsubst function accepts and returns either a string or
-  # array of strings.
-  if $destination {
-    $_destination = regsubst($destination, '(.*)', "${name}__\\1")
-  } else {
+  # Parameters (in order):
+  #   target  The string or array of strings to operate on. If an array,
+  #     the replacement will be performed on each of the elements in the
+  #     array, and the return value will be an array.
+  #   regexp  The regular expression matching the target string. If you
+  #     want it anchored at the start and or end of the string, you must
+  #     do that with ^ and $ yourself.
+  #   replacement  Replacement string. Can contain backreferences to what
+  #     was matched using \0 (whole match), \1 (first set of parentheses),
+  #     and so on.
+
+  if $destination == undef {
     $_destination = regsubst('undef', '(.*)', "${name}__\\1")
+  } else {
+    $_destination = regsubst($destination, '(.*)', "${name}__\\1")
   }
 
   firewall_multi::destination { $_destination:
     # I put this here to make the Forge's lint happy.
     ensure                => $ensure,
-    # source and destination are passed as strings in the title, see comment
-    # above.
+    # source and destination are passed in the title, see comment above.
     icmp                  => $icmp,
-    # all arguments are proxied to the puppetlabs/firewall type.
+    # all other arguments are proxied to the puppetlabs/firewall type.
     action                => $action,
     burst                 => $burst,
     clusterip_new         => $clusterip_new,

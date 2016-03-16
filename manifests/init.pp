@@ -89,40 +89,58 @@ define firewall_multi (
   $icmp                  = undef,
 ) {
 
+  # Welcome to nested loops in Puppet 3 and earlier.
+
+  # For each $source:
+  #   spawn a firewall_multi::source.
+  # For each $destination:
+  #   firewall_multi::source spawns a firewall_multi::destination.
+  # For each $icmp:
+  #   firewall_multi::destination spawns a firewall_multi::icmp.
+  # Then firewall_multi::icmp spawns an actual firewall.
+
+  # We use __ as a delimiter so it may not appear in a resource title.
+
   if $name =~ /__/ {
     fail("a firewall_multi resource may not contain the string '__'")
   }
 
-  # The regsubst function can only use arrays of strings so we handle the
-  # possibility of an array of integers passed in using a custom function.
+  # Because the regsubst function can only handle arrays of strings,
+  # we need a custom function to convert arrays of integers to arrays
+  # of strings:
 
   if $icmp {
     $icmp_str = arrofint2arrofstr($icmp)
   }
 
-  # Welcome to nested loops in Puppet 3 and earlier.
-  # We spawn an array of firewall::source resources for each $source.
-  # The firewall::source type then spawns an array of firewall::destination
-  # resources for each $destination.  The firewall::destination then
-  # spawns an array of firewall::icmp resources.
+  # Because the loop variable must be passed as part of the resource
+  # title, we must pass in undefs as strings and convert them back
+  # to a real undefs later.
 
-  # However, we need to preserve undef values too.  These must be passed
-  # as a string 'undef' in the title and will be converted to real undef
-  # values later.
+  # regsubst
+  # Perform regexp replacement on a string or array of strings.
 
-  # NOTE: The regsubst function accepts and returns either a string or
-  # array of strings.
+  # Parameters (in order):
+  #   target  The string or array of strings to operate on. If an array,
+  #     the replacement will be performed on each of the elements in the
+  #     array, and the return value will be an array.
+  #   regexp  The regular expression matching the target string. If you
+  #     want it anchored at the start and or end of the string, you must
+  #     do that with ^ and $ yourself.
+  #   replacement  Replacement string. Can contain backreferences to what
+  #     was matched using \0 (whole match), \1 (first set of parentheses),
+  #     and so on.
 
-  if $source {
-    $_source = regsubst($source, '(.*)', "${name}__\\1")
-  } else {
+  if $source == undef {
     $_source = regsubst('undef', '(.*)', "${name}__\\1")
+  } else {
+    $_source = regsubst($source, '(.*)', "${name}__\\1")
   }
 
   firewall_multi::source { $_source:
     # I put this here to make the Forge's lint happy.
     ensure                => $ensure,
-    # source is passed as a string in the title, see comment above.
+    # source is passed in the title, see comment above.
     destination           => $destination,
     icmp                  => $icmp_str,
     # all other arguments are proxied to the puppetlabs/firewall type.

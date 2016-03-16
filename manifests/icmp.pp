@@ -1,6 +1,5 @@
 define firewall_multi::icmp (
   # source, destination and icmp are expected to be in $name.
-  # all arguments are proxied to the puppetlabs/firewall type.
   $ensure                = undef,
   $action                = undef,
   $burst                 = undef,
@@ -87,50 +86,29 @@ define firewall_multi::icmp (
   $week_days             = undef,
 ) {
 
-  # $name is expected to contain something like
-  # 'description__x.x.x.x/x__y.y.y.y/y__nn' (or
-  # 'description__undef__y.y.y.y/y__undef' etc)
+  # unpack (custom function)
 
-  # $_name will afterwards contain
-  #  'description from x.x.x.x/x to y.y.y.y/y icmp type nn'
-  # or 'description from x.x.x.x/x'
-  # or 'description to y.y.y.y/y'
-  # or 'description icmp type nn' etc.
-  # or just description if none of the above.
+  #   takes a string like:
+  # 'description__x.x.x.x/x__y.y.y.y/y__nn'
 
-  $_name = regsubst(regsubst(regsubst(regsubst(regsubst(regsubst(
-    $name, '__', ' from '), '__', ' to '), '__', ' icmp type '),
-      ' from undef', ''), ' to undef', ''), ' icmp type undef', '')
+  # and returns a Hash like:
+  
+  # {
+  #   'description'
+  #          => 'description from x.x.x.x/x to y.y.y.y/y icmp type nn',
+  #   'from' => 'x.x.x.x/x',
+  #   'to'   => 'y.y.y.y/y',
+  #   'icmp' => 'nn',
+  # }
 
-  # array will contain three elements:
-  # array[0]  - contains description (discarded; we use $_name instead)
-  # array[1]  - contains x.x.x.x/x
-  # array[2]  - contains y.y.y.y/y
-  # array[3]  - contains nn
-  $array = split($name, '__')
+  $myhash = unpack($name)
 
-  if $array[1] == 'undef' {
-    $source = undef
-  } else {
-    $source = $array[1]
-  }
-  if $array[2] == 'undef' {
-    $destination = undef
-  } else {
-    $destination = $array[2]
-  }
-  if $array[3] == 'undef' {
-    $icmp = undef
-  } else {
-    $icmp = $array[3]
-  }
-
-  firewall { $_name:
+  firewall { $myhash['description']:
     # I put this here to make the Forge's lint happy.
     ensure                => $ensure,
-    source                => $source,
-    destination           => $destination,
-    icmp                  => $icmp,
+    source                => $myhash['from'],
+    destination           => $myhash['to'],
+    icmp                  => $myhash['icmp'],
     # all other arguments are proxied to the puppetlabs/firewall type.
     action                => $action,
     burst                 => $burst,

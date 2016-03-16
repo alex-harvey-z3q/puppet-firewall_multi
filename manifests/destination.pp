@@ -96,11 +96,20 @@ define firewall_multi::destination (
   # 'description__undef__y.y.y.y/y__nn' etc).
   # 'description__x.x.x.x/x__y.y.y.y/y__undef' etc).
 
-  # Therefore, all information about source, destination and icmp is
-  # passed via the resource title.
+  # regsubst
+  # Perform regexp replacement on a string or array of strings.
 
-  # NOTE: The regsubst function accepts and returns either a string or
-  # array of strings.
+  # Parameters (in order):
+  #   target  The string or array of strings to operate on. If an array,
+  #     the replacement will be performed on each of the elements in the
+  #     array, and the return value will be an array.
+  #   regexp  The regular expression matching the target string. If you
+  #     want it anchored at the start and or end of the string, you must
+  #     do that with ^ and $ yourself.
+  #   replacement  Replacement string. Can contain backreferences to what
+  #     was matched using \0 (whole match), \1 (first set of parentheses),
+  #     and so on.
+
   if $icmp {
     $_icmp = regsubst($icmp, '(.*)', "${name}__\\1")
   } else {
