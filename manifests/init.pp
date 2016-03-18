@@ -110,7 +110,9 @@ define firewall_multi (
   # of strings:
 
   if $icmp {
-    $icmp_str = arrofint2arrofstr($icmp)
+    $_icmp = arrofint2arrofstr($icmp)
+  } else {
+    $_icmp = undef
   }
 
   # Because the loop variable must be passed as part of the resource
@@ -142,7 +144,7 @@ define firewall_multi (
     ensure                => $ensure,
     # source is passed in the title, see comment above.
     destination           => $destination,
-    icmp                  => $icmp_str,
+    icmp                  => $_icmp,
     # all other arguments are proxied to the puppetlabs/firewall type.
     action                => $action,
     burst                 => $burst,
