@@ -63,7 +63,7 @@ describe 'firewall_multi' do
       'destination' => destination,
     }}
     it {
-      is_expected.to contain_firewall("00100 accept on port 80 from #{source} to #{destination}").with(
+      is_expected.to contain_firewall("00100 accept on port 80 from #{source}").with(
         'action' => 'accept',
         'dport'  => '80',
         'proto'  => 'tcp',
@@ -134,7 +134,7 @@ describe 'firewall_multi' do
       'destination' => destinations,
     }}
     it {
-      is_expected.to contain_firewall("00100 accept on port 80 from #{source} to #{destination}").with(
+      is_expected.to contain_firewall("00100 accept on port 80 to #{destination}").with(
         'action' => 'accept',
         'dport'  => '80',
         'proto'  => 'tcp',
