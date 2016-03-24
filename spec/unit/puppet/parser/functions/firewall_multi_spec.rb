@@ -18,19 +18,26 @@ describe Puppet::Parser::Functions.function(:firewall_multi) do
   context 'when given the wrong type of arguments' do
     it 'should fail' do
       expect {
-        scope.function_firewall_multi(['I_am_not_a_hash'])
-      }.to raise_error ArgumentError, /first argument must be a hash/
+        scope.function_firewall_multi([['I_am_not_a_string'], {}])
+      }.to raise_error ArgumentError, /first argument must be a string/
+    end
+
+    it 'should fail' do
+      expect {
+        scope.function_firewall_multi(['I_am_a_string', 'but_I_am_not_a_hash'])
+      }.to raise_error ArgumentError, /second argument must be a hash/
     end
   end
 
   context 'correctly parses a hash' do
-    input = {
-      '00100 accept inbound ssh' => {
+    input = [
+      '00100 accept inbound ssh',
+      {
         'action' => 'accept',
         'source' => ['1.1.1.1/24', '2.2.2.2/24'],
         'dport'  => 22,
       },
-    }
+    ]
 
     output = {
       '00100 accept inbound ssh from 1.1.1.1/24' => {
@@ -46,7 +53,7 @@ describe Puppet::Parser::Functions.function(:firewall_multi) do
     }
 
     it 'should convert hash into expected format' do
-      expect(scope.function_firewall_multi([input])).to eq output
+      expect(scope.function_firewall_multi(input)).to eq output
     end
   end
 end
