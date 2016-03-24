@@ -1,3 +1,9 @@
+2016-03-26 - Version 1.2.1
+- Fix regression for Puppet 3.x.
+  * workaround for https://tickets.puppetlabs.com/browse/PUP-2523
+  * workaround for
+https://ask.puppetlabs.com/question/15677/custom-recursive-function-fails/
+
 2016-03-24 - Version 1.2.0
 - (Issue 3) Complete rewrite.
 
