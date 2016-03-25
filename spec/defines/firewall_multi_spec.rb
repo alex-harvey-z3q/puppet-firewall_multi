@@ -109,7 +109,7 @@ describe 'firewall_multi' do
       'destination' => destinations,
     }}
     it {
-      is_expected.to contain_firewall("00100 accept on port 80 to 4.4.4.4/24").with(
+      is_expected.to contain_firewall('00100 accept on port 80 to 4.4.4.4/24').with(
         'action' => 'accept',
         'dport'  => '80',
         'proto'  => 'tcp',
@@ -146,7 +146,7 @@ describe 'firewall_multi' do
 
   context 'an array of icmp' do
     icmps = ['0', '8']
-    let(:title) { '00100 accept ouput' }
+    let(:title) { '00100 accept output' }
     let(:params) {{
       'chain'  => 'OUTPUT',
       'proto'  => 'icmp',
@@ -155,7 +155,7 @@ describe 'firewall_multi' do
     }}
     icmps.each do |i|
       it {
-        is_expected.to contain_firewall("00100 accept ouput icmp type #{i}").with(
+        is_expected.to contain_firewall("00100 accept output icmp type #{i}").with(
           'chain'  => 'OUTPUT',
           'proto'  => 'icmp',
           'action' => 'accept',
@@ -167,7 +167,7 @@ describe 'firewall_multi' do
 
   context 'an array of icmp as integers' do
     icmps = [0, 8]
-    let(:title) { '00100 accept ouput' }
+    let(:title) { '00100 accept output' }
     let(:params) {{
       'chain'  => 'OUTPUT',
       'proto'  => 'icmp',
@@ -175,7 +175,7 @@ describe 'firewall_multi' do
       'icmp'   => icmps,
     }}
     it {
-      is_expected.to contain_firewall("00100 accept ouput icmp type 8").with(
+      is_expected.to contain_firewall('00100 accept output icmp type 8').with(
         'chain'  => 'OUTPUT',
         'proto'  => 'icmp',
         'action' => 'accept',
@@ -195,7 +195,7 @@ describe 'firewall_multi' do
       'proto'  => 'tcp',
     }}
     it {
-      is_expected.to contain_firewall("00100 accept on port 80").with(
+      is_expected.to contain_firewall('00100 accept on port 80').with(
         'action' => 'accept',
         'dport'  => '80',
         'proto'  => 'tcp',
@@ -218,7 +218,7 @@ describe 'firewall_multi' do
       'dst_range' => dst_range,
     }}
     it {
-      is_expected.to contain_firewall("00100 accept on port 80 from 1.1.1.1/24").with(
+      is_expected.to contain_firewall('00100 accept on port 80 from 1.1.1.1/24').with(
         'action' => 'accept',
         'dport'  => '80',
         'proto'  => 'tcp',
