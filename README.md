@@ -1,5 +1,7 @@
 # firewall_multi
 
+[![Build Status](https://img.shields.io/travis/alexharv074/puppet-firewall_multi.svg)](https://travis-ci.org/alexharv074/puppet-firewall_multi)
+
 ##Overview
 
 The `firewall_multi` module provides a defined type wrapper for spawning [puppetlabs/firewall](https://github.com/puppetlabs/puppetlabs-firewall) resources for arrays of certain inputs, namely sources, destinations and ICMP types.
