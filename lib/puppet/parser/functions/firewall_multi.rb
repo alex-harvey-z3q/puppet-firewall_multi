@@ -31,22 +31,21 @@ module Puppet::Parser::Functions
     :type  => :rvalue,
     :doc   => "
 
-Takes a name and a hash and returns a modified hash suitable for input to
+Take a name and a hash and return a modified hash suitable for input to
 create_resources().
 
-We can't accept all of the data in a single hash as we need to support 
-Puppet 3 and work around
-https://tickets.puppetlabs.com/browse/PUP-2523
+Given this input:
 
-For example:
+[
+  '00100 accept inbound ssh',
+  {
+    'action' => 'accept',
+    'source' => ['1.1.1.1/24', '2.2.2.2/24'],
+    'dport'  => 22,
+  }
+]
 
-('00100 accept inbound ssh', {
-  'action' => 'accept',
-  'source' => ['1.1.1.1/24', '2.2.2.2/24'],
-  'dport'  => 22,
-})
-
-Becomes:
+Return this:
 
 {
   '00100 accept inbound ssh from 1.1.1.1/24' => {
@@ -60,6 +59,22 @@ Becomes:
     'dport'  => 22,
   },
 }
+
+Note that it would be more natural to accept input structured as:
+
+[
+  {
+    '00100 accept inbound ssh' => {
+      'action' => 'accept',
+      'source' => ['1.1.1.1/24', '2.2.2.2/24'],
+      'dport'  => 22,
+    },
+  }
+]
+
+However $name would need to be passed in as the hash key in the 
+manifest whereas we must work around this bug:
+https://tickets.puppetlabs.com/browse/PUP-2523
 
 ") do |args|
 
