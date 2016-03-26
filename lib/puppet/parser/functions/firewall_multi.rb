@@ -1,31 +1,5 @@
 module Puppet::Parser::Functions
 
-  # Using def inside a Puppet 3.x function is not supported and must not be
-  # used as it taints runtime classes.
-
-  # https://ask.puppetlabs.com/question/15677/custom-recursive-function-fails/
-
-  class Exploder
-
-    def explode(hash, opts = {})
-      _hash = Hash.new
-      hash.each do |title, params|
-        if params.has_key?(opts[:param]) and
-          params[opts[:param]].is_a?(Array)
-          params[opts[:param]].each do |v|
-            _title = [title, opts[:string], v].join(' ')
-            _hash[_title] = params.clone
-            _hash[_title][opts[:param]] = v
-          end
-        else
-          _hash[title] = params.clone
-        end
-      end
-      _hash
-    end
-
-  end
-
   newfunction(:firewall_multi,
     :arity => 2,
     :type  => :rvalue,
@@ -78,6 +52,25 @@ https://tickets.puppetlabs.com/browse/PUP-2523
 
 ") do |args|
 
+    extend Puppet::Parser::Functions
+
+    def self.firewall_multi_explode(hash, opts = {})
+      _hash = Hash.new
+      hash.each do |title, params|
+        if params.has_key?(opts[:param]) and
+          params[opts[:param]].is_a?(Array)
+          params[opts[:param]].each do |v|
+            _title = [title, opts[:string], v].join(' ')
+            _hash[_title] = params.clone
+            _hash[_title][opts[:param]] = v
+          end
+        else
+          _hash[title] = params.clone
+        end
+      end
+      _hash
+    end
+
     raise ArgumentError, ('firewall_multi(): ' +
       'first argument must be a string') unless args[0].is_a?(String)
 
@@ -90,17 +83,15 @@ https://tickets.puppetlabs.com/browse/PUP-2523
       name => hash
     }
 
-    exploder = Exploder.new
-
-    rval = exploder.explode(rval, {
+    rval = firewall_multi_explode(rval, {
       :param  => 'source',
       :string => 'from',
     })
-    rval = exploder.explode(rval, {
+    rval = firewall_multi_explode(rval, {
       :param  => 'destination',
       :string => 'to',
     })
-    rval = exploder.explode(rval, {
+    rval = firewall_multi_explode(rval, {
       :param  => 'icmp',
       :string => 'icmp type',
     })
