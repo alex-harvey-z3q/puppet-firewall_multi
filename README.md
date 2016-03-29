@@ -27,8 +27,8 @@ Otherwise, usage of the firewall_multi defined type is the same as with the fire
 ```puppet
 firewall_multi { '100 allow http and https access':
   source => [
-    '10.0.0.10/24',
-    '10.0.0.12/24',
+    '10.0.10.0/24',
+    '10.0.12.0/24',
     '10.1.1.128',
   ],
   dport  => [80, 443],
@@ -39,15 +39,15 @@ firewall_multi { '100 allow http and https access':
 
 This will cause three resources to be created:
 
-* Firewall['100 allow http and https access from 10.0.0.10/24']
-* Firewall['100 allow http and https access from 10.0.0.12/24']
+* Firewall['100 allow http and https access from 10.0.10.0/24']
+* Firewall['100 allow http and https access from 10.0.12.0/24']
 * Firewall['100 allow http and https access from 10.1.1.128']
 
 ```puppet
 firewall_multi { '100 allow http and https access':
   source => [
-    '10.0.0.10/24',
-    '10.0.0.12/24',
+    '10.0.10.0/24',
+    '10.0.12.0/24',
   ],
   destination => [
     '10.2.0.0/24',
@@ -61,10 +61,10 @@ firewall_multi { '100 allow http and https access':
 
 This will cause four resources to be created:
 
-* Firewall['100 allow http and https access from 10.0.0.10/24 to 10.2.0.0/24']
-* Firewall['100 allow http and https access from 10.0.0.10/24 to 10.3.0.0/24']
-* Firewall['100 allow http and https access from 10.0.0.12/24 to 10.2.0.0/24']
-* Firewall['100 allow http and https access from 10.0.0.12/24 to 10.3.0.0/24']
+* Firewall['100 allow http and https access from 10.0.10.0/24 to 10.2.0.0/24']
+* Firewall['100 allow http and https access from 10.0.10.0/24 to 10.3.0.0/24']
+* Firewall['100 allow http and https access from 10.0.12.0/24 to 10.2.0.0/24']
+* Firewall['100 allow http and https access from 10.0.12.0/24 to 10.3.0.0/24']
 
 ```puppet
 firewall_multi { '100 allow http and https access':
@@ -99,8 +99,6 @@ If you are using Puppet 3.x please understand the implications of [Issue #5](htt
 At the moment, only the latest version of puppetlabs/firewall is supported, namely >= 1.8.0.  If this is a problem for you, raise an issue and I'll fix it.
 
 This module does not sanity-check the proposed inputs for the resultant firewall resources.  We assume that we can rely on the firewall resource types themselves to detect invalid inputs.
-
-Finally, at this stage there are no Beaker acceptance tests.
 
 ##Development
 
