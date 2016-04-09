@@ -118,3 +118,9 @@ Install the necessary gems:
 To run the tests from the root of the source code:
 
     bundle exec rake spec
+
+To run the acceptance tests:
+
+    RS_SET=centos-66-x64
+    bundle exec rake spec/acceptance
+

@@ -18,8 +18,10 @@ RSpec.configure do |c|
       on host, puppet('module install puppetlabs-firewall'), {:acceptable_exit_codes => [0,1]}
 
       # https://tickets.puppetlabs.com/browse/MODULES-3153
-      on host, 'yum -y install iptables-services'
-      on host, 'systemctl start iptables.service'
+      if os[:family] == 'redhat' and os[:release] == '7'
+        on host, 'yum -y install iptables-services'
+        on host, 'systemctl start iptables.service'
+      end
     end
   end
 end
