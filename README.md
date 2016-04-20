@@ -18,13 +18,15 @@ Otherwise, usage of the firewall_multi defined type is the same as with the fire
 
 * `destination`: the destination IP address or network or an array of destinations.  Use of this parameter causes a firewall resource to be spawned for each address in the array of destinations, and a string like 'to *y.y.y.y/y*' to be appended to each spawned resource's title to guarantee uniqueness in the catalog.  If not specified, a default of undef is used and the resultant firewall resource provider will not be passed a destination.
 
-* `proto`: the protocol or an array of protocols.  Use of this parameter causes a firewall resource to be spawned for each protocol in the array of protocols, and a string like 'protocol *xyz*' to be appended to each spawned resource's title to guarantee uniqueness in the catalog.  If not specified, a default of undef is used and the resultant firewall resource provider will not be passed a protocol.
+* `proto`: the protocol or an array of protocols.  Use of this parameter causes a firewall resource to be spawned for each protocol in the array of protocols, and a string like 'protocol *aa*' to be appended to each spawned resource's title to guarantee uniqueness in the catalog.  If not specified, a default of undef is used and the resultant firewall resource provider will not be passed a protocol.
 
 * `icmp`: the ICMP type or an array of ICMP types specified as an array of integers or strings.  Use of this parameter causes a firewall resource to be spawned for each type in the array of ICMP types, and a string like 'icmp type *nn*' to be appended to each spawned resource's title to guarantee uniqueness in the catalog.  If not specified, a default of undef is used and the resultant firewall resource provider will not be passed an ICMP type.
 
 * Any other parameter accepted by firewall is also accepted and set for each firewall resource created without error-checking.
 
 ##Examples
+
+### Array of sources
 
 ```puppet
 firewall_multi { '100 allow http and https access':
@@ -44,6 +46,8 @@ This will cause three resources to be created:
 * Firewall['100 allow http and https access from 10.0.10.0/24']
 * Firewall['100 allow http and https access from 10.0.12.0/24']
 * Firewall['100 allow http and https access from 10.1.1.128']
+
+### Arrays of sources and destinations
 
 ```puppet
 firewall_multi { '100 allow http and https access':
@@ -68,17 +72,7 @@ This will cause four resources to be created:
 * Firewall['100 allow http and https access from 10.0.12.0/24 to 10.2.0.0/24']
 * Firewall['100 allow http and https access from 10.0.12.0/24 to 10.3.0.0/24']
 
-```puppet
-firewall_multi { '100 allow http and https access':
-  dport  => [80, 443],
-  proto  => tcp,
-  action => accept,
-}
-```
-
-This will cause one resource to be created:
-
-* Firewall['100 allow http and https']
+### Array of protocols
 
 ```puppet
 firewall_multi { '100 allow DNS lookups':
@@ -93,8 +87,10 @@ This will cause two resources to be created:
 * Firewall['100 allow DNS lookups protocol tcp']
 * Firewall['100 allow DNS lookups protocol udp']
 
+### Array of ICMP types
+
 ```puppet
-firewall_multi { '100 accept icmp ouput'
+firewall_multi { '100 accept icmp output':
   chain  => 'OUTPUT',
   proto  => 'icmp',
   action => 'accept',
@@ -104,8 +100,12 @@ firewall_multi { '100 accept icmp ouput'
 
 This will cause two resources to be created:
 
-* Firewall['100 accept icmp ouput icmp type 0']
-* Firewall['100 accept icmp ouput icmp type 8']
+* Firewall['100 accept icmp output icmp type 0']
+* Firewall['100 accept icmp output icmp type 8']
+
+### Used in place of a single firewall resource
+
+If none of firewall_multi's array functionality is used, then the firewall_multi and firewall resources can be used interchangeably.
 
 ##Known Issues
 
@@ -136,6 +136,5 @@ To run the tests from the root of the source code:
 
 To run the acceptance tests:
 
-    RS_SET=centos-66-x64
-    bundle exec rake spec/acceptance
+    RS_SET=centos-72-x64 bundle exec rake spec/acceptance
 
