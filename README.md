@@ -18,6 +18,8 @@ Otherwise, usage of the firewall_multi defined type is the same as with the fire
 
 * `destination`: the destination IP address or network or an array of destinations.  Use of this parameter causes a firewall resource to be spawned for each address in the array of destinations, and a string like 'to *y.y.y.y/y*' to be appended to each spawned resource's title to guarantee uniqueness in the catalog.  If not specified, a default of undef is used and the resultant firewall resource provider will not be passed a destination.
 
+* `proto`: the protocol or an array of protocols.  Use of this parameter causes a firewall resource to be spawned for each protocol in the array of protocols, and a string like 'protocol *xyz*' to be appended to each spawned resource's title to guarantee uniqueness in the catalog.  If not specified, a default of undef is used and the resultant firewall resource provider will not be passed a protocol.
+
 * `icmp`: the ICMP type or an array of ICMP types specified as an array of integers or strings.  Use of this parameter causes a firewall resource to be spawned for each type in the array of ICMP types, and a string like 'icmp type *nn*' to be appended to each spawned resource's title to guarantee uniqueness in the catalog.  If not specified, a default of undef is used and the resultant firewall resource provider will not be passed an ICMP type.
 
 * Any other parameter accepted by firewall is also accepted and set for each firewall resource created without error-checking.
@@ -77,6 +79,19 @@ firewall_multi { '100 allow http and https access':
 This will cause one resource to be created:
 
 * Firewall['100 allow http and https']
+
+```puppet
+firewall_multi { '100 allow DNS lookups':
+  dport  => 53,
+  proto  => ['tcp', 'udp'],
+  action => 'accept',
+}
+```
+
+This will cause two resources to be created:
+
+* Firewall['100 allow DNS lookups protocol tcp']
+* Firewall['100 allow DNS lookups protocol udp']
 
 ```puppet
 firewall_multi { '100 accept icmp ouput'
