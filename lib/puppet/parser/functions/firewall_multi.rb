@@ -92,6 +92,10 @@ https://tickets.puppetlabs.com/browse/PUP-2523
       :string => 'to',
     })
     rval = firewall_multi_explode(rval, {
+      :param  => 'proto',
+      :string => 'protocol',
+    })
+    rval = firewall_multi_explode(rval, {
       :param  => 'icmp',
       :string => 'icmp type',
     })
