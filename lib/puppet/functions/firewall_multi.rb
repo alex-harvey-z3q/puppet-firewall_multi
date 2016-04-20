@@ -80,6 +80,10 @@ Puppet::Functions.create_function(:firewall_multi) do
       :string => 'to',
     })
     rval = explode(rval, {
+      :param  => 'proto',
+      :string => 'protocol',
+    })
+    rval = explode(rval, {
       :param  => 'icmp',
       :string => 'icmp type',
     })

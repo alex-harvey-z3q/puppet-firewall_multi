@@ -144,6 +144,28 @@ describe 'firewall_multi' do
     }
   end
 
+  context 'an array of protocols' do
+    protocols = [
+      'tcp',
+      'udp',
+    ]
+    let(:title) { '00100 accept on port 53' }
+    let(:params) {{
+      'action' => 'accept',
+      'dport'  => '53',
+      'proto'  => protocols,
+    }}
+    protocols.each do |protocol|
+      it {
+        is_expected.to contain_firewall("00100 accept on port 53 protocol #{protocol}").with(
+          'action' => 'accept',
+          'dport'  => '53',
+          'proto'  => protocol,
+        )
+      }
+    end
+  end
+
   context 'an array of icmp' do
     icmps = ['0', '8']
     let(:title) { '00100 accept output' }
