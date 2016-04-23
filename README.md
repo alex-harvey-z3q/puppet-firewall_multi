@@ -136,5 +136,5 @@ To run the tests from the root of the source code:
 
 To run the acceptance tests:
 
-    RS_SET=centos-72-x64 bundle exec rake spec/acceptance
+    BEAKER_set=centos-72-x64 bundle exec rake spec/acceptance
 
