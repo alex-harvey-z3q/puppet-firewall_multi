@@ -4,13 +4,13 @@
 
 ##Overview
 
-The `firewall_multi` module provides a defined type wrapper for spawning [puppetlabs/firewall](https://github.com/puppetlabs/puppetlabs-firewall) resources for arrays of certain inputs, namely sources, destinations and ICMP types.
+The `firewall_multi` module provides a defined type wrapper for spawning [puppetlabs/firewall](https://github.com/puppetlabs/puppetlabs-firewall) resources for arrays of certain inputs, namely sources, destinations, protocols and ICMP types.
 
 ##Usage
 
 It is expected that a standard set up for the firewall module is followed, in particular with respect to the purging of firewall resources.  If a user of this module, for instance, removes addresses from an array of sources, the corresponding firewall resources will only be removed if purging is enabled.  This might be surprising to the user in a way that impacts security.
 
-Otherwise, usage of the firewall_multi defined type is the same as with the firewall custom type, the only exceptions being that the source, destination and icmp parameters optionally accept arrays.
+Otherwise, usage of the firewall_multi defined type is the same as with the firewall custom type, the only exceptions being that some parameters optionally accept arrays.
 
 ##Parameters
 
