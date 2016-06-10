@@ -107,6 +107,43 @@ This will cause two resources to be created:
 
 If none of firewall_multi's array functionality is used, then the firewall_multi and firewall resources can be used interchangeably.
 
+### Using Hiera, create_resources and the alias lookup
+
+Hiera version 3 added the [alias lookup function](https://docs.puppet.com/hiera/3.0/variables.html#the-alias-lookup-function) which makes it possible to define networks as arrays and then look them up from within Hiera itself, as in the following example:
+
+```yaml
+---
+mylocaldomains:
+  - 10.0.0.3/32
+  - 10.10.0.0/26
+myotherdomains:
+  - 172.0.1.0/26
+
+myclass::firewall_multis:
+  '00099 accept tcp port 22 for ssh':
+    dport: '22'
+    action: 'accept'
+    proto: 'tcp'
+    source: "%{alias('mylocaldomains')}"
+  '00200 accept tcp port 80 for http':
+    dport: '80'
+    action: 'accept'
+    proto: 'tcp'
+    source: "%{alias('myotherdomains')}"
+```
+
+And in the manifests:
+
+```puppet
+class myclass (
+  $firewall_multis,
+) {
+  validate_hash($firewall_multis)
+  create_resources(firewall_multi, $firewall_multis)
+  ...
+}
+```
+
 ##Known Issues
 
 If you are using Puppet 3.x please understand the implications of [Issue #5](https://github.com/alexharv074/puppet-firewall_multi/issues/5).
