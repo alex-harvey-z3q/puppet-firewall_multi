@@ -1,3 +1,8 @@
+2016-06-12 - Version 1.4.1
+- Improved documentation (Issue #8)
+- Workaround to Nokogiri install issue (Issue #9)
+- Updated Gemfile config
+
 2016-04-20 - Version 1.4.0
 - Add feature for arrays of protocols (Mark McKinstry).
 
