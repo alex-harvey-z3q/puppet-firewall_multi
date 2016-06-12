@@ -109,7 +109,9 @@ If none of firewall_multi's array functionality is used, then the firewall_multi
 
 ### Using Hiera, create_resources and the alias lookup
 
-Hiera version 3 added the [alias lookup function](https://docs.puppet.com/hiera/3.0/variables.html#the-alias-lookup-function) which makes it possible to define networks as arrays and then look them up from within Hiera itself, as in the following example:
+Many users will use this module in conjunction with Hiera and the `create_resources()` function.  As such, it is important to be aware of a feature that was added to Hiera in version 3, namely the [alias lookup function](https://docs.puppet.com/hiera/3.0/variables.html#the-alias-lookup-function), which makes it possible to define networks as arrays in Hiera and then look these up from within the `firewall_multi` definitions.
+
+The following examples show how to do that:
 
 ```yaml
 ---
@@ -132,13 +134,26 @@ myclass::firewall_multis:
     source: "%{alias('myotherdomains')}"
 ```
 
-And in the manifests:
+Meanwhile we would have manifest code that looks something like this:
+
+Puppet 3.x:
 
 ```puppet
 class myclass (
   $firewall_multis,
 ) {
   validate_hash($firewall_multis)
+  create_resources(firewall_multi, $firewall_multis)
+  ...
+}
+```
+
+Puppet 4.x:
+
+```puppet
+class myclass (
+  Hash $firewall_multis,
+) {
   create_resources(firewall_multi, $firewall_multis)
   ...
 }
