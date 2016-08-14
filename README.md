@@ -107,31 +107,20 @@ This will cause two resources to be created:
 
 If none of firewall_multi's array functionality is used, then the firewall_multi and firewall resources can be used interchangeably.
 
-### Using Hiera, create_resources and the alias lookup
+### Use with Hiera and create_resources
 
-Many users will use this module in conjunction with Hiera and the `create_resources()` function.  As such, it is important to be aware of a feature that was added to Hiera in version 3, namely the [alias lookup function](https://docs.puppet.com/hiera/3.0/variables.html#the-alias-lookup-function), which makes it possible to define networks as arrays in Hiera and then look these up from within the `firewall_multi` definitions.
-
-The following examples show how to do that:
+Some users may prefer to externalise the firewall resources in Hiera and use the `create_resources` function:
 
 ```yaml
 ---
-mylocaldomains:
-  - 10.0.0.3/32
-  - 10.10.0.0/26
-myotherdomains:
-  - 172.0.1.0/26
-
 myclass::firewall_multis:
   '00099 accept tcp port 22 for ssh':
     dport: '22'
     action: 'accept'
     proto: 'tcp'
-    source: "%{alias('mylocaldomains')}"
-  '00200 accept tcp port 80 for http':
-    dport: '80'
-    action: 'accept'
-    proto: 'tcp'
-    source: "%{alias('myotherdomains')}"
+    source:
+      - 10.0.0.3/32
+      - 10.10.0.0/26
 ```
 
 Meanwhile we would have manifest code that looks something like this:
@@ -157,6 +146,33 @@ class myclass (
   create_resources(firewall_multi, $firewall_multis)
   ...
 }
+```
+
+### The alias lookup
+
+Users who wish to externalise the firewall resources in Hiera should be aware of a feature that was added to Hiera in version 3, namely the [alias lookup function](https://docs.puppet.com/hiera/3.0/variables.html#the-alias-lookup-function), which makes it possible to define networks as arrays in Hiera and then look these up from within the `firewall_multi` definitions.
+
+The following examples show how to do that:
+
+```yaml
+---
+mylocaldomains:
+  - 10.0.0.3/32
+  - 10.10.0.0/26
+myotherdomains:
+  - 172.0.1.0/26
+
+myclass::firewall_multis:
+  '00099 accept tcp port 22 for ssh':
+    dport: '22'
+    action: 'accept'
+    proto: 'tcp'
+    source: "%{alias('mylocaldomains')}"
+  '00200 accept tcp port 80 for http':
+    dport: '80'
+    action: 'accept'
+    proto: 'tcp'
+    source: "%{alias('myotherdomains')}"
 ```
 
 ##Known Issues
@@ -188,5 +204,5 @@ To run the tests from the root of the source code:
 
 To run the acceptance tests:
 
-    BEAKER_set=centos-72-x64 bundle exec rake spec/acceptance
+    BEAKER_set=centos-72-x64 bundle exec rspec spec/acceptance
 
