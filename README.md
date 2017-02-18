@@ -112,7 +112,7 @@ This will cause two resources to be created:
 * Firewall['100 accept icmp output icmp type 0']
 * Firewall['100 accept icmp output icmp type 8']
 
-## Array of providers
+### Array of providers
 
 Open a firewall for IPv4 and IPv6 on a web server:
 
