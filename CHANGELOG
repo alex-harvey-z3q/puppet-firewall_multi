@@ -1,3 +1,6 @@
+2017-02-17 - Version 1.5.0
+- Add feature providers (Issue #12)
+
 2016-06-12 - Version 1.4.1
 - Improved documentation (Issue #8)
 - Workaround to Nokogiri install issue (Issue #9)
