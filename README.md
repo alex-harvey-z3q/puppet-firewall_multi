@@ -4,7 +4,14 @@
 
 ##Overview
 
-The `firewall_multi` module provides a defined type wrapper for spawning [puppetlabs/firewall](https://github.com/puppetlabs/puppetlabs-firewall) resources for arrays of certain inputs, namely sources, destinations, protocols and ICMP types.
+The `firewall_multi` module provides a defined type wrapper for spawning [puppetlabs/firewall](https://github.com/puppetlabs/puppetlabs-firewall) resources for arrays of certain inputs.
+
+At present the following inputs can be arrays:
+* source
+* destination
+* protocol
+* icmp
+* provider
 
 ##Usage
 
@@ -21,6 +28,8 @@ Otherwise, usage of the firewall_multi defined type is the same as with the fire
 * `proto`: the protocol or an array of protocols.  Use of this parameter causes a firewall resource to be spawned for each protocol in the array of protocols, and a string like 'protocol *aa*' to be appended to each spawned resource's title to guarantee uniqueness in the catalog.  If not specified, a default of undef is used and the resultant firewall resource provider will not be passed a protocol.
 
 * `icmp`: the ICMP type or an array of ICMP types specified as an array of integers or strings.  Use of this parameter causes a firewall resource to be spawned for each type in the array of ICMP types, and a string like 'icmp type *nn*' to be appended to each spawned resource's title to guarantee uniqueness in the catalog.  If not specified, a default of undef is used and the resultant firewall resource provider will not be passed an ICMP type.
+
+* `provider`: the provider to use, either `iptables` or `ip6tables`.
 
 * Any other parameter accepted by firewall is also accepted and set for each firewall resource created without error-checking.
 
@@ -102,6 +111,19 @@ This will cause two resources to be created:
 
 * Firewall['100 accept icmp output icmp type 0']
 * Firewall['100 accept icmp output icmp type 8']
+
+## Array of providers
+
+Open a firewall for IPv4 and IPv6 on a web server:
+
+```puppet
+firewall { '100 allow http and https access':
+  dport    => [80, 443],
+  proto    => 'tcp',
+  action   => 'accept',
+  provider => ['ip6tables', 'iptables'],
+}
+```
 
 ### Used in place of a single firewall resource
 

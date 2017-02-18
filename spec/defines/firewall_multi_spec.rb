@@ -249,4 +249,26 @@ describe 'firewall_multi' do
       )
     }
   end
+
+  context 'using two providers' do
+    providers = [
+      'iptables',
+      'ip6tables',
+    ]
+    let(:title) { '00100 accept on ports 80 and 443' }
+    let(:params) {{
+      'action' => 'accept',
+      'dport'  => ['80', '443'],
+      'proto'  => 'tcp',
+      'provider' => providers,
+    }}
+    it {
+      is_expected.to contain_firewall('00100 accept on ports 80 and 443 using provider ip6tables').with(
+        'action' => 'accept',
+        'dport'  => ['80', '443'],
+        'proto'  => 'tcp',
+        'provider' => 'ip6tables',
+      )
+    }
+  end
 end

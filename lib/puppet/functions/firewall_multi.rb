@@ -87,6 +87,10 @@ Puppet::Functions.create_function(:firewall_multi) do
       :param  => 'icmp',
       :string => 'icmp type',
     })
+    rval = explode(rval, {
+      :param  => 'provider',
+      :string => 'using provider',
+    })
     rval
   end
 end

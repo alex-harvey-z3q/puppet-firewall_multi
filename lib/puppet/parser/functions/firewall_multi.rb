@@ -99,6 +99,10 @@ https://tickets.puppetlabs.com/browse/PUP-2523
       :param  => 'icmp',
       :string => 'icmp type',
     })
+    rval = firewall_multi_explode(rval, {
+      :param  => 'provider',
+      :string => 'using provider',
+    })
     rval
 
   end
