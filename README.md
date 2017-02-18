@@ -117,7 +117,7 @@ This will cause two resources to be created:
 Open a firewall for IPv4 and IPv6 on a web server:
 
 ```puppet
-firewall { '100 allow http and https access':
+firewall_multi { '100 allow http and https access':
   dport    => [80, 443],
   proto    => 'tcp',
   action   => 'accept',
