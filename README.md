@@ -2,7 +2,7 @@
 
 [![Build Status](https://img.shields.io/travis/alexharv074/puppet-firewall_multi.svg)](https://travis-ci.org/alexharv074/puppet-firewall_multi)
 
-##Overview
+## Overview
 
 The `firewall_multi` module provides a defined type wrapper for spawning [puppetlabs/firewall](https://github.com/puppetlabs/puppetlabs-firewall) resources for arrays of certain inputs.
 
@@ -13,13 +13,13 @@ At present the following inputs can be arrays:
 * icmp
 * provider
 
-##Usage
+## Usage
 
 It is expected that a standard set up for the firewall module is followed, in particular with respect to the purging of firewall resources.  If a user of this module, for instance, removes addresses from an array of sources, the corresponding firewall resources will only be removed if purging is enabled.  This might be surprising to the user in a way that impacts security.
 
 Otherwise, usage of the firewall_multi defined type is the same as with the firewall custom type, the only exceptions being that some parameters optionally accept arrays.
 
-##Parameters
+## Parameters
 
 * `source`: the source IP address or network or an array of sources.  Use of this parameter causes a firewall resource to be spawned for each address in the array of sources, and a string like 'from *x.x.x.x/x*' to be appened to each spawned resource's title to guarantee uniqueness in the catalog.  If not specified, a default of undef is used and the resultant firewall resource provider will not be passed a source.
 
@@ -33,7 +33,7 @@ Otherwise, usage of the firewall_multi defined type is the same as with the fire
 
 * Any other parameter accepted by firewall is also accepted and set for each firewall resource created without error-checking.
 
-##Examples
+## Examples
 
 ### Array of sources
 
@@ -197,7 +197,7 @@ myclass::firewall_multis:
     source: "%{alias('myotherdomains')}"
 ```
 
-##Known Issues
+## Known Issues
 
 If you are using Puppet 3.x please understand the implications of [Issue #5](https://github.com/alexharv074/puppet-firewall_multi/issues/5).
 
@@ -205,11 +205,11 @@ At the moment, only the latest version of puppetlabs/firewall is supported, name
 
 This module does not sanity-check the proposed inputs for the resultant firewall resources.  We assume that we can rely on the firewall resource types themselves to detect invalid inputs.
 
-##Development
+## Development
 
 Please read CONTRIBUTING.md before contributing.
 
-###Testing
+### Testing
 
 Make sure you have:
 
