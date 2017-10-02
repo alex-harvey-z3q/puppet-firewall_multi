@@ -9,7 +9,7 @@ The `firewall_multi` module provides a defined type wrapper for spawning [puppet
 At present the following inputs can be arrays:
 * source
 * destination
-* protocol
+* proto
 * icmp
 * provider
 
