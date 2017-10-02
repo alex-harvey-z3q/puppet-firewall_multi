@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 group :tests do
   gem 'puppetlabs_spec_helper', '~>1.1.0', :require => false
+  gem 'metadata-json-lint', :require => false
   #gem 'nokogiri', '< 1.6.8'
 end
 
