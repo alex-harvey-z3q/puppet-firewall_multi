@@ -13,6 +13,15 @@ At present the following inputs can be arrays:
 * icmp
 * provider
 
+## Version compatibility
+
+Each release of the firewall_multi module is compatible with a specific release of puppetlabs-firewall, starting at firewall v1.8.0. Earlier versions of the firewall module are not supported.
+
+firewall_multi|firewall
+--------------|--------
+earlier|1.8.0
+1.7.0|1.8.0
+
 ## Usage
 
 It is expected that a standard set up for the firewall module is followed, in particular with respect to the purging of firewall resources.  If a user of this module, for instance, removes addresses from an array of sources, the corresponding firewall resources will only be removed if purging is enabled.  This might be surprising to the user in a way that impacts security.
@@ -200,8 +209,6 @@ myclass::firewall_multis:
 ## Known Issues
 
 If you are using Puppet 3.x please understand the implications of [Issue #5](https://github.com/alexharv074/puppet-firewall_multi/issues/5).
-
-At the moment, only the latest version of puppetlabs/firewall is supported, namely >= 1.8.0.  If this is a problem for you, raise an issue and I'll fix it.
 
 This module does not sanity-check the proposed inputs for the resultant firewall resources.  We assume that we can rely on the firewall resource types themselves to detect invalid inputs.
 
