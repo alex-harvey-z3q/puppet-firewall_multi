@@ -1,6 +1,5 @@
 fixtures:
-  repositories:
-    firewall:
-      repo: https://github.com/puppetlabs/puppetlabs-firewall.git
+  forge_modules:
+    firewall: puppetlabs/firewall
   symlinks:
     firewall_multi: "#{source_dir}"
