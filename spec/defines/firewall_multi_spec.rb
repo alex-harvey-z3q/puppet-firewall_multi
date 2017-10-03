@@ -209,7 +209,7 @@ describe 'firewall_multi' do
   # if none of our allowed array inputs are passed then a firewall_multi should
   # spawn one identical firewall resource.
 
-  context 'neither a source nor destination' do
+  context 'none of the array functionality is used' do
     let(:title) { '00100 accept on port 80' }
     let(:params) {{
       'action' => 'accept',
