@@ -1,3 +1,6 @@
+# THIS FILE IS CENTRALLY MANAGED BY sync_spec.rb!
+# DO NOT EDIT IT HERE!
+
 require 'spec_helper'
 require 'json'
 
