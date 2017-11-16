@@ -8,7 +8,7 @@ version = JSON.parse(File.read('metadata.json'))['version']
 
 describe 'Release-related checks' do
   it 'Version in metadata.json should match a tag' do
-    expect(%x{git tag -l | tail -1}.chomp).to eq version
+    expect(%x{git tag --sort=-creatordate | head -1}.chomp).to eq version
   end
 
   it 'First line of CHANGELOG should mention the version' do
