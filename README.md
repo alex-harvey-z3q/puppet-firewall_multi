@@ -239,3 +239,26 @@ To run the acceptance tests:
 
     BEAKER_set=centos-72-x64 bundle exec rspec spec/acceptance
 
+### Release
+
+This module uses Puppet Blacksmith to publish to the Puppet Forge.
+
+Ensure you have these lines in `~/.bash_profile`:
+
+    export BLACKSMITH_FORGE_URL=https://forgeapi.puppetlabs.com
+    export BLACKSMITH_FORGE_USERNAME=alexharvey
+    export BLACKSMITH_FORGE_PASSWORD=xxxxxxxxx
+
+Build the module:
+
+    bundle exec rake build
+
+Push to Forge:
+
+    bundle exec rake module:push
+
+Clean the pkg dir (otherwise Blacksmith will try to push old copies to Forge next time you run it and it will fail):
+
+    bundle exec rake module:clean
+
+
