@@ -140,13 +140,18 @@ firewall_multi { '100 allow http and https access':
 }
 ```
 
+This will cause two resources to be created:
+
+* Firewall['100 allow http and https access using provider ip6tables']
+* Firewall['100 allow http and https access using provider iptables']
+
 ### Used in place of a single firewall resource
 
 If none of firewall_multi's array functionality is used, then the firewall_multi and firewall resources can be used interchangeably.
 
-### Use with Hiera and create_resources
+### Use with Hiera
 
-Some users may prefer to externalise the firewall resources in Hiera and use the `create_resources` function:
+Some users may prefer to externalise the firewall resources in Hiera:
 
 ```yaml
 ---
@@ -162,7 +167,7 @@ myclass::firewall_multis:
 
 Meanwhile we would have manifest code that looks something like this:
 
-Puppet 3.x:
+Puppet 3.x or higher, where we can use the `create_resources` function:
 
 ```puppet
 class myclass (
@@ -174,13 +179,17 @@ class myclass (
 }
 ```
 
-Puppet 4.x:
+And in Puppet >= 4.x, we can use iteration:
 
 ```puppet
 class myclass (
   Hash $firewall_multis,
 ) {
-  create_resources(firewall_multi, $firewall_multis)
+  $firewall_multis.each |$name, $firewall_multi| {
+    firewall_multi { $name:
+      * => $firewall_multi
+    }
+  }
   ...
 }
 ```
