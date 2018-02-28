@@ -1,11 +1,26 @@
 # To auto-generate the list of parameters accepted by the defined type:
 
+usage() {
+  echo "Usage: bash $0 > manifests/init.pp"
+  exit
+}
+
+[ "$1" == -h ] && usage
+
+path_to_firewall=../puppetlabs-firewall
+
+the_big_grep() {
+  egrep '^  new(property|param)\(:' ${path_to_firewall}/lib/puppet/type/firewall.rb | grep -v '(:name)'
+}
+
 cat <<'EOF'
 define firewall_multi (
   $ensure                = undef,
   $provider              = undef,
 EOF
-egrep '^  new(property|param)\(:' ../puppetlabs-firewall/lib/puppet/type/firewall.rb | grep -v '(:name)' | sed -e 's/^  newp.*(:\([^,)]*\).*/$\1 = undef,/g' | sort | column -t | sed -e 's/^/  /' -e 's/ = /=/'
+
+the_big_grep | sed -e 's/^  newp.*(:\([^,)]*\).*/$\1 = undef,/g' | sort | column -t | sed -e 's/^/  /' -e 's/ = /=/'
+
 cat <<'EOF'
 ) {
 
@@ -19,7 +34,9 @@ cat <<'EOF'
     ensure                => $ensure,
     provider              => $provider,
 EOF
-egrep '^  new(property|param)\(:' ../puppetlabs-firewall/lib/puppet/type/firewall.rb | grep -v '(:name)' | sed -e 's/^  newp.*(:\([^,)]*\).*/\1 => $\1,/g'   | sort | column -t | sed -e 's/^/    /' -e 's/ => /=>/'
+
+the_big_grep | sed -e 's/^  newp.*(:\([^,)]*\).*/\1 => $\1,/g' | sort | column -t | sed -e 's/^/    /' -e 's/ => /=>/'
+
 cat <<'EOF'
   }))
 }
