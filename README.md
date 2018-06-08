@@ -30,23 +30,25 @@ earlier|1.8.0
 
 ## Usage
 
-It is expected that a standard set up for the firewall module is followed, in particular with respect to the purging of firewall resources.  If a user of this module, for instance, removes addresses from an array of sources, the corresponding firewall resources will only be removed if purging is enabled.  This might be surprising to the user in a way that impacts security.
+It is expected that a standard set up for the firewall module is followed, in particular with respect to the purging of firewall resources. If a user of this module, for instance, removes addresses from an array of sources, the corresponding firewall resources will only be removed if purging is enabled. This might be surprising to the user in a way that impacts security.
 
 Otherwise, usage of the firewall_multi defined type is the same as with the firewall custom type, the only exceptions being that some parameters optionally accept arrays.
 
 ## Parameters
 
-* `source`: the source IP address or network or an array of sources.  Use of this parameter causes a firewall resource to be spawned for each address in the array of sources, and a string like 'from *x.x.x.x/x*' to be appened to each spawned resource's title to guarantee uniqueness in the catalog.  If not specified, a default of undef is used and the resultant firewall resource provider will not be passed a source.
+* `source`: the source IP address or network or an array of sources.
 
-* `destination`: the destination IP address or network or an array of destinations.  Use of this parameter causes a firewall resource to be spawned for each address in the array of destinations, and a string like 'to *y.y.y.y/y*' to be appended to each spawned resource's title to guarantee uniqueness in the catalog.  If not specified, a default of undef is used and the resultant firewall resource provider will not be passed a destination.
+* `destination`: the destination IP address or network or an array of destinations.
 
-* `proto`: the protocol or an array of protocols.  Use of this parameter causes a firewall resource to be spawned for each protocol in the array of protocols, and a string like 'protocol *aa*' to be appended to each spawned resource's title to guarantee uniqueness in the catalog.  If not specified, a default of undef is used and the resultant firewall resource provider will not be passed a protocol.
+* `proto`: the protocol or an array of protocols.
 
-* `icmp`: the ICMP type or an array of ICMP types specified as an array of integers or strings.  Use of this parameter causes a firewall resource to be spawned for each type in the array of ICMP types, and a string like 'icmp type *nn*' to be appended to each spawned resource's title to guarantee uniqueness in the catalog.  If not specified, a default of undef is used and the resultant firewall resource provider will not be passed an ICMP type.
+* `icmp`: the ICMP type or an array of ICMP types specified as an array of integers or strings.
 
-* `provider`: the provider to use, either `iptables` or `ip6tables`.
+* `provider`: the provider to use, either iptables or ip6tables.
 
 * Any other parameter accepted by firewall is also accepted and set for each firewall resource created without error-checking.
+
+Use of these supported array parameters causes firewall resources to be spawned for each address in the array. For example, in the case of the `source` parameter, and a string like 'from *x.x.x.x/x*' is appended to each spawned resource's title to guarantee uniqueness in the catalog. If not specified, a default of `undef` is used and the resultant firewall resource provider will not be passed a source.
 
 ## Examples
 
