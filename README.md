@@ -4,7 +4,9 @@
 
 ## Overview
 
-The `firewall_multi` module provides a defined type wrapper for spawning [puppetlabs/firewall](https://github.com/puppetlabs/puppetlabs-firewall) resources for arrays of certain inputs.
+The `firewall_multi` module provides a defined type wrapper for spawning [puppetlabs/firewall](https://github.com/puppetlabs/puppetlabs-firewall) resources for arrays of certain inputs. This is useful at large sites that may have many networks, due to the puppetlabs-firewall module lacking functionality to allow arrays for certain inputs. The limitation is due to the underlying Linux iptables command, which also only allows arrays for certain inputs.
+
+(For more information about the history and motivation for this project, see [MODULES-3066](https://tickets.puppetlabs.com/browse/MODULES-3066) in the Puppet Jira.)
 
 At present the following inputs can be arrays:
 * source
