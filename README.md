@@ -2,6 +2,30 @@
 
 [![Build Status](https://img.shields.io/travis/alexharv074/puppet-firewall_multi.svg)](https://travis-ci.org/alexharv074/puppet-firewall_multi)
 
+#### Table of contents
+
+1. [Overview](#overview)
+2. [Version compatibility](#version-compatibility)
+3. [Setup](#setup)
+    * [What firewall_multi affects](#what-firewall-multi-affects)
+    * [Setup requirements](#setup-requirements)
+    * [Beginning with firewall_multi](#beginning-with-firewall-multi)
+    * [Upgrading](#upgrading)
+4. [Parameters](#parameters)
+5. [Examples](#examples)
+    * [Array of sources](#array-of-sources)
+    * [Arrays of sources and destinations](#arrays-of-sources-and-destinations)
+    * [Array of protocols](#array-of-protocols)
+    * [Array of ICMP types](#array-of-icmp-types)
+    * [Array of providers](#array-of-providers)
+    * [Used in place of a single firewall resource](#used-in-place-of-a-single-firewall-resource)
+    * [Use with Hiera](#use-with-hiera)
+    * [The alias lookup](#the-alias-lookup)
+6. [Known Issues](#known-issues)
+7. [Development](#development)
+    * [Testing](#testing)
+    * [Release](#release)
+
 ## Overview
 
 The `firewall_multi` module provides a defined type wrapper for spawning [puppetlabs/firewall](https://github.com/puppetlabs/puppetlabs-firewall) resources for arrays of certain inputs. This is useful at large sites that may have many networks, due to the puppetlabs-firewall module lacking functionality to allow arrays for certain inputs. The limitation is due to the underlying Linux iptables command, which also only allows arrays for certain inputs.
@@ -30,11 +54,31 @@ earlier|1.8.0
 1.10.1|1.11.0
 1.10.1|1.12.0
 
-## Usage
+## Setup
+
+### What firewall_multi affects
+
+The scope is the same as with the firewall module.
+
+### Setup requirements
+
+The firewall_multi module's only dependency is the firewall module.
+
+### Beginning with firewall_multi
 
 It is expected that a standard set up for the firewall module is followed, in particular with respect to the purging of firewall resources. If a user of this module, for instance, removes addresses from an array of sources, the corresponding firewall resources will only be removed if purging is enabled. This might be surprising to the user in a way that impacts security.
 
 Otherwise, usage of the firewall_multi defined type is the same as with the firewall custom type, the only exceptions being that some parameters optionally accept arrays.
+
+### Upgrading
+
+Firstly, ensure you have read the version compatibility matrix section above before upgrading as versions of this module sometimes must be kept in sync with the firewall module.
+
+To upgrade the module, use the puppet module tool as normal:
+
+~~~ text
+puppet module upgrade alexharvey/firewall_multi
+~~~
 
 ## Parameters
 
@@ -275,5 +319,3 @@ Push to Forge:
 Clean the pkg dir (otherwise Blacksmith will try to push old copies to Forge next time you run it and it will fail):
 
     bundle exec rake module:clean
-
-
