@@ -215,11 +215,14 @@ define firewall_multi (
   $week_days                   = undef,
 ) {
 
-  # In order to support Puppet 3.x we must word around
+  # In order to support Puppet 3.x we had to word around
   # https://tickets.puppetlabs.com/browse/PUP-2523.
 
-  # This means we can't pass in $name as part of the hash; it must
+  # This meant we couldn't pass in $name as part of the hash; it must
   # instead be passed as a separate argument.
+
+  # FIXME. Puppet 3 is no longer supported and this implementation
+  # could be changed.
 
   create_resources(firewall, firewall_multi($name, {
     ensure                => $ensure,

@@ -1,31 +1,26 @@
 require 'spec_helper'
 
-describe Puppet::Parser::Functions.function(:firewall_multi) do
-  let(:scope) { PuppetlabsSpec::PuppetInternals.scope }
-
-  it 'should exist' do
-    expect(Puppet::Parser::Functions.function('firewall_multi')).to eq 'function_firewall_multi'
-  end
+describe 'firewall_multi' do
 
   context 'when given a wrong number of arguments' do
     it 'should fail' do
       expect {
-        scope.function_firewall_multi([])
-      }.to raise_error ArgumentError, /Wrong number of arguments given/
+        subject.execute([])
+      }.to raise_error ArgumentError, /expects 2 arguments, got 1/
     end
   end
 
   context 'when given the wrong type of arguments' do
     it 'should fail' do
       expect {
-        scope.function_firewall_multi([['I_am_not_a_string'], {}])
-      }.to raise_error ArgumentError, /first argument must be a string/
+        subject.execute(['I_am_not_a_string'], {})
+      }.to raise_error ArgumentError, /parameter 'name' expects a String value, got Tuple/
     end
 
     it 'should fail' do
       expect {
-        scope.function_firewall_multi(['I_am_a_string', 'but_I_am_not_a_hash'])
-      }.to raise_error ArgumentError, /second argument must be a hash/
+        subject.execute('I_am_a_string', 'but_I_am_not_a_hash')
+      }.to raise_error ArgumentError, /parameter 'hash' expects a Hash value, got String/
     end
   end
 
@@ -53,7 +48,7 @@ describe Puppet::Parser::Functions.function(:firewall_multi) do
     }
 
     it 'should convert hash into expected format' do
-      expect(scope.function_firewall_multi(input)).to eq output
+      expect(subject.execute(input[0], input[1])).to eq output
     end
   end
 end
