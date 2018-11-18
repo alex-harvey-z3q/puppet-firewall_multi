@@ -53,6 +53,13 @@ earlier|1.8.0
 1.10.1|1.12.0
 1.10.1|1.13.0
 1.10.1|1.14.0
+1.11.0|1.10.0
+1.11.0|1.11.0
+1.11.0|1.12.0
+1.11.0|1.13.0
+1.11.0|1.14.0
+
+Note that Puppet 3 support was dropped in version 1.11.0.
 
 ## Setup
 
@@ -275,8 +282,8 @@ Convert firewall_multi type data to firewall type data.
 ]
 ```
 
-However $name would need to be passed in as the hash key in the
-manifest whereas we must work around [PUP-2523](https://tickets.puppetlabs.com/browse/PUP-2523).
+It was implemented this way when Puppet 3 was supported to
+work around [PUP-2523](https://tickets.puppetlabs.com/browse/PUP-2523).
 
 
 ##### `firewall_multi(String $name, Hash $hash)`
