@@ -60,13 +60,13 @@ Puppet::Functions.create_function(:firewall_multi) do
   end
 
   def explode(hash, opts = {})
-    _hash = Hash.new
+    _hash = {}
     hash.each do |title, params|
       if params.has_key?(opts[:param]) and
         params[opts[:param]].is_a?(Array)
         params[opts[:param]].each do |v|
           _title = [title, opts[:string], v].join(' ')
-          _hash[_title] = params.clone
+          _hash[_title] = params.dup
           _hash[_title][opts[:param]] = v
         end
       else
