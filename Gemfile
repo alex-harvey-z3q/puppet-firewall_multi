@@ -8,6 +8,7 @@ group :tests do
   gem 'rspec-puppet-utils', :require => false
   gem 'metadata-json-lint', :require => false
   gem 'puppet-blacksmith',  :require => false
+  gem 'puppet-strings',     :require => false
 end
 
 group :system_tests do

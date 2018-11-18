@@ -1,49 +1,59 @@
-# Take a name and a hash and return a modified hash suitable for input to
-# create_resources().
-#
-# Given this input:
-#
-# [
-#   '00100 accept inbound ssh',
-#   {
-#     'action' => 'accept',
-#     'source' => ['1.1.1.1/24', '2.2.2.2/24'],
-#     'dport'  => 22,
-#   }
-# ]
-#
-# Return this:
-#
-# {
-#   '00100 accept inbound ssh from 1.1.1.1/24' => {
-#     'action' => 'accept',
-#     'source' => '1.1.1.1/24',
-#     'dport'  => 22,
-#   },
-#   '00100 accept inbound ssh from 2.2.2.2/24' => {
-#     'action' => 'accept',
-#     'source' => '2.2.2.2/24',
-#     'dport'  => 22,
-#   },
-# }
-#
-# Note that it would be more natural to accept input structured as:
-#
-# [
-#   {
-#     '00100 accept inbound ssh' => {
-#       'action' => 'accept',
-#       'source' => ['1.1.1.1/24', '2.2.2.2/24'],
-#       'dport'  => 22,
-#     },
-#   }
-# ]
-#
-# However $name would need to be passed in as the hash key in the 
-# manifest whereas we must work around this bug:
-# https://tickets.puppetlabs.com/browse/PUP-2523
-
+# Convert firewall_multi type data to firewall type data.
 Puppet::Functions.create_function(:firewall_multi) do
+  # @summary Take a name and a hash and return a modified hash suitable
+  #   for input to create_resources().
+  #
+  # @example Given this input:
+  #
+  #   ```ruby
+  #   [
+  #     '00100 accept inbound ssh',
+  #     {
+  #       'action' => 'accept',
+  #       'source' => ['1.1.1.1/24', '2.2.2.2/24'],
+  #       'dport'  => 22,
+  #     }
+  #   ]
+  #   ```
+  #
+  #   Return this:
+  #
+  #   ```ruby
+  #   {
+  #     '00100 accept inbound ssh from 1.1.1.1/24' => {
+  #       'action' => 'accept',
+  #       'source' => '1.1.1.1/24',
+  #       'dport'  => 22,
+  #     },
+  #     '00100 accept inbound ssh from 2.2.2.2/24' => {
+  #       'action' => 'accept',
+  #       'source' => '2.2.2.2/24',
+  #       'dport'  => 22,
+  #     },
+  #   }
+  #   ```
+  #
+  # @note It would be more natural to accept input structured as:
+  #
+  #   ```ruby
+  #   [
+  #     {
+  #       '00100 accept inbound ssh' => {
+  #         'action' => 'accept',
+  #         'source' => ['1.1.1.1/24', '2.2.2.2/24'],
+  #         'dport'  => 22,
+  #       },
+  #     }
+  #   ]
+  #   ```
+  #
+  #   However $name would need to be passed in as the hash key in the
+  #   manifest whereas we must work around [PUP-2523](https://tickets.puppetlabs.com/browse/PUP-2523).
+  #
+  # @param name The original resource title.
+  # @param hash The original resource params data.
+  # @return Modified Hash for firewall types to be passed to create_resources().
+  #
   dispatch :firewall_multi do
     param 'String', :name
     param 'Hash', :hash
