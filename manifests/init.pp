@@ -3,98 +3,10 @@
 #   resources for arrays of certain inputs.
 #
 # @param [Array] source An array of source IPs or CIDRs.
-# @example Array of sources
-#
-#   firewall_multi { '100 allow http and https access':
-#     source => [
-#       '10.0.10.0/24',
-#       '10.0.12.0/24',
-#       '10.1.1.128',
-#     ],
-#     dport  => [80, 443],
-#     proto  => tcp,
-#     action => accept,
-#   }
-#
-#   This will cause three resources to be created:
-#
-#   * Firewall['100 allow http and https access from 10.0.10.0/24']
-#   * Firewall['100 allow http and https access from 10.0.12.0/24']
-#   * Firewall['100 allow http and https access from 10.1.1.128']
-#
 # @param [Array] destination An array of destination IPs or CIDRs.
-# @example Arrays of sources and destinations
-#
-#   firewall_multi { '100 allow http and https access':
-#     source => [
-#       '10.0.10.0/24',
-#       '10.0.12.0/24',
-#     ],
-#     destination => [
-#       '10.2.0.0/24',
-#       '10.3.0.0/24',
-#     ],
-#     dport  => [80, 443],
-#     proto  => tcp,
-#     action => accept,
-#   }
-#
-#   This will cause four resources to be created:
-#
-#   * Firewall['100 allow http and https access from 10.0.10.0/24 to 10.2.0.0/24']
-#   * Firewall['100 allow http and https access from 10.0.10.0/24 to 10.3.0.0/24']
-#   * Firewall['100 allow http and https access from 10.0.12.0/24 to 10.2.0.0/24']
-#   * Firewall['100 allow http and https access from 10.0.12.0/24 to 10.3.0.0/24']
-#
 # @param [Array] proto An array of protocols.
-# @example Array of protocols
-#
-#   firewall_multi { '100 allow DNS lookups':
-#     dport  => 53,
-#     proto  => ['tcp', 'udp'],
-#     action => 'accept',
-#   }
-#
-#   This will cause two resources to be created:
-#
-#   * Firewall['100 allow DNS lookups protocol tcp']
-#   * Firewall['100 allow DNS lookups protocol udp']
-#
 # @param [Array] icmp An array of ICMP types.
-# @example Array of ICMP types
-#
-#   firewall_multi { '100 accept icmp output':
-#     chain  => 'OUTPUT',
-#     proto  => 'icmp',
-#     action => 'accept',
-#     icmp   => [0, 8],
-#   }
-#
-#   This will cause two resources to be created:
-#
-#   * Firewall['100 accept icmp output icmp type 0']
-#   * Firewall['100 accept icmp output icmp type 8']
-#
 # @param [Array] provider An array of providers.
-# @example Array of providers
-#
-#   Open a firewall for IPv4 and IPv6 on a web server:
-#
-#   firewall_multi { '100 allow http and https access':
-#     dport    => [80, 443],
-#     proto    => 'tcp',
-#     action   => 'accept',
-#     provider => ['ip6tables', 'iptables'],
-#   }
-#
-#   This will cause two resources to be created:
-#
-#   * Firewall['100 allow http and https access using provider ip6tables']
-#   * Firewall['100 allow http and https access using provider iptables']
-#
-# @example Used in place of a single firewall resource
-#
-#   If none of firewall_multi's array functionality is used, then the firewall_multi and firewall resources can be used interchangeably.
 #
 define firewall_multi (
   $ensure                = undef,

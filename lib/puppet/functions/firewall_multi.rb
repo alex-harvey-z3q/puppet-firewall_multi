@@ -3,7 +3,7 @@ Puppet::Functions.create_function(:firewall_multi) do
   # @summary Take a name and a hash and return a modified hash suitable
   #   for input to create_resources().
   #
-  # @example Given this input:
+  # @note Given this input:
   #
   #   ```ruby
   #   [
@@ -33,7 +33,7 @@ Puppet::Functions.create_function(:firewall_multi) do
   #   }
   #   ```
   #
-  # @note It would be more natural to accept input structured as:
+  # It would be more natural to accept input structured as:
   #
   #   ```ruby
   #   [
