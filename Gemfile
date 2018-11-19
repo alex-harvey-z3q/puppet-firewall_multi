@@ -17,8 +17,6 @@ group :system_tests do
   gem 'beaker-puppet_install_helper', :require => false
 end
 
-gem 'facter'
-
 if puppetversion = ENV['PUPPET_GEM_VERSION']
   gem 'puppet', puppetversion, :require => false
 else
