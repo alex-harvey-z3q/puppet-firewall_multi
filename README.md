@@ -169,11 +169,12 @@ Convert firewall_multi type data to firewall type data.
 
 ```ruby
 [
-  '00100 accept inbound ssh',
   {
-    'action' => 'accept',
-    'source' => ['1.1.1.1/24', '2.2.2.2/24'],
-    'dport'  => 22,
+    '00100 accept inbound ssh' => {
+      'action' => 'accept',
+      'source' => ['1.1.1.1/24', '2.2.2.2/24'],
+      'dport'  => 22,
+    },
   }
 ]
 ```
@@ -196,17 +197,11 @@ Return this:
 ```
 
 
-##### `firewall_multi(String $name, Hash $hash)`
+##### `firewall_multi(Hash $hash)`
 
 Convert firewall_multi type data to firewall type data.
 
 Returns: `Any` Modified Hash for firewall types to be passed to create_resources().
-
-###### `name`
-
-Data type: `String`
-
-The original resource title.
 
 ###### `hash`
 

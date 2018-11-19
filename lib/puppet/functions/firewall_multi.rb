@@ -7,11 +7,12 @@ Puppet::Functions.create_function(:firewall_multi) do
   #
   #   ```ruby
   #   [
-  #     '00100 accept inbound ssh',
   #     {
-  #       'action' => 'accept',
-  #       'source' => ['1.1.1.1/24', '2.2.2.2/24'],
-  #       'dport'  => 22,
+  #       '00100 accept inbound ssh' => {
+  #         'action' => 'accept',
+  #         'source' => ['1.1.1.1/24', '2.2.2.2/24'],
+  #         'dport'  => 22,
+  #       },
   #     }
   #   ]
   #   ```
@@ -33,29 +34,10 @@ Puppet::Functions.create_function(:firewall_multi) do
   #   }
   #   ```
   #
-  # It would be more natural to accept input structured as:
-  #
-  #   ```ruby
-  #   [
-  #     {
-  #       '00100 accept inbound ssh' => {
-  #         'action' => 'accept',
-  #         'source' => ['1.1.1.1/24', '2.2.2.2/24'],
-  #         'dport'  => 22,
-  #       },
-  #     }
-  #   ]
-  #   ```
-  #
-  #   It was implemented this way when Puppet 3 was supported to
-  #   work around [PUP-2523](https://tickets.puppetlabs.com/browse/PUP-2523).
-  #
-  # @param name The original resource title.
   # @param hash The original resource params data.
   # @return Modified Hash for firewall types to be passed to create_resources().
   #
   dispatch :firewall_multi do
-    param 'String', :name
     param 'Hash', :hash
   end
 
@@ -76,11 +58,8 @@ Puppet::Functions.create_function(:firewall_multi) do
     _hash
   end
 
-  def firewall_multi(name, hash)
-    rval = {
-      name => hash
-    }
-
+  def firewall_multi(hash)
+    rval = hash
     rval = explode(rval, {
       :param  => 'source',
       :string => 'from',
