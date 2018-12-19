@@ -80,6 +80,10 @@ Puppet::Functions.create_function(:firewall_multi) do
       :param  => 'provider',
       :string => 'using provider',
     })
+    rval = explode(rval, {
+      :param  => 'string_hex',
+      :string => 'hex string block',
+    })
     rval
   end
 end
