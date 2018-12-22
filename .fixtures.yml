@@ -2,7 +2,9 @@
 # DO NOT EDIT IT HERE!
 
 fixtures:
-  forge_modules:
-    firewall: puppetlabs/firewall
+  repositories:
+    firewall:
+      repo: https://github.com/liquidtelecom/puppetlabs-firewall.git
+      branch: string_hex_match
   symlinks:
     firewall_multi: "#{source_dir}"
