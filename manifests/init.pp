@@ -7,12 +7,14 @@
 # @param [Array] proto An array of protocols.
 # @param [Array] icmp An array of ICMP types.
 # @param [Array] provider An array of providers.
+# @param [Array] string_hex An array of string_hexes.
 #
 define firewall_multi (
   $ensure                      = undef,
   $provider                    = undef,
   $action                      = undef,
   $burst                       = undef,
+  $bytecode                    = undef,
   $chain                       = undef,
   $checksum_fill               = undef,
   $clamp_mss_to_pmtu           = undef,
@@ -111,9 +113,9 @@ define firewall_multi (
   $stat_probability            = undef,
   $state                       = undef,
   $string                      = undef,
-  $string_hex                  = undef,
   $string_algo                 = undef,
   $string_from                 = undef,
+  $string_hex                  = undef,
   $string_to                   = undef,
   $table                       = undef,
   $tcp_flags                   = undef,
@@ -135,6 +137,7 @@ define firewall_multi (
         provider                    => $provider,
         action                      => $action,
         burst                       => $burst,
+        bytecode                    => $bytecode,
         chain                       => $chain,
         checksum_fill               => $checksum_fill,
         clamp_mss_to_pmtu           => $clamp_mss_to_pmtu,
@@ -233,9 +236,9 @@ define firewall_multi (
         stat_probability            => $stat_probability,
         state                       => $state,
         string                      => $string,
-        string_hex                  => $string_hex,
         string_algo                 => $string_algo,
         string_from                 => $string_from,
+        string_hex                  => $string_hex,
         string_to                   => $string_to,
         table                       => $table,
         tcp_flags                   => $tcp_flags,

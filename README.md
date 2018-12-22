@@ -23,6 +23,7 @@
         - [Array of protocols](#array-of-protocols)
         - [Array of ICMP types](#array-of-icmp-types)
         - [Array of providers](#array-of-providers)
+        - [Array of string_hexes](#array-of-string-hexes)
     * [Use with Hiera](#use-with-hiera)
     * [The alias lookup](#the-alias-lookup)
 5. [Development](#development)
@@ -42,6 +43,7 @@ At present the following inputs can be arrays:
 * proto
 * icmp
 * provider
+* string_hex
 
 ## Version compatibility
 
@@ -64,6 +66,7 @@ earlier|1.8.0
 1.11.0|1.12.0
 1.11.0|1.13.0
 1.11.0|1.14.0
+unreleased|unreleased
 
 Note that Puppet 3 support was dropped in version 1.11.0.
 
@@ -155,6 +158,14 @@ Default value: `undef`
 Data type: `Array`
 
 An array of providers.
+
+Default value: `undef`
+
+###### `string_hex`
+
+Data type: `Array`
+
+An array of string_hexes.
 
 Default value: `undef`
 
@@ -305,6 +316,32 @@ This will cause two resources to be created:
 
 * Firewall['100 allow http and https access using provider ip6tables']
 * Firewall['100 allow http and https access using provider iptables']
+
+#### Array of string_hexes
+
+An array of hex strings for string matching:
+
+```puppet
+firewall_multi { '100 deny bad domains queries':
+  dport      => 53,
+  proto      => 'udp',
+  string_hex => [
+    '|03317966026465|',
+    '|03353372026465|',
+    '|03387536026465|',
+  ],
+  string_algo => 'bm',
+  string_from => 30,
+  state       => 'NEW',
+  action      => 'drop',
+}
+```
+
+This will cause three resources to be created:
+
+* Firewall['00100 deny bad domain queries hex string block |03317966026465|']
+* Firewall['00100 deny bad domain queries hex string block |03353372026465|']
+* Firewall['00100 deny bad domain queries hex string block |03387536026465|']
 
 ### Use with Hiera
 

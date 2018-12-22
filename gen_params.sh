@@ -23,6 +23,7 @@ cat <<'EOF'
 # @param [Array] proto An array of protocols.
 # @param [Array] icmp An array of ICMP types.
 # @param [Array] provider An array of providers.
+# @param [Array] string_hex An array of string_hexes.
 #
 define firewall_multi (
   $ensure                      = undef,

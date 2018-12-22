@@ -274,4 +274,35 @@ describe 'firewall_multi' do
       end
     }
   end
+
+  context 'an array of string_hex' do
+    string_hexes = [
+      '|03317966026465|',
+      '|03353372026465|',
+      '|03387536026465|',
+    ]
+    let(:title) { '00100 deny bad domain queries' }
+    let(:params) {{
+      'action'      => 'accept',
+      'dport'       => '53',
+      'proto'       => 'udp',
+      'string_hex'  => string_hexes,
+      'string_algo' => 'bm',
+      'string_from' => '30',
+      'state'       => 'NEW',
+      'action'      => 'drop',
+    }}
+    it {
+      is_expected.to contain_firewall('00100 deny bad domain queries hex string block |03317966026465|').with(
+        'action' => 'accept',
+        'dport'       => '53',
+        'proto'       => 'udp',
+        'string_hex'  => '|03317966026465|',
+        'string_algo' => 'bm',
+        'string_from' => '30',
+        'state'       => 'NEW',
+        'action'      => 'drop',
+      )
+    }
+  end
 end
