@@ -21,4 +21,7 @@ RSpec.configure do |c|
   c.default_facts = {
     :ipaddress => '1.1.1.1',
   }
+  c.after(:suite) do
+    RSpec::Puppet::Coverage.report!(100)
+  end
 end

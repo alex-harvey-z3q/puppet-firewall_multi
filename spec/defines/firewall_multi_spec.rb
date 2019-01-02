@@ -52,7 +52,6 @@ describe 'firewall_multi' do
       '1.1.1.1/24',
       '2.2.2.2/24',
     ]
-    source      = '1.1.1.1/24'
     destination = '3.3.3.3/24'
     let(:title) { '00100 accept on port 80' }
     let(:params) {{
@@ -63,13 +62,15 @@ describe 'firewall_multi' do
       'destination' => destination,
     }}
     it {
-      is_expected.to contain_firewall("00100 accept on port 80 from #{source}").with(
-        'action' => 'accept',
-        'dport'  => '80',
-        'proto'  => 'tcp',
-        'source'      => source,
-        'destination' => destination,
-      )
+      sources.each do |s|
+        is_expected.to contain_firewall("00100 accept on port 80 from #{s}").with(
+          'action' => 'accept',
+          'dport'  => '80',
+          'proto'  => 'tcp',
+          'source'      => s,
+          'destination' => destination,
+        )
+      end
     }
   end
 
@@ -263,12 +264,14 @@ describe 'firewall_multi' do
       'provider' => providers,
     }}
     it {
-      is_expected.to contain_firewall('00100 accept on ports 80 and 443 using provider ip6tables').with(
-        'action' => 'accept',
-        'dport'  => ['80', '443'],
-        'proto'  => 'tcp',
-        'provider' => 'ip6tables',
-      )
+      providers.each do |p|
+        is_expected.to contain_firewall("00100 accept on ports 80 and 443 using provider #{p}").with(
+          'action' => 'accept',
+          'dport'  => ['80', '443'],
+          'proto'  => 'tcp',
+          'provider' => p,
+        )
+      end
     }
   end
 end
