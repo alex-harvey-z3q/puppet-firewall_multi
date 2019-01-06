@@ -28,6 +28,7 @@
 5. [Development](#development)
     * [Testing](#testing)
     * [Release](#release)
+6. [Donate](#donate)
 
 ## Overview
 
@@ -419,3 +420,9 @@ Push to Forge:
 Clean the pkg dir (otherwise Blacksmith will try to push old copies to Forge next time you run it and it will fail):
 
     bundle exec rake module:clean
+
+## Donate
+
+If you find that this code saved your project some significant time, consider donating:
+
+[![paypal](https://www.paypalobjects.com/en_AU/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=6849RBYT6VYBQ)
