@@ -3,6 +3,7 @@
 
 require 'spec_helper'
 require 'json'
+require 'erb'
 
 version = JSON.parse(File.read('metadata.json'))['version']
 
@@ -17,5 +18,12 @@ describe 'Release-related checks' do
 
   it 'README should mention the version' do
     expect(%x{grep ^#{version} README.md}).to match /#{version}\|\d+\.\d+\.\d+/
+  end
+
+  it '.README.erb should generated README.md' do
+    template = File.read('.README.erb')
+    readme = File.read('README.md')
+    renderer = ERB.new(template, nil, '-')
+    expect(readme).to eq renderer.result()
   end
 end
