@@ -13,7 +13,6 @@ FileUtils::mkdir_p 'catalogs'
 desc 'Generate the docs'
 task :docs do
   require 'erb'
-  require 'yaml'
   template = File.read('.README.erb')
   renderer = ERB.new(template, nil, '-')
   File.write('README.md', renderer.result())
