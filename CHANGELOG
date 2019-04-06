@@ -1,3 +1,8 @@
+2019-04-06 - Version 1.13.0
+- Update to support changes in firewall 1.15.2 (which added a
+new feature) and 1.15.3.
+- Add a test to ensure README is synced from the ERB.
+
 2019-02-03 - Version 1.12.0
 - Update to support changes in firewall 1.15.0.
 - Minor changes to automated tests.

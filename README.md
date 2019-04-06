@@ -67,6 +67,8 @@ earlier|1.8.0
 1.11.0|1.14.0
 1.12.0|1.15.0
 1.12.0|1.15.1
+1.13.0|1.15.2
+1.13.0|1.15.3
 
 Note that Puppet 3 support was dropped in version 1.11.0.
 
