@@ -3,6 +3,8 @@
 
 fixtures:
   forge_modules:
-    firewall: puppetlabs/firewall
+    firewall:
+      repo: puppetlabs/firewall
+      ref: 1.15.3
   symlinks:
     firewall_multi: "#{source_dir}"

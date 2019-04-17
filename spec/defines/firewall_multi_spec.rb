@@ -274,4 +274,26 @@ describe 'firewall_multi' do
       end
     }
   end
+
+  context 'Issue 19' do
+    let(:title) { '00100 accept on port 80' }
+    let(:params) {{
+      'action' => 'accept',
+      'dport'  => '80',
+      'proto'  => 'tcp',
+      'source'      => '1.1.1.1/24',
+      'destination' => '3.3.3.3/24',
+      'bytecode' => '4,48 0 0 9,21 0 1 6,6 0 0 1,6 0 0 0',
+    }}
+    it {
+      is_expected.to contain_firewall("00100 accept on port 80").with(
+        'action' => 'accept',
+        'dport'  => '80',
+        'proto'  => 'tcp',
+        'source'      => '1.1.1.1/24',
+        'destination' => '3.3.3.3/24',
+        'bytecode' => '4,48 0 0 9,21 0 1 6,6 0 0 1,6 0 0 0',
+      )
+    }
+  end
 end
