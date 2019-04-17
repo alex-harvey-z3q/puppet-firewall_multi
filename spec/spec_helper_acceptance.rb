@@ -1,5 +1,8 @@
+require 'beaker-pe'
+require 'beaker-puppet'
 require 'beaker-rspec'
 require 'beaker/puppet_install_helper'
+require 'puppet'
 
 run_puppet_install_helper
 
