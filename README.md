@@ -175,6 +175,7 @@ Default value: `undef`
 Type: Ruby 4.x API
 
 Convert firewall_multi type data to firewall type data.
+
 * **Note** Given this input:
 
 ```ruby
@@ -205,7 +206,6 @@ Return this:
   },
 }
 ```
-
 
 ##### `firewall_multi(Hash $hash)`
 

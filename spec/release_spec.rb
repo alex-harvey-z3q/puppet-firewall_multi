@@ -7,7 +7,7 @@ require 'erb'
 
 metadata = JSON.parse(File.read('metadata.json'))
 fm_version = metadata['version']
-fw_version = metadata['dependencies'][0]['version_requirement'].gsub(/^== */,'')
+fw_version = metadata['dependencies'][0]['version_requirement']
 
 # https://unix.stackexchange.com/a/283489/231569
 latest = %x{gsed -n '
@@ -41,7 +41,7 @@ describe 'Release-related checks' do
     expect(%x{grep ^#{fm_version} README.md}).to match /#{fm_version}\|\d+\.\d+\.\d+/
   end
 
-  it '.README.erb should generated README.md' do
+  it '.README.erb should generate README.md' do
     template = File.read('.README.erb')
     readme = File.read('README.md')
     renderer = ERB.new(template, nil, '-')
