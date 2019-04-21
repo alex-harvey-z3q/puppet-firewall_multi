@@ -5,19 +5,40 @@ require 'spec_helper'
 require 'json'
 require 'erb'
 
-version = JSON.parse(File.read('metadata.json'))['version']
+metadata = JSON.parse(File.read('metadata.json'))
+fm_version = metadata['version']
+fw_version = metadata['dependencies'][0]['version_requirement'].gsub(/^== */,'')
+
+# https://unix.stackexchange.com/a/283489/231569
+latest = %x{gsed -n '
+  /## Version compatibility/ {
+    N
+    N
+    N
+  }
+  /## Setup/!N
+  /.*\\n.*\\n.*\\n.*\\n.*## Setup.*/P  # Backslash escaped to protect from Ruby.
+  D
+' README.md}.chomp
+
+expected_fm, expected_fw = latest.split('|')
 
 describe 'Release-related checks' do
-  it 'Version in metadata.json should match a tag' do
-    expect(%x{git tag --sort=-creatordate | head -1}.chomp).to eq version
+  it 'Version in metadata.json should match a tag - are you about to tag & release? If so, ignore.' do
+    expect(%x{git tag --sort=-creatordate | head -1}.chomp).to eq fm_version
   end
 
-  it 'First line of CHANGELOG should mention the version' do
-    expect(%x{head -1 CHANGELOG}).to match /#{version}/
+  it 'metadata firewall version should match version matrix' do
+    expect(fm_version).to eq expected_fm
+    expect(fw_version).to eq expected_fw
+  end
+
+  it 'First line of CHANGELOG should mention the version - did you forget to update CHANGELOG?' do
+    expect(%x{head -1 CHANGELOG}).to match /#{fm_version}/
   end
 
   it 'README should mention the version' do
-    expect(%x{grep ^#{version} README.md}).to match /#{version}\|\d+\.\d+\.\d+/
+    expect(%x{grep ^#{fm_version} README.md}).to match /#{fm_version}\|\d+\.\d+\.\d+/
   end
 
   it '.README.erb should generated README.md' do

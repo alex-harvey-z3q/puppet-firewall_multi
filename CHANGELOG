@@ -1,3 +1,10 @@
+2019-04-21 - Version 1.13.1
+- Fix metadata.json to specify exact required version.
+- Add tests enforcing this.
+- Add troubleshooting section for Issue #19.
+- Remove code coverage from spec helper.
+- Corrections to Beaker to fix tests.
+
 2019-04-06 - Version 1.13.0
 - Update to support changes in firewall 1.15.2 (which added a
 new feature) and 1.15.3.
