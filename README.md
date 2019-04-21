@@ -29,7 +29,7 @@
     * [Testing](#testing)
     * [Release](#release)
 6. [Troubleshooting](#troubleshooting)
-    * ["Error: no parameter named X"](#-error-no-parameter-named-x)
+    * ["Error: no parameter named X"](#error-no-parameter-named-x)
     * [Resolution 1 - ensure you have the right version](#resolution-1-ensure-you-have-the-right-version)
     * [Resolution 2 - environment isolation](#resolution-2-environment-isolation)
 7. [Donate](#donate)

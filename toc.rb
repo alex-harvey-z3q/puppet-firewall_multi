@@ -45,6 +45,7 @@ class ToCWriter
       .gsub(/\./, "")
       .gsub(/[^a-zA-Z\d]+/, "-")
       .gsub(/-$/, "")
+      .gsub(/^-/, "")
       .downcase
   end
 
