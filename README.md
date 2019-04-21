@@ -28,7 +28,11 @@
 5. [Development](#development)
     * [Testing](#testing)
     * [Release](#release)
-6. [Donate](#donate)
+6. [Troubleshooting](#troubleshooting)
+    * ["Error: no parameter named X"](#-error-no-parameter-named-x)
+    * [Resolution 1 - ensure you have the right version](#resolution-1-ensure-you-have-the-right-version)
+    * [Resolution 2 - environment isolation](#resolution-2-environment-isolation)
+7. [Donate](#donate)
 
 ## Overview
 
@@ -424,6 +428,26 @@ Push to Forge:
 Clean the pkg dir (otherwise Blacksmith will try to push old copies to Forge next time you run it and it will fail):
 
     bundle exec rake module:clean
+
+## Troubleshooting
+
+### "Error: no parameter named X"
+
+On [occasion](https://github.com/alexharv074/puppet-firewall_multi/issues/19), users of this module have reported confusing failure error messages like:
+
+```text
+Error: no parameter named 'ipvs'
+```
+
+Sometimes seen after upgrading.
+
+### Resolution 1 - ensure you have the right version
+
+The error message is probably not a bug in this module. Firstly, ensure that you have checked the [version compatibility](#version-compatibility) matrix above, and have installed a compatible combination of firewall/firewall_multi.
+
+### Resolution 2 - environment isolation
+
+While not a problem with this module, this module - due to its requirement to be pinned against a very specific version of puppetlabs/firewall - is a likely candidate for failing if you have not properly set up [environment isolation](https://puppet.com/docs/puppet/6.4/environment_isolation.html). Follow the docs in the previous link to resolve the issue. Also, be aware of how to use r10k to automatically [generate types](https://github.com/puppetlabs/r10k/blob/master/doc/faq.mkd#how-can-run-i-puppet-generate-types-for-each-changed-environment-during-deployment) during deployments.
 
 ## Donate
 
