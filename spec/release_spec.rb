@@ -28,7 +28,7 @@ describe 'Release-related checks' do
     expect(%x{git tag --sort=-creatordate | head -1}.chomp).to eq fm_version
   end
 
-  it 'metadata firewall version should match version matrix' do
+  it 'versions of this module and upstream module in metadata.json should match those in the version matrix' do
     expect(fm_version).to eq expected_fm
     expect(fw_version).to eq expected_fw
   end
