@@ -1,3 +1,6 @@
+2019-09-16 - Version 1.14.1
+- Remove problematic .git dir in Forge copy (Issue #22).
+
 2019-05-29 - Version 1.14.0
 - No real change other than to update version for firewall 2.0.0.
 
