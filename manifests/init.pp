@@ -127,6 +127,7 @@ define firewall_multi (
   $tosource                    = undef,
   $uid                         = undef,
   $week_days                   = undef,
+  $zone                        = undef,
 ) {
 
   $firewalls = firewall_multi(
@@ -250,6 +251,7 @@ define firewall_multi (
         tosource                    => $tosource,
         uid                         => $uid,
         week_days                   => $week_days,
+        zone                        => $zone,
       }
     }
   )
