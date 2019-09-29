@@ -1,3 +1,6 @@
+2019-09-29 - Version 1.15.0
+- Support zone parameter and firewall 2.1.0.
+
 2019-09-16 - Version 1.14.1
 - Remove problematic .git dir in Forge copy (Issue #22).
 
