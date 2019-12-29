@@ -1,3 +1,6 @@
+2019-12-29 - Version 1.16.0
+- Bump version to support firewall 2.2.0.
+
 2019-09-29 - Version 1.15.0
 - Support zone parameter and firewall 2.1.0.
 
