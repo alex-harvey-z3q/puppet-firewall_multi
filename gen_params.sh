@@ -1,19 +1,13 @@
-# To auto-generate the list of parameters accepted by the defined type:
+#!/usr/bin/env bash
 
 usage() {
   echo "Usage: bash $0 > manifests/init.pp"
-  exit
+  exit 1
 }
-
 [ "$1" == -h ] && usage
 
-path_to_firewall=../puppetlabs-firewall
-
-the_big_grep() {
-  egrep '^  new(property|param)\(:' ${path_to_firewall}/lib/puppet/type/firewall.rb | grep -v '(:name)'
-}
-
-cat <<'EOF'
+header() {
+  cat <<'EOF'
 # @summary A defined type wrapper for spawning
 #   [puppetlabs/firewall](https://github.com/puppetlabs/puppetlabs-firewall)
 #   resources for arrays of certain inputs.
@@ -28,10 +22,10 @@ define firewall_multi (
   $ensure                      = undef,
   $provider                    = undef,
 EOF
+}
 
-the_big_grep | sed -e 's/^  newp.*(:\([^,)]*\).*/$\1 = undef,/g' | sort | column -t | sed -e 's/^/  /' -e 's/ = /=/'
-
-cat <<'EOF'
+middle() {
+  cat <<'EOF'
 ) {
 
   $firewalls = firewall_multi(
@@ -40,10 +34,10 @@ cat <<'EOF'
         ensure                      => $ensure,
         provider                    => $provider,
 EOF
+}
 
-the_big_grep | sed -e 's/^  newp.*(:\([^,)]*\).*/\1 => $\1,/g' | sort | column -t | sed -e 's/^/        /' -e 's/ => /=>/'
-
-cat <<'EOF'
+footer() {
+  cat <<'EOF'
       }
     }
   )
@@ -51,3 +45,60 @@ cat <<'EOF'
   create_resources(firewall, $firewalls)
 }
 EOF
+}
+
+firewall_lib() {
+  cat "$path_to_firewall"'/lib/puppet/type/firewall.rb'
+}
+
+sort_cols() {
+  sort | column -t
+}
+
+first_transform() {
+  firewall_lib \
+    | gsed -nE '
+      /^  new/ {
+        /(property|param)/ {
+          /:name/! {
+            s/^  newp.*\(:([^,\)]*).*/$\1 = undef,/p
+          }
+        }
+      }
+    ' | sort_cols | gsed '
+      s/^/  /
+      s/ = /=/
+    '
+}
+
+second_transform() {
+  firewall_lib \
+    | gsed -nE '
+      /^  new/ {
+        /(property|param)/ {
+          /:name/! {
+            s/^  newp.*\(:([^,\)]*).*/\1 => $\1,/p
+          }
+        }
+      }
+    ' | sort_cols | gsed '
+      s/^/        /
+      s/ => /=>/
+    '
+}
+
+main() {
+  header
+  first_transform
+  middle
+  second_transform
+  footer
+}
+
+path_to_firewall=../puppetlabs-firewall
+
+if [ "$0" == "${BASH_SOURCE[0]}" ] ; then
+  main
+fi
+
+# vim: set ft=sh:
