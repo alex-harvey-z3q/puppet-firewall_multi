@@ -424,11 +424,7 @@ Ensure you have these lines in `~/.bash_profile`:
     export BLACKSMITH_FORGE_USERNAME=alexharvey
     export BLACKSMITH_FORGE_PASSWORD=xxxxxxxxx
 
-Build the module:
-
-    bundle exec rake build
-
-Push to Forge:
+Build the module and push to Forge:
 
     bundle exec rake module:push
 
