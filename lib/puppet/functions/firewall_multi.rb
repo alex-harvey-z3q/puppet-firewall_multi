@@ -41,45 +41,61 @@ Puppet::Functions.create_function(:firewall_multi) do
     param "Hash", :hash
   end
 
-  def explode(hash, opts = {})
-    _hash = {}
+  def explode(hash, param, string)
+    exploded = Hash.new
+    orig = hash.clone
+
     hash.each do |title, params|
-      if params.has_key?(opts[:param]) and
-        params[opts[:param]].is_a?(Array)
-        params[opts[:param]].each do |v|
-          _title = [title, opts[:string], v].join(' ')
-          _hash[_title] = params.dup
-          _hash[_title][opts[:param]] = v
+      if params.has_key?(param) and
+          params[param].nil?
+
+        p = params.dup
+        p.delete(param)
+        exploded[title] = p
+
+      elsif params.has_key?(param) and
+          params[param].is_a?(Array)
+
+        params[param].each do |val|
+          new = [title, string, val].join(" ")
+          exploded[new] = params.dup
+          exploded[new][param] = val
         end
+
       else
-        _hash[title] = params.clone
+        exploded[title] = params.clone
       end
     end
-    _hash
+
+    exploded
   end
 
   def firewall_multi(hash)
     rval = hash
-    rval = explode(rval, {
-      :param  => 'source',
-      :string => 'from',
-    })
-    rval = explode(rval, {
-      :param  => 'destination',
-      :string => 'to',
-    })
-    rval = explode(rval, {
-      :param  => 'proto',
-      :string => 'protocol',
-    })
-    rval = explode(rval, {
-      :param  => 'icmp',
-      :string => 'icmp type',
-    })
-    rval = explode(rval, {
-      :param  => 'provider',
-      :string => 'using provider',
-    })
+    rval = explode(rval,
+      param="source",
+      string="from"
+    )
+    rval = explode(rval,
+      param="destination",
+      string="to"
+    )
+    rval = explode(rval,
+      param="proto",
+      string="protocol"
+    )
+    rval = explode(rval,
+      param="icmp",
+      string="icmp type"
+    )
+    rval = explode(rval,
+      param="icmp",
+      string="icmp type"
+    )
+    rval = explode(rval,
+      param="provider",
+      string="using provider"
+    )
     rval
   end
 end
