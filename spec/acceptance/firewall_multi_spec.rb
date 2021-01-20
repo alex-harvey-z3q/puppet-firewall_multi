@@ -1,8 +1,8 @@
-require 'spec_helper_acceptance'
+require "spec_helper_acceptance"
 
-describe 'firewall_multi' do
-  context 'puppet apply' do
-    it 'is expected to apply and be idempotent' do
+describe "firewall_multi" do
+  context "puppet apply" do
+    it "is expected to apply and be idempotent" do
       pp = <<-EOS
 firewall_multi { '100 allow http and https access':
   source => [
@@ -23,8 +23,8 @@ EOS
     end
   end
 
-  ['10.0.10.0/24', '10.0.12.0/24'].each do |source|
-    ['10.2.0.0/24', '10.3.0.0/24'].each do |destination|
+  ["10.0.10.0/24", "10.0.12.0/24"].each do |source|
+    ["10.2.0.0/24", "10.3.0.0/24"].each do |destination|
 
       rule = "-A INPUT -s #{source} -d #{destination}"
 

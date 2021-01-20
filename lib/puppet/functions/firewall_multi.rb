@@ -8,10 +8,10 @@ Puppet::Functions.create_function(:firewall_multi) do
   #   ```ruby
   #   [
   #     {
-  #       '00100 accept inbound ssh' => {
-  #         'action' => 'accept',
-  #         'source' => ['1.1.1.1/24', '2.2.2.2/24'],
-  #         'dport'  => 22,
+  #       "00100 accept inbound ssh" => {
+  #         "action" => "accept",
+  #         "source" => ["1.1.1.1/24", "2.2.2.2/24"],
+  #         "dport"  => 22,
   #       },
   #     }
   #   ]
@@ -21,15 +21,15 @@ Puppet::Functions.create_function(:firewall_multi) do
   #
   #   ```ruby
   #   {
-  #     '00100 accept inbound ssh from 1.1.1.1/24' => {
-  #       'action' => 'accept',
-  #       'source' => '1.1.1.1/24',
-  #       'dport'  => 22,
+  #     "00100 accept inbound ssh from 1.1.1.1/24" => {
+  #       "action" => "accept",
+  #       "source" => "1.1.1.1/24",
+  #       "dport"  => 22,
   #     },
-  #     '00100 accept inbound ssh from 2.2.2.2/24' => {
-  #       'action' => 'accept',
-  #       'source' => '2.2.2.2/24',
-  #       'dport'  => 22,
+  #     "00100 accept inbound ssh from 2.2.2.2/24" => {
+  #       "action" => "accept",
+  #       "source" => "2.2.2.2/24",
+  #       "dport"  => 22,
   #     },
   #   }
   #   ```
@@ -38,7 +38,7 @@ Puppet::Functions.create_function(:firewall_multi) do
   # @return Modified Hash for firewall types to be passed to create_resources().
   #
   dispatch :firewall_multi do
-    param 'Hash', :hash
+    param "Hash", :hash
   end
 
   def explode(hash, opts = {})

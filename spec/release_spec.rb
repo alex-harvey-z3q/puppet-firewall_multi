@@ -1,13 +1,13 @@
 # THIS FILE IS CENTRALLY MANAGED BY sync_spec.rb!
 # DO NOT EDIT IT HERE!
 
-require 'spec_helper'
-require 'json'
-require 'erb'
+require "spec_helper"
+require "json"
+require "erb"
 
-metadata = JSON.parse(File.read('metadata.json'))
-fm_version = metadata['version']
-fw_version = metadata['dependencies'][0]['version_requirement']
+metadata = JSON.parse(File.read("metadata.json"))
+fm_version = metadata["version"]
+fw_version = metadata["dependencies"][0]["version_requirement"]
 
 # https://unix.stackexchange.com/a/283489/231569
 latest = %x{gsed -n '
@@ -21,30 +21,30 @@ latest = %x{gsed -n '
   D
 ' README.md}.chomp
 
-expected_fm, expected_fw = latest.split('|')
+expected_fm, expected_fw = latest.split("|")
 
-describe 'Release-related checks' do
-  it 'Version in metadata.json should match a tag - are you about to tag & release? If so, ignore.' do
+describe "Release-related checks" do
+  it "Version in metadata.json should match a tag - are you about to tag & release? If so, ignore." do
     expect(%x{git tag --sort=-creatordate | head -1}.chomp).to eq fm_version
   end
 
-  it 'versions of this module and upstream module in metadata.json should match those in the version matrix' do
+  it "versions of this module and upstream module in metadata.json should match those in the version matrix" do
     expect(fm_version).to eq expected_fm
     expect(fw_version).to eq expected_fw
   end
 
-  it 'First line of CHANGELOG should mention the version - did you forget to update CHANGELOG?' do
+  it "First line of CHANGELOG should mention the version - did you forget to update CHANGELOG?" do
     expect(%x{head -1 CHANGELOG}).to match /#{fm_version}/
   end
 
-  it 'README should mention the version' do
+  it "README should mention the version" do
     expect(%x{grep ^#{fm_version} README.md}).to match /#{fm_version}\|\d+\.\d+\.\d+/
   end
 
-  it '.README.erb should generate README.md' do
-    template = File.read('.README.erb')
-    readme = File.read('README.md')
-    renderer = ERB.new(template, nil, '-')
+  it ".README.erb should generate README.md" do
+    template = File.read(".README.erb")
+    readme = File.read("README.md")
+    renderer = ERB.new(template, nil, "-")
     expect(readme).to eq renderer.result()
   end
 end
