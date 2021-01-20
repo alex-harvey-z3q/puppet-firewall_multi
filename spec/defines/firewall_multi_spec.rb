@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe "firewall_multi" do
 
-  # while it doesn't make sense to pass all these parameters
+  # while it doesn"t make sense to pass all these parameters
   # into a firewall type we are testing the expected behaviour
   # of our multiplexer.
 
