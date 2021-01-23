@@ -47,13 +47,6 @@ Puppet::Functions.create_function(:firewall_multi) do
 
     hash.each do |title, params|
       if params.has_key?(param) and
-          params[param].nil?
-
-        p = params.dup
-        p.delete(param)
-        exploded[title] = p
-
-      elsif params.has_key?(param) and
           params[param].is_a?(Array)
 
         params[param].each do |val|

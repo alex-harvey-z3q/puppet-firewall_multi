@@ -1,7 +1,6 @@
 require "spec_helper"
 
 describe "firewall_multi" do
-
   context "when given a wrong number of arguments" do
     it "should fail" do
       expect {
@@ -36,26 +35,4 @@ describe "firewall_multi" do
       expect(subject.execute(input)).to eq output
     end
   end
-
-  context "handles nil" do
-    input = {
-      "00100 accept inbound ssh" => {
-        "action" => "accept",
-        "source" => nil,
-        "dport"  => 22,
-      },
-    }
-
-    output = {
-      "00100 accept inbound ssh" => {
-        "action" => "accept",
-        "dport"  => 22,
-      }
-    }
-
-    it "should convert hash into expected format" do
-      expect(subject.execute(input)).to eq output
-    end
-  end
 end
-
