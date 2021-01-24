@@ -19,6 +19,6 @@ RSpec.configure do |c|
   c.formatter = :documentation
   c.tty       = true
   c.default_facts = {
-    :ipaddress => "1.1.1.1",
+    ipaddress: "1.1.1.1"
   }
 end

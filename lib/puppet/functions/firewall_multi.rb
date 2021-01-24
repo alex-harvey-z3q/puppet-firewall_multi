@@ -42,12 +42,11 @@ Puppet::Functions.create_function(:firewall_multi) do
   end
 
   def explode(hash, param, string)
-    exploded = Hash.new
-    orig = hash.clone
+    exploded = {}
 
     hash.each do |title, params|
-      if params.has_key?(param) and
-          params[param].is_a?(Array)
+      if params.key?(param) &&
+         params[param].is_a?(Array)
 
         params[param].each do |val|
           new = [title, string, val].join(" ")
@@ -55,40 +54,21 @@ Puppet::Functions.create_function(:firewall_multi) do
           exploded[new][param] = val
         end
 
-      else
-        exploded[title] = params.clone
+        next
       end
+      exploded[title] = params.clone
     end
 
     exploded
   end
 
   def firewall_multi(hash)
-    rval = hash
-    rval = explode(rval,
-      param="source",
-      string="from"
-    )
-    rval = explode(rval,
-      param="destination",
-      string="to"
-    )
-    rval = explode(rval,
-      param="proto",
-      string="protocol"
-    )
-    rval = explode(rval,
-      param="icmp",
-      string="icmp type"
-    )
-    rval = explode(rval,
-      param="icmp",
-      string="icmp type"
-    )
-    rval = explode(rval,
-      param="provider",
-      string="using provider"
-    )
-    rval
+    hash = explode(hash, "source", "from")
+    hash = explode(hash, "destination", "to")
+    hash = explode(hash, "proto", "protocol")
+    hash = explode(hash, "icmp", "icmp type")
+    hash = explode(hash, "icmp", "icmp type")
+    hash = explode(hash, "provider", "using provider")
+    hash
   end
 end

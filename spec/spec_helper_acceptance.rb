@@ -17,11 +17,11 @@ RSpec.configure do |c|
   c.before :suite do
     # Install module and dependencies
     hosts.each do |host|
-      copy_module_to(host, :source => proj_root, :module_name => "firewall_multi")
-      on host, puppet("module install puppetlabs-firewall"), {:acceptable_exit_codes => [0,1]}
+      copy_module_to(host, source: proj_root, module_name: "firewall_multi")
+      on host, puppet("module install puppetlabs-firewall"), {acceptable_exit_codes: [0, 1]}
 
       # https://tickets.puppetlabs.com/browse/MODULES-3153
-      if os[:family] == "redhat" and os[:release] == "7"
+      if os[:family] == "redhat" && os[:release] == "7"
         on host, "yum -y install iptables-services"
         on host, "systemctl start iptables.service"
       end
