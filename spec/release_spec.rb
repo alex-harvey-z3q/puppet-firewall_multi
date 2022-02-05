@@ -9,6 +9,10 @@ metadata = JSON.parse(File.read("metadata.json"))
 fm_version = metadata["version"]
 fw_version = metadata["dependencies"][0]["version_requirement"]
 
+if fw_version =~ /</
+  fw_version = fw_version.split.last
+end
+
 # https://unix.stackexchange.com/a/283489/231569
 latest = `gsed -n '
   /## Version compatibility/ {
@@ -23,12 +27,16 @@ latest = `gsed -n '
 
 expected_fm, expected_fw = latest.split("|")
 
+if expected_fw =~ / /
+  expected_fw = expected_fw.split.last
+end
+
 describe "Release-related checks" do
   it "Version in metadata.json should match a tag - are you about to tag & release? If so, ignore." do
     expect(`git tag --sort=-creatordate | head -1`.chomp).to eq fm_version
   end
 
-  it "versions of this module in metadata.json should match those in the version matrix" do
+  it "Versions of this module in metadata.json should match those in the version matrix" do
     expect(fm_version).to eq expected_fm
   end
 
