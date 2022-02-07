@@ -33,7 +33,6 @@ jobs:
       - name: Install bundle
         env:
           PUPPET_GEM_VERSION: ${{ matrix.puppet }}
-        shell: bash
         run: |
           bundle config set --local without system_tests
           rm -f Gemfile.lock
@@ -42,7 +41,6 @@ jobs:
       - name: Build and test
         env:
           SPEC_OPTS: "--format documentation"
-        shell: bash
         run: |
           bundle exec rake validate
           bundle exec rake lint
