@@ -13,6 +13,7 @@ if fw_version =~ /</
   fw_version = fw_version.split.last
 end
 
+# Get the last line of the version matrix.
 # https://unix.stackexchange.com/a/283489/231569
 latest = `gsed -n '
   /## Version compatibility/ {
@@ -52,10 +53,10 @@ describe "Release-related checks" do
     expect(`grep ^#{fm_version} README.md`).to match %r{#{fm_version}\|\d+\.\d+\.\d+}
   end
 
-  it ".README.erb should generate README.md" do
-    template = File.read(".README.erb")
-    readme = File.read("README.md")
-    renderer = ERB.new(template, nil, "-")
-    expect(readme).to eq renderer.result
-  end
+#  it ".README.erb should generate README.md" do
+#    template = File.read(".README.erb")
+#    readme = File.read("README.md")
+#    renderer = ERB.new(template, nil, "-")
+#    expect(readme).to eq renderer.result
+#  end
 end
