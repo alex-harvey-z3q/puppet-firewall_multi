@@ -6,13 +6,14 @@
 #### Table of contents
 
 1. [Overview](#overview)
-2. [Version compatibility](#version-compatibility)
-3. [Setup](#setup)
+2. [Support status](#support-status)
+3. [Version compatibility](#version-compatibility)
+4. [Setup](#setup)
     * [What firewall_multi affects](#what-firewall_multi-affects)
     * [Setup requirements](#setup-requirements)
     * [Beginning with firewall_multi](#beginning-with-firewall_multi)
     * [Upgrading](#upgrading)
-4. [Reference](#reference)
+5. [Reference](#reference)
         - [Defined types](#defined-types)
         - [Functions](#functions)
     * [Defined types](#defined-types-2)
@@ -27,14 +28,14 @@
         - [Array of providers](#array-of-providers)
     * [Use with Hiera](#use-with-hiera)
     * [The alias lookup](#the-alias-lookup)
-5. [Development](#development)
+6. [Development](#development)
     * [Testing](#testing)
     * [Release](#release)
-6. [Troubleshooting](#troubleshooting)
+7. [Troubleshooting](#troubleshooting)
     * ["Error: no parameter named X"](#error-no-parameter-named-x)
     * [Resolution 1 - ensure you have the right version](#resolution-1---ensure-you-have-the-right-version)
     * [Resolution 2 - environment isolation](#resolution-2---environment-isolation)
-7. [Donate](#donate)
+8. [Donate](#donate)
 
 ## Overview
 
