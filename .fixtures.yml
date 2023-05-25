@@ -2,9 +2,7 @@
 # DO NOT EDIT IT HERE!
 
 fixtures:
-  repositories:
-    firewall: "https://github.com/puppetlabs/puppetlabs-firewall.git"
-  ref:
-    firewall: "tags/4.0.1"
+  forge_modules:
+    firewall: puppetlabs/firewall
   symlinks:
     firewall_multi: "#{source_dir}"

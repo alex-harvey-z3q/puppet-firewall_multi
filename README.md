@@ -83,7 +83,8 @@ earlier|1.8.0
 3.4.0|3.4.0
 3.5.0|3.5.0, 3.6.0
 4.0.0|4.0.0
-4.0.1|4.0.1
+4.0.1|4.0.1, 4.1.0
+5.0.0|5.0.0
 
 Note that Puppet 3 support was dropped in version 1.11.0. Note that the versioning was changed to 3.0.0 to match the upstream versioning without any changes made.
 
