@@ -1,3 +1,6 @@
+2023-05-26 - Version 4.0.0
+- No changes, releasing only to align versions.
+
 2022-09-02 - Version 3.5.0
 - Update to support changes in firewall 3.5.0.
 - Remove Puppet version constrain (Issue #32).
