@@ -393,7 +393,7 @@ Ensure you have these lines in `~/.bash_profile`:
 
     export BLACKSMITH_FORGE_URL=https://forgeapi.puppetlabs.com
     export BLACKSMITH_FORGE_USERNAME=alexharvey
-    export BLACKSMITH_FORGE_PASSWORD=xxxxxxxxx
+    export BLACKSMITH_FORGE_API_KEY=xxxxxxxx
 
 Build the module and push to Forge:
 
