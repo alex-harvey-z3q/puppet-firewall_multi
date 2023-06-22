@@ -96,7 +96,6 @@ define firewall_multi (
   $nflog_size                  = undef,
   $nflog_threshold             = undef,
   $notrack                     = undef,
-  $onduplicaterulebehaviour    = undef,
   $outiface                    = undef,
   $physdev_in                  = undef,
   $physdev_is_bridged          = undef,
