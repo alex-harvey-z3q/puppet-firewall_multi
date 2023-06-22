@@ -243,7 +243,6 @@ define firewall_multi (
         nflog_size                  => $nflog_size,
         nflog_threshold             => $nflog_threshold,
         notrack                     => $notrack,
-        onduplicaterulebehaviour    => $onduplicaterulebehaviour,
         outiface                    => $outiface,
         physdev_in                  => $physdev_in,
         physdev_is_bridged          => $physdev_is_bridged,
