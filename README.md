@@ -85,6 +85,7 @@ earlier|1.8.0
 4.0.0|4.0.0
 4.0.1|4.0.1, 4.1.0
 5.0.0|5.0.0
+6.0.0|6.0.0
 
 Note that Puppet 3 support was dropped in version 1.11.0. Note that the versioning was changed to 3.0.0 to match the upstream versioning without any changes made.
 
@@ -373,12 +374,18 @@ Make sure you have:
 * rake
 * bundler
 
+Pre config:
+
+    bundle config set specific_platform true
+    rm -f Gemfile.lock
+
 Install the necessary gems:
 
-    bundle install
+    bundle install --path vendor/bundle
 
 To run the tests from the root of the source code:
 
+    bundle exec rake spec_prep
     bundle exec rake spec
 
 To run the acceptance tests:
