@@ -6,12 +6,11 @@
 # @param [Array] destination An array of destination IPs or CIDRs.
 # @param [Array] proto An array of protocols.
 # @param [Array] icmp An array of ICMP types.
-# @param [Array] provider An array of providers.
+# @param [Array] protocol An array of protocols.
 #
 define firewall_multi (
   $ensure                      = undef,
-  $provider                    = undef,
-  $action                      = undef,
+  $protocol                    = undef,
   $burst                       = undef,
   $bytecode                    = undef,
   $cgroup                      = undef,
@@ -103,7 +102,6 @@ define firewall_multi (
   $physdev_is_out              = undef,
   $physdev_out                 = undef,
   $pkttype                     = undef,
-  $port                        = undef,
   $proto                       = undef,
   $queue_bypass                = undef,
   $queue_num                   = undef,
@@ -158,8 +156,7 @@ define firewall_multi (
     {
       $name => {
         ensure                      => $ensure,
-        provider                    => $provider,
-        action                      => $action,
+        protocol                    => $protocol,
         burst                       => $burst,
         bytecode                    => $bytecode,
         cgroup                      => $cgroup,
@@ -251,7 +248,6 @@ define firewall_multi (
         physdev_is_out              => $physdev_is_out,
         physdev_out                 => $physdev_out,
         pkttype                     => $pkttype,
-        port                        => $port,
         proto                       => $proto,
         queue_bypass                => $queue_bypass,
         queue_num                   => $queue_num,
