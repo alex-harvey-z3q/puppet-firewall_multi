@@ -322,8 +322,8 @@ describe "firewall_multi" do
     }
   end
 
-  context "when using two providers" do
-    providers = %w[
+  context "when using two protocols" do
+    protocols = %w[
       iptables
       ip6tables
     ]
@@ -334,19 +334,19 @@ describe "firewall_multi" do
         "jump" => "accept",
         "dport"  => %w[80 443],
         "proto"  => "tcp",
-        "provider" => providers
+        "protocol" => protocols
       }
     end
 
     it {
-      providers.each do |provider|
+      protocols.each do |protocol|
         is_expected.to contain_firewall(
-          "00100 accept on ports 80 and 443 using provider #{provider}"
+          "00100 accept on ports 80 and 443 using protocol #{protocol}"
         ).with(
           "jump"   => "accept",
           "dport"    => %w[80 443],
           "proto"    => "tcp",
-          "provider" => provider
+          "protocol" => protocol
         )
       end
     }
