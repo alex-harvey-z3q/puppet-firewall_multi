@@ -78,7 +78,7 @@
   "dependencies": [
     {
       "name": "puppetlabs/firewall",
-      "version_requirement": ">= 2.8.0 <= 6.0.0"
+      "version_requirement": ">= 2.8.0 <= 7.0.0"
     }
   ]
 }
