@@ -48,7 +48,7 @@ EOF
 }
 
 firewall_lib() {
-  cat "$path_to_firewall"'/lib/puppet/type/firewall.rb'
+  cat "$path_to_firewall"'/lib/puppet/provider/firewall/firewall.rb'
 }
 
 sort_cols() {
@@ -57,14 +57,10 @@ sort_cols() {
 
 first_transform() {
   firewall_lib \
-    | gsed -nE '
-      /^  new/ {
-        /(property|param)/ {
-          /:name/! {
-            s/^  newp.*\(:([^,\)]*).*/$\1 = undef,/p
-          }
-        }
-      }
+    | awk '
+      /\$resource_map = {/ { flag=1; next }
+      /^  }/ { flag=0 }
+      flag && /:/ { split($0, arr, ":"); gsub(/^[ \t]+|[ \t]+$/, "", arr[1]); print "$" arr[1] " = undef," }
     ' | sort_cols | gsed '
       s/^/  /
       s/ = /=/
@@ -73,14 +69,10 @@ first_transform() {
 
 second_transform() {
   firewall_lib \
-    | gsed -nE '
-      /^  new/ {
-        /(property|param)/ {
-          /:name/! {
-            s/^  newp.*\(:([^,\)]*).*/\1 => $\1,/p
-          }
-        }
-      }
+    | awk '
+      /\$resource_map = {/ { flag=1; next }
+      /^  }/ { flag=0 }
+      flag && /:/ { split($0, arr, ":"); gsub(/^[ \t]+|[ \t]+$/, "", arr[1]); print arr[1] " => $" arr[1] "," }
     ' | sort_cols | gsed '
       s/^/        /
       s/ => /=>/
