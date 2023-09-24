@@ -12,7 +12,7 @@ describe "firewall_multi" do
   context "when passed a hash" do
     input = {
       "00100 accept inbound ssh" => {
-        "action" => "accept",
+        "jump" => "accept",
         "source" => ["1.1.1.1/24", "2.2.2.2/24"],
         "dport"  => 22
       }
@@ -20,12 +20,12 @@ describe "firewall_multi" do
 
     output = {
       "00100 accept inbound ssh from 1.1.1.1/24" => {
-        "action" => "accept",
+        "jump" => "accept",
         "source" => "1.1.1.1/24",
         "dport"  => 22
       },
       "00100 accept inbound ssh from 2.2.2.2/24" => {
-        "action" => "accept",
+        "jump" => "accept",
         "source" => "2.2.2.2/24",
         "dport"  => 22
       }

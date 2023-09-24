@@ -15,7 +15,7 @@ describe "firewall_multi" do
           ],
           dport  => [80, 443],
           proto  => tcp,
-          action => accept,
+          jump   => accept,
         }
       CODE
 

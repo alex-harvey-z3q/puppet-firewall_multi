@@ -23,7 +23,7 @@ describe "firewall_multi" do
     let(:title) { "00100 accept on port 80" }
     let(:params) do
       {
-        "action" => "accept",
+        "jump" => "accept",
         "dport"  => "80",
         "proto"  => "tcp",
         "source"      => sources,
@@ -39,7 +39,7 @@ describe "firewall_multi" do
             is_expected.to contain_firewall(
               "00100 accept on port 80 from #{source} to #{dest} icmp type #{icmp}"
             ).with(
-              "action" => "accept",
+              "jump" => "accept",
               "dport"  => "80",
               "proto"  => "tcp",
               "source"      => source,
@@ -62,7 +62,7 @@ describe "firewall_multi" do
     let(:title) { "00100 accept on port 80" }
     let(:params) do
       {
-        "action" => "accept",
+        "jump" => "accept",
         "dport"  => "80",
         "proto"  => "tcp",
         "source"      => sources,
@@ -75,7 +75,7 @@ describe "firewall_multi" do
         is_expected.to contain_firewall(
           "00100 accept on port 80 from #{source}"
         ).with(
-          "action" => "accept",
+          "jump" => "accept",
           "dport"  => "80",
           "proto"  => "tcp",
           "source"      => source,
@@ -95,7 +95,7 @@ describe "firewall_multi" do
     let(:title) { "00100 accept on port 80" }
     let(:params) do
       {
-        "action" => "accept",
+        "jump" => "accept",
         "dport"  => "80",
         "proto"  => "tcp",
         "source" => sources
@@ -104,7 +104,7 @@ describe "firewall_multi" do
 
     it {
       is_expected.to contain_firewall("00100 accept on port 80 from #{source}").with(
-        "action" => "accept",
+        "jump" => "accept",
         "dport"  => "80",
         "proto"  => "tcp",
         "source" => source
@@ -121,7 +121,7 @@ describe "firewall_multi" do
     let(:title) { "00100 accept on port 80" }
     let(:params) do
       {
-        "action" => "accept",
+        "jump" => "accept",
         "dport"  => "80",
         "proto"  => "tcp",
         "destination" => destinations
@@ -132,7 +132,7 @@ describe "firewall_multi" do
       is_expected.to contain_firewall(
         "00100 accept on port 80 to 4.4.4.4/24"
       ).with(
-        "action" => "accept",
+        "jump" => "accept",
         "dport"  => "80",
         "proto"  => "tcp",
         "destination" => "4.4.4.4/24"
@@ -152,7 +152,7 @@ describe "firewall_multi" do
     let(:title) { "00100 accept on port 80" }
     let(:params) do
       {
-        "action" => "accept",
+        "jump" => "accept",
         "dport"  => "80",
         "proto"  => "tcp",
         "source"      => source,
@@ -164,7 +164,7 @@ describe "firewall_multi" do
       is_expected.to contain_firewall(
         "00100 accept on port 80 to #{destination}"
       ).with(
-        "action" => "accept",
+        "jump" => "accept",
         "dport"  => "80",
         "proto"  => "tcp",
         "source"      => source,
@@ -179,7 +179,7 @@ describe "firewall_multi" do
     let(:title) { "00100 accept on port 53" }
     let(:params) do
       {
-        "action" => "accept",
+        "jump" => "accept",
         "dport"  => "53",
         "proto"  => protocols
       }
@@ -190,7 +190,7 @@ describe "firewall_multi" do
         is_expected.to contain_firewall(
           "00100 accept on port 53 protocol #{protocol}"
         ).with(
-          "action" => "accept",
+          "jump" => "accept",
           "dport"  => "53",
           "proto"  => protocol
         )
@@ -206,7 +206,7 @@ describe "firewall_multi" do
       {
         "chain"  => "OUTPUT",
         "proto"  => "icmp",
-        "action" => "accept",
+        "jump" => "accept",
         "icmp"   => icmps
       }
     end
@@ -218,7 +218,7 @@ describe "firewall_multi" do
         ).with(
           "chain"  => "OUTPUT",
           "proto"  => "icmp",
-          "action" => "accept",
+          "jump" => "accept",
           "icmp"   => icmp
         )
       }
@@ -233,7 +233,7 @@ describe "firewall_multi" do
       {
         "chain"  => "OUTPUT",
         "proto"  => "icmp",
-        "action" => "accept",
+        "jump" => "accept",
         "icmp"   => icmps
       }
     end
@@ -242,7 +242,7 @@ describe "firewall_multi" do
       is_expected.to contain_firewall("00100 accept output icmp type 8").with(
         "chain"  => "OUTPUT",
         "proto"  => "icmp",
-        "action" => "accept",
+        "jump" => "accept",
         "icmp"   => "8"
       )
     }
@@ -255,7 +255,7 @@ describe "firewall_multi" do
     let(:title) { "00100 accept on port 80" }
     let(:params) do
       {
-        "action" => "accept",
+        "jump" => "accept",
         "dport"  => "80",
         "proto"  => "tcp"
       }
@@ -263,7 +263,7 @@ describe "firewall_multi" do
 
     it {
       is_expected.to contain_firewall("00100 accept on port 80").with(
-        "action" => "accept",
+        "jump" => "accept",
         "dport"  => "80",
         "proto"  => "tcp"
       )
@@ -274,7 +274,7 @@ describe "firewall_multi" do
     let(:title) { "00100 accept on port 80" }
     let(:params) do
       {
-        "action" => "accept",
+        "jump" => "accept",
         "dport"  => "80",
         "proto"  => "tcp",
         "source" => nil
@@ -283,7 +283,7 @@ describe "firewall_multi" do
 
     it {
       is_expected.to contain_firewall("00100 accept on port 80").with(
-        "action" => "accept",
+        "jump" => "accept",
         "dport"  => "80",
         "proto"  => "tcp",
         "source" => "nil"
@@ -301,7 +301,7 @@ describe "firewall_multi" do
     let(:title) { "00100 accept on port 80" }
     let(:params) do
       {
-        "action" => "accept",
+        "jump" => "accept",
         "dport"  => "80",
         "proto"  => "tcp",
         "source" => sources,
@@ -313,7 +313,7 @@ describe "firewall_multi" do
       is_expected.to contain_firewall(
         "00100 accept on port 80 from 1.1.1.1/24"
       ).with(
-        "action" => "accept",
+        "jump" => "accept",
         "dport"  => "80",
         "proto"  => "tcp",
         "source" => "1.1.1.1/24",
@@ -322,8 +322,8 @@ describe "firewall_multi" do
     }
   end
 
-  context "when using two providers" do
-    providers = %w[
+  context "when using two protocols" do
+    protocols = %w[
       iptables
       ip6tables
     ]
@@ -331,22 +331,22 @@ describe "firewall_multi" do
     let(:title) { "00100 accept on ports 80 and 443" }
     let(:params) do
       {
-        "action" => "accept",
+        "jump" => "accept",
         "dport"  => %w[80 443],
         "proto"  => "tcp",
-        "provider" => providers
+        "protocol" => protocols
       }
     end
 
     it {
-      providers.each do |provider|
+      protocols.each do |protocol|
         is_expected.to contain_firewall(
-          "00100 accept on ports 80 and 443 using provider #{provider}"
+          "00100 accept on ports 80 and 443 using protocol #{protocol}"
         ).with(
-          "action"   => "accept",
+          "jump"   => "accept",
           "dport"    => %w[80 443],
           "proto"    => "tcp",
-          "provider" => provider
+          "protocol" => protocol
         )
       end
     }
@@ -356,7 +356,7 @@ describe "firewall_multi" do
     let(:title) { "00100 accept on port 80" }
     let(:params) do
       {
-        "action" => "accept",
+        "jump" => "accept",
         "dport"  => "80",
         "proto"  => "tcp",
         "source"      => "1.1.1.1/24",
@@ -367,7 +367,7 @@ describe "firewall_multi" do
 
     it {
       is_expected.to contain_firewall("00100 accept on port 80").with(
-        "action"      => "accept",
+        "jump"      => "accept",
         "dport"       => "80",
         "proto"       => "tcp",
         "source"      => "1.1.1.1/24",

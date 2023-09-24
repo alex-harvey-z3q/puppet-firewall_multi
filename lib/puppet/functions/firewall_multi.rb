@@ -68,7 +68,7 @@ Puppet::Functions.create_function(:firewall_multi) do
     hash = explode(hash, "proto", "protocol")
     hash = explode(hash, "icmp", "icmp type")
     hash = explode(hash, "icmp", "icmp type")
-    hash = explode(hash, "provider", "using provider")
+    hash = explode(hash, "protocol", "using protocol")
     hash
   end
 end
