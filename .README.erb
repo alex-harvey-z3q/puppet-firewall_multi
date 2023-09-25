@@ -77,7 +77,12 @@ earlier|1.8.0
 1.20.0|2.8.0, 2.8.1
 3.0.0|3.0.0, 3.0.1, 3.0.2, 3.1.0, 3.2.0, 3.3.0
 3.4.0|3.4.0
-3.5.0|3.5.0
+3.5.0|3.5.0, 3.6.0
+4.0.0|4.0.0
+4.0.1|4.0.1, 4.1.0
+5.0.0|5.0.0
+6.0.0|6.0.0
+7.0.0|7.0.0, 7.0.1, 7.0.2
 
 Note that Puppet 3 support was dropped in version 1.11.0. Note that the versioning was changed to 3.0.0 to match the upstream versioning without any changes made.
 
@@ -287,12 +292,18 @@ Make sure you have:
 * rake
 * bundler
 
+Pre config:
+
+    bundle config set specific_platform true
+    rm -f Gemfile.lock
+
 Install the necessary gems:
 
-    bundle install
+    bundle install --path vendor/bundle
 
 To run the tests from the root of the source code:
 
+    bundle exec rake spec_prep
     bundle exec rake spec
 
 To run the acceptance tests:
@@ -307,7 +318,7 @@ Ensure you have these lines in `~/.bash_profile`:
 
     export BLACKSMITH_FORGE_URL=https://forgeapi.puppetlabs.com
     export BLACKSMITH_FORGE_USERNAME=alexharvey
-    export BLACKSMITH_FORGE_PASSWORD=xxxxxxxxx
+    export BLACKSMITH_FORGE_API_KEY=xxxxxxxx
 
 Build the module and push to Forge:
 

@@ -1,6 +1,6 @@
 {
   "name": "alexharvey-firewall_multi",
-  "version": "6.0.0",
+  "version": "7.0.0",
   "author": "Alex Harvey",
   "summary": "A multiplexer frontend for puppetlabs/firewall",
   "license": "MIT",
@@ -78,7 +78,7 @@
   "dependencies": [
     {
       "name": "puppetlabs/firewall",
-      "version_requirement": ">= 7.0.0 < 8.0.0"
+      "version_requirement": "7.0.2"
     }
   ]
 }
