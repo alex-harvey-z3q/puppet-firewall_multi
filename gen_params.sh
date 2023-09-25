@@ -16,11 +16,11 @@ header() {
 # @param [Array] destination An array of destination IPs or CIDRs.
 # @param [Array] proto An array of protocols.
 # @param [Array] icmp An array of ICMP types.
-# @param [Array] provider An array of providers.
+# @param [Array] protocol An array of protocols.
 #
 define firewall_multi (
   $ensure                      = undef,
-  $provider                    = undef,
+  $protocol                    = undef,
 EOF
 }
 
@@ -32,7 +32,7 @@ middle() {
     {
       $name => {
         ensure                      => $ensure,
-        provider                    => $provider,
+        protocol                    => $protocol,
 EOF
 }
 
