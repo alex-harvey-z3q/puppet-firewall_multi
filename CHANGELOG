@@ -1,4 +1,7 @@
-2023009-25 - Version 7.0.0
+2023-09-26 - Version 7.0.1
+- Bugfix to remove name param (@robertc99)
+
+2023-09-25 - Version 7.0.0
 - Update to support changes in firewall 7.0.0 (thanks @robertc99)
 - Also support 7.0.1 and 7.0.2
 - Update gen_params.sh
