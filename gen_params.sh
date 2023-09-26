@@ -76,24 +76,28 @@ transform() {
 
   firewall_lib |
   awk -v mode="$mode" '
+    BEGIN {
+      trim = "^[ \t]+|[ \t]+$"
+    }
+
     /\$resource_map = {/ {
       flag=1
       next
     }
 
     /^  }/ {
-      flag=0
+      exit
     }
 
-    flag && /:/ && !/^[[:space:]]*name:/ {
+    !/^[[:space:]]*name:/ && flag {
       split($0, arr, ":")
+      gsub(trim, "", arr[1])
 
-      gsub(/^[ \t]+|[ \t]+$/, "", arr[1])
-
-      if (mode == "1")
+      if (mode == "1") {
         print "$" arr[1] " = undef,"
-      else
+      } else if (mode == "2") {
         print arr[1] " => $" arr[1] ","
+      }
     }
   ' |
   sort |
