@@ -1,9 +1,21 @@
 #!/usr/bin/env bash
 
+if [ "$(uname -s)" == "Darwin" ] ; then
+  if [ ! -x /usr/local/bin/gsed ] ; then
+    echo "On Mac OS X you need to install gnu-sed:"
+    echo "$ brew install gnu-sed"
+    exit 1
+  fi
+
+  shopt -s expand_aliases
+  alias sed='/usr/local/bin/gsed'
+fi
+
 usage() {
   echo "Usage: bash $0 > manifests/init.pp"
   exit 1
 }
+
 [ "$1" == -h ] && usage
 
 header() {
@@ -51,39 +63,52 @@ firewall_lib() {
   cat "$path_to_firewall"'/lib/puppet/provider/firewall/firewall.rb'
 }
 
-sort_cols() {
-  sort | column -t
-}
+transform() {
+  local mode="$1"
+  local indent
 
-first_transform() {
-  firewall_lib \
-    | awk '
-      /\$resource_map = {/ { flag=1; next }
-      /^  }/ { flag=0 }
-      flag && /:/ { split($0, arr, ":"); gsub(/^[ \t]+|[ \t]+$/, "", arr[1]); print "$" arr[1] " = undef," }
-    ' | sort_cols | gsed '
-      s/^/  /
-      s/ = /=/
-    '
-}
+  case "$mode" in
+    1) indent="  "
+      ;;
+    2) indent="        "
+      ;;
+  esac
 
-second_transform() {
-  firewall_lib \
-    | awk '
-      /\$resource_map = {/ { flag=1; next }
-      /^  }/ { flag=0 }
-      flag && /:/ { split($0, arr, ":"); gsub(/^[ \t]+|[ \t]+$/, "", arr[1]); print arr[1] " => $" arr[1] "," }
-    ' | sort_cols | gsed '
-      s/^/        /
-      s/ => /=>/
-    '
+  firewall_lib |
+  awk -v mode="$mode" '
+    /\$resource_map = {/ {
+      flag=1
+      next
+    }
+
+    /^  }/ {
+      flag=0
+    }
+
+    flag && /:/ && !/^[[:space:]]*name:/ {
+      split($0, arr, ":")
+
+      gsub(/^[ \t]+|[ \t]+$/, "", arr[1])
+
+      if (mode == "1")
+        print "$" arr[1] " = undef,"
+      else
+        print arr[1] " => $" arr[1] ","
+    }
+  ' |
+  sort |
+  column -t |
+  sed '
+    s/^/'"$indent"'/
+    s/ = /=/
+  '
 }
 
 main() {
   header
-  first_transform
+  transform "1"
   middle
-  second_transform
+  transform "2"
   footer
 }
 
