@@ -86,7 +86,7 @@ transform() {
     }
 
     /^  }/ {
-      exit
+      flag=0
     }
 
     !/^[[:space:]]*name:/ && flag {
