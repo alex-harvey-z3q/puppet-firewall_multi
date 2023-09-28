@@ -6,11 +6,9 @@
 # @param [Array] destination An array of destination IPs or CIDRs.
 # @param [Array] proto An array of protocols.
 # @param [Array] icmp An array of ICMP types.
-# @param [Array] protocol An array of protocols.
 #
 define firewall_multi (
   $ensure                      = undef,
-  $protocol                    = undef,
   $burst                       = undef,
   $bytecode                    = undef,
   $cgroup                      = undef,
@@ -78,6 +76,7 @@ define firewall_multi (
   $kernel_timezone             = undef,
   $length                      = undef,
   $limit                       = undef,
+  $line                        = undef,
   $log_ip_options              = undef,
   $log_level                   = undef,
   $log_prefix                  = undef,
@@ -103,6 +102,7 @@ define firewall_multi (
   $physdev_out                 = undef,
   $pkttype                     = undef,
   $proto                       = undef,
+  $protocol                    = undef,
   $queue_bypass                = undef,
   $queue_num                   = undef,
   $random                      = undef,
@@ -137,6 +137,7 @@ define firewall_multi (
   $string_from                 = undef,
   $string_hex                  = undef,
   $string_to                   = undef,
+  $table                       = undef,
   $tcp_flags                   = undef,
   $tcp_option                  = undef,
   $time_contiguous             = undef,
@@ -155,8 +156,7 @@ define firewall_multi (
   $firewalls = firewall_multi(
     {
       $name => {
-        ensure                      => $ensure,
-        protocol                    => $protocol,
+        ensure                       =>  $ensure,
         burst                        =>  $burst,
         bytecode                     =>  $bytecode,
         cgroup                       =>  $cgroup,
@@ -224,6 +224,7 @@ define firewall_multi (
         kernel_timezone              =>  $kernel_timezone,
         length                       =>  $length,
         limit                        =>  $limit,
+        line                         =>  $line,
         log_ip_options               =>  $log_ip_options,
         log_level                    =>  $log_level,
         log_prefix                   =>  $log_prefix,
@@ -249,6 +250,7 @@ define firewall_multi (
         physdev_out                  =>  $physdev_out,
         pkttype                      =>  $pkttype,
         proto                        =>  $proto,
+        protocol                     =>  $protocol,
         queue_bypass                 =>  $queue_bypass,
         queue_num                    =>  $queue_num,
         random                       =>  $random,
@@ -283,6 +285,7 @@ define firewall_multi (
         string_from                  =>  $string_from,
         string_hex                   =>  $string_hex,
         string_to                    =>  $string_to,
+        table                        =>  $table,
         tcp_flags                    =>  $tcp_flags,
         tcp_option                   =>  $tcp_option,
         time_contiguous              =>  $time_contiguous,

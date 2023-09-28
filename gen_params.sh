@@ -28,11 +28,9 @@ header() {
 # @param [Array] destination An array of destination IPs or CIDRs.
 # @param [Array] proto An array of protocols.
 # @param [Array] icmp An array of ICMP types.
-# @param [Array] protocol An array of protocols.
 #
 define firewall_multi (
   $ensure                      = undef,
-  $protocol                    = undef,
 EOF
 }
 
@@ -43,8 +41,7 @@ middle() {
   $firewalls = firewall_multi(
     {
       $name => {
-        ensure                      => $ensure,
-        protocol                    => $protocol,
+        ensure                       =>  $ensure,
 EOF
 }
 
@@ -60,7 +57,7 @@ EOF
 }
 
 firewall_lib() {
-  cat "$path_to_firewall"'/lib/puppet/provider/firewall/firewall.rb'
+  cat "$path_to_firewall"'/lib/puppet/type/firewall.rb'
 }
 
 transform() {
@@ -80,7 +77,7 @@ transform() {
       trim = "^[ \t]+|[ \t]+$"
     }
 
-    /\$resource_map = {/ {
+    /^  attributes: {/ {
       flag=1
       next
     }
@@ -89,7 +86,10 @@ transform() {
       flag=0
     }
 
-    !/^[[:space:]]*name:/ && flag {
+    /^    [^ }]/ && flag {
+      if (/^  *name:/) next
+      if (/^  *ensure:/) next
+
       split($0, arr, ":")
       gsub(trim, "", arr[1])
 
