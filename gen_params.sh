@@ -11,6 +11,13 @@ if [ "$(uname -s)" == "Darwin" ] ; then
   alias sed='/usr/local/bin/gsed'
 fi
 
+path_to_firewall=../puppetlabs-firewall  # Path to wherever the firewall module
+                                         # is checked out.
+
+_firewall_lib() {
+  cat "$path_to_firewall"'/lib/puppet/type/firewall.rb'
+}
+
 usage() {
   echo "Usage: bash $0 > manifests/init.pp"
   exit 1
@@ -56,10 +63,6 @@ footer() {
 EOF
 }
 
-firewall_lib() {
-  cat "$path_to_firewall"'/lib/puppet/type/firewall.rb'
-}
-
 transform() {
   local mode="$1"
   local indent
@@ -71,7 +74,7 @@ transform() {
       ;;
   esac
 
-  firewall_lib |
+  _firewall_lib |
   awk -v mode="$mode" '
     BEGIN {
       trim = "^[ \t]+|[ \t]+$"
@@ -86,7 +89,8 @@ transform() {
       flag=0
     }
 
-    /^    [^ }]/ && flag {
+    /^    [^ }]/ {
+      if (!flag) next
       if (/^  *name:/) next
       if (/^  *ensure:/) next
 
@@ -115,8 +119,6 @@ main() {
   transform "2"
   footer
 }
-
-path_to_firewall=../puppetlabs-firewall
 
 if [ "$0" == "${BASH_SOURCE[0]}" ] ; then
   main
