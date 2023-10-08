@@ -5,7 +5,16 @@ require "spec_helper"
 require "json"
 require "erb"
 
-metadata = JSON.parse(File.read("metadata.json"))
+PUPPETLABS_FIREWALL_DIR = "../puppetlabs-firewall"
+
+def read_metadata_from_path(path)
+  file_path = File.join(path, "metadata.json")
+  JSON.parse(File.read(file_path))
+end
+
+metadata = read_metadata_from_path(".")
+fw_metadata = read_metadata_from_path(PUPPETLABS_FIREWALL_DIR)
+
 fm_version = metadata["version"]
 fw_version = metadata["dependencies"][0]["version_requirement"]
 
@@ -53,10 +62,14 @@ describe "Release-related checks" do
     expect(`grep ^#{fm_version} README.md`).to match %r{#{fm_version}\|\d+\.\d+\.\d+}
   end
 
-#  it ".README.erb should generate README.md" do
-#    template = File.read(".README.erb")
-#    readme = File.read("README.md")
-#    renderer = ERB.new(template, nil, "-")
-#    expect(readme).to eq renderer.result
-#  end
+  it ".README.erb should generate README.md" do
+    template = File.read(".README.erb")
+    readme = File.read("README.md")
+    renderer = ERB.new(template, nil, "-")
+    expect(readme).to eq renderer.result
+  end
+
+  it "operatingsystem_support should equal upstream firewall" do
+    expect(metadata["operatingsystem_support"]).to eq fw_metadata["operatingsystem_support"]
+  end
 end
