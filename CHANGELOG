@@ -1,3 +1,6 @@
+2023-10-08 - Version 7.0.3
+- Issue #39 - update supported operating systems.
+
 2023-09-26 - Version 7.0.2
 - Further corrections to gen_params.sh and bugfix from it.
 
