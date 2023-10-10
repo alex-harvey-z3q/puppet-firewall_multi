@@ -212,7 +212,7 @@ firewall_multi { '100 allow http and https access':
   ],
   dport  => [80, 443],
   proto  => tcp,
-  action => accept,
+  jump => accept,
 }
 ```
 
@@ -236,7 +236,7 @@ firewall_multi { '100 allow http and https access':
   ],
   dport  => [80, 443],
   proto  => tcp,
-  action => accept,
+  jump => accept,
 }
 ```
 
@@ -253,7 +253,7 @@ This will cause four resources to be created:
 firewall_multi { '100 allow DNS lookups':
   dport  => 53,
   proto  => ['tcp', 'udp'],
-  action => 'accept',
+  jump => 'accept',
 }
 ```
 
@@ -268,7 +268,7 @@ This will cause two resources to be created:
 firewall_multi { '100 accept icmp output':
   chain  => 'OUTPUT',
   proto  => 'icmp',
-  action => 'accept',
+  jump => 'accept',
   icmp   => [0, 8],
 }
 ```
@@ -278,7 +278,7 @@ This will cause two resources to be created:
 * Firewall['100 accept icmp output icmp type 0']
 * Firewall['100 accept icmp output icmp type 8']
 
-#### Array of providers
+#### Array of protocols
 
 Open a firewall for IPv4 and IPv6 on a web server:
 
@@ -286,15 +286,15 @@ Open a firewall for IPv4 and IPv6 on a web server:
 firewall_multi { '100 allow http and https access':
   dport    => [80, 443],
   proto    => 'tcp',
-  action   => 'accept',
-  provider => ['ip6tables', 'iptables'],
+  jump   => 'accept',
+  protocol => ['ip6tables', 'iptables'],
 }
 ```
 
 This will cause two resources to be created:
 
-* Firewall['100 allow http and https access using provider ip6tables']
-* Firewall['100 allow http and https access using provider iptables']
+* Firewall['100 allow http and https access using protocol ip6tables']
+* Firewall['100 allow http and https access using protocol iptables']
 
 ### Use with Hiera
 
@@ -305,7 +305,7 @@ Some users may prefer to externalise firewall resources in Hiera. For example:
 myclass::firewall_multis:
   '00099 accept tcp port 22 for ssh':
     dport: '22'
-    action: 'accept'
+    jump: 'accept'
     proto: 'tcp'
     source:
       - 10.0.0.3/32
@@ -355,12 +355,12 @@ myotherdomains:
 myclass::firewall_multis:
   '00099 accept tcp port 22 for ssh':
     dport: '22'
-    action: 'accept'
+    jump: 'accept'
     proto: 'tcp'
     source: "%{alias('mylocaldomains')}"
   '00200 accept tcp port 80 for http':
     dport: '80'
-    action: 'accept'
+    jump: 'accept'
     proto: 'tcp'
     source: "%{alias('myotherdomains')}"
 ```
