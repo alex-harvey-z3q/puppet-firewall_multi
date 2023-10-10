@@ -162,7 +162,7 @@ Convert firewall_multi type data to firewall type data.
 [
   {
     "00100 accept inbound ssh" => {
-      "action" => "accept",
+      "jump" => "accept",
       "source" => ["1.1.1.1/24", "2.2.2.2/24"],
       "dport"  => 22,
     },
@@ -175,12 +175,12 @@ Return this:
 ```ruby
 {
   "00100 accept inbound ssh from 1.1.1.1/24" => {
-    "action" => "accept",
+    "jump" => "accept",
     "source" => "1.1.1.1/24",
     "dport"  => 22,
   },
   "00100 accept inbound ssh from 2.2.2.2/24" => {
-    "action" => "accept",
+    "jump" => "accept",
     "source" => "2.2.2.2/24",
     "dport"  => 22,
   },

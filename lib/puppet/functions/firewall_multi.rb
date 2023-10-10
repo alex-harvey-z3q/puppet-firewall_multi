@@ -9,7 +9,7 @@ Puppet::Functions.create_function(:firewall_multi) do
   #   [
   #     {
   #       "00100 accept inbound ssh" => {
-  #         "action" => "accept",
+  #         "jump" => "accept",
   #         "source" => ["1.1.1.1/24", "2.2.2.2/24"],
   #         "dport"  => 22,
   #       },
@@ -22,12 +22,12 @@ Puppet::Functions.create_function(:firewall_multi) do
   #   ```ruby
   #   {
   #     "00100 accept inbound ssh from 1.1.1.1/24" => {
-  #       "action" => "accept",
+  #       "jump" => "accept",
   #       "source" => "1.1.1.1/24",
   #       "dport"  => 22,
   #     },
   #     "00100 accept inbound ssh from 2.2.2.2/24" => {
-  #       "action" => "accept",
+  #       "jump" => "accept",
   #       "source" => "2.2.2.2/24",
   #       "dport"  => 22,
   #     },
