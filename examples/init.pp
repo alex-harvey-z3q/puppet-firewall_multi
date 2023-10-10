@@ -1,6 +1,6 @@
 # declare a resource
 firewall_multi { '00100 accept on port 80':
-  action => 'accept',
+  jump => 'accept',
   dport  => 80,
   proto  => 'tcp',
   source => [
@@ -15,7 +15,7 @@ firewall_multi { '00100 accept on port 80':
 
 # example using dst_range instead.
 firewall_multi { '00100 accept on port 80':
-  action => 'accept',
+  jump => 'accept',
   dport  => 80,
   proto  => 'tcp',
   source => [

@@ -25,7 +25,7 @@
         - [Arrays of sources and destinations](#arrays-of-sources-and-destinations)
         - [Array of protocols](#array-of-protocols)
         - [Array of ICMP types](#array-of-icmp-types)
-        - [Array of providers](#array-of-providers)
+        - [Array of protocols](#array-of-protocols-2)
     * [Use with Hiera](#use-with-hiera)
     * [The alias lookup](#the-alias-lookup)
 6. [Development](#development)
