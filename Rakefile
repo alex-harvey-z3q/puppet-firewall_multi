@@ -15,6 +15,6 @@ desc "Generate the docs"
 task :docs do
   require "erb"
   template = File.read(".README.erb")
-  renderer = ERB.new(template, nil, "-")
+  renderer = ERB.new(template, trim_mode: "-")
   File.write("README.md", renderer.result)
 end
