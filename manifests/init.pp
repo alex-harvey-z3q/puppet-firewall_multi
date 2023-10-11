@@ -4,7 +4,7 @@
 #
 # @param [Array] source An array of source IPs or CIDRs.
 # @param [Array] destination An array of destination IPs or CIDRs.
-# @param [Array] proto An array of protocols.
+# @param [Array] proto An array of proto's.
 # @param [Array] icmp An array of ICMP types.
 #
 define firewall_multi (

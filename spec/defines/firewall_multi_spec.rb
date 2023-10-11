@@ -173,26 +173,26 @@ describe "firewall_multi" do
     }
   end
 
-  context "when an array of protocols" do
-    protocols = %w[tcp udp]
+  context "when an array of protos" do
+    protos = %w[tcp udp]
 
     let(:title) { "00100 accept on port 53" }
     let(:params) do
       {
         "jump" => "accept",
         "dport"  => "53",
-        "proto"  => protocols
+        "proto"  => protos
       }
     end
 
-    protocols.each do |protocol|
+    protos.each do |proto|
       it {
         is_expected.to contain_firewall(
-          "00100 accept on port 53 protocol #{protocol}"
+          "00100 accept on port 53 proto #{proto}"
         ).with(
           "jump" => "accept",
           "dport"  => "53",
-          "proto"  => protocol
+          "proto"  => proto
         )
       }
     end

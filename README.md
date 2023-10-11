@@ -23,9 +23,9 @@
     * [Examples](#examples)
         - [Array of sources](#array-of-sources)
         - [Arrays of sources and destinations](#arrays-of-sources-and-destinations)
-        - [Array of protocols](#array-of-protocols)
+        - [Array of proto's](#array-of-protos)
         - [Array of ICMP types](#array-of-icmp-types)
-        - [Array of protocols](#array-of-protocols-2)
+        - [Array of protocols](#array-of-protocols)
     * [Use with Hiera](#use-with-hiera)
     * [The alias lookup](#the-alias-lookup)
 6. [Development](#development)
@@ -247,7 +247,7 @@ This will cause four resources to be created:
 * Firewall['100 allow http and https access from 10.0.12.0/24 to 10.2.0.0/24']
 * Firewall['100 allow http and https access from 10.0.12.0/24 to 10.3.0.0/24']
 
-#### Array of protocols
+#### Array of proto's
 
 ```puppet
 firewall_multi { '100 allow DNS lookups':
@@ -259,8 +259,8 @@ firewall_multi { '100 allow DNS lookups':
 
 This will cause two resources to be created:
 
-* Firewall['100 allow DNS lookups protocol tcp']
-* Firewall['100 allow DNS lookups protocol udp']
+* Firewall['100 allow DNS lookups proto tcp']
+* Firewall['100 allow DNS lookups proto udp']
 
 #### Array of ICMP types
 
