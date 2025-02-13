@@ -299,7 +299,7 @@ define firewall_multi (
         uid                          =>  $uid,
         week_days                    =>  $week_days,
         zone                         =>  $zone,
-      }
+      }.filter |$_key, $val| { $val =~ NotUndef }
     }
   )
 
