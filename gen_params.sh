@@ -1,14 +1,17 @@
 #!/usr/bin/env bash
 
 if [ "$(uname -s)" == "Darwin" ] ; then
-  if [ ! -x /usr/local/bin/gsed ] ; then
-    echo "On Mac OS X you need to install gnu-sed:"
+  brew_prefix="$(brew --prefix 2>/dev/null)"
+
+  if [ ! -x "$brew_prefix"/bin/gsed ] ; then
+    echo "On MacOS you need to install gnu-sed:"
     echo "$ brew install gnu-sed"
     exit 1
   fi
 
   shopt -s expand_aliases
-  alias sed='/usr/local/bin/gsed'
+  # shellcheck disable=SC2139
+  alias sed="$brew_prefix"/bin/gsed
 fi
 
 path_to_firewall=../puppetlabs-firewall  # Path to wherever the firewall module
