@@ -46,7 +46,8 @@
       "operatingsystem": "Debian",
       "operatingsystemrelease": [
         "10",
-        "11"
+        "11",
+        "12"
       ]
     },
     {
@@ -54,7 +55,8 @@
       "operatingsystemrelease": [
         "18.04",
         "20.04",
-        "22.04"
+        "22.04",
+        "24.04"
       ]
     },
     {
@@ -79,7 +81,7 @@
   "dependencies": [
     {
       "name": "puppetlabs/firewall",
-      "version_requirement": ">= 8.0.1 <= 8.1.7"
+      "version_requirement": ">= 8.0.1 <= 8.3.0"
     }
   ]
 }

@@ -65,7 +65,7 @@ describe "Release-related checks" do
   it ".README.erb should generate README.md" do
     template = File.read(".README.erb")
     readme = File.read("README.md")
-    renderer = ERB.new(template, nil, "-")
+    renderer = ERB.new(template, trim_mode: "-")
     expect(readme).to eq renderer.result
   end
 

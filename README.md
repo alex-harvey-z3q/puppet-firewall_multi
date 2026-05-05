@@ -49,6 +49,7 @@ At present the following inputs can be arrays:
 * destination
 * proto
 * icmp
+* protocol
 
 ## Support status
 
@@ -90,7 +91,7 @@ earlier|1.8.0
 7.0.2|7.0.0, 7.0.1, 7.0.2
 7.0.3|7.0.0, 7.0.1, 7.0.2
 8.0.0|8.0.0
-8.0.1|8.0.1, 8.0.2, 8.0.3, 8.1.0, 8.1.1, 8.1.2, 8.1.3 8.1.4 8.1.5 8.1.6 8.1.7 8.2.0
+8.0.1|8.0.1, 8.0.2, 8.0.3, 8.1.0, 8.1.1, 8.1.2, 8.1.3 8.1.4 8.1.5 8.1.6 8.1.7 8.2.0 8.3.0
 
 Note that Puppet 3 support was dropped in version 1.11.0. Note that the versioning was changed to 3.0.0 to match the upstream versioning without any changes made.
 
@@ -146,10 +147,11 @@ resources for arrays of certain inputs.
 
 The following parameters are available in the `firewall_multi` defined type:
 
-* [`source`](#-firewall_multi--source)
-* [`destination`](#-firewall_multi--destination)
-* [`proto`](#-firewall_multi--proto)
-* [`icmp`](#-firewall_multi--icmp)
+* [`source`](#source)
+* [`destination`](#destination)
+* [`proto`](#proto)
+* [`icmp`](#icmp)
+* [`protocol`](#protocol)
 ### Functions
 
 #### <a name="firewall_multi"></a>`firewall_multi`

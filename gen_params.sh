@@ -38,6 +38,7 @@ header() {
 # @param [Array] destination An array of destination IPs or CIDRs.
 # @param [Array] proto An array of proto's.
 # @param [Array] icmp An array of ICMP types.
+# @param [Array] protocol An array of protocols.
 #
 define firewall_multi (
   $ensure                      = undef,
