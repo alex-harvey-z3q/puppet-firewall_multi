@@ -16,3 +16,10 @@ task :docs do
   renderer = ERB.new(template, trim_mode: "-")
   File.write("README.md", renderer.result)
 end
+
+desc "Run ShellCheck"
+task :shellcheck do
+  sh "shellcheck gen_params.sh"
+end
+
+task lint: :shellcheck
