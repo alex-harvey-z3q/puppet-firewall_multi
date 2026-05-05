@@ -216,7 +216,7 @@ firewall_multi { '100 allow http and https access':
   ],
   dport  => [80, 443],
   proto  => tcp,
-  jump => accept,
+  jump   => accept,
 }
 ```
 
@@ -240,7 +240,7 @@ firewall_multi { '100 allow http and https access':
   ],
   dport  => [80, 443],
   proto  => tcp,
-  jump => accept,
+  jump   => accept,
 }
 ```
 
@@ -257,7 +257,7 @@ This will cause four resources to be created:
 firewall_multi { '100 allow DNS lookups':
   dport  => 53,
   proto  => ['tcp', 'udp'],
-  jump => 'accept',
+  jump   => 'accept',
 }
 ```
 
@@ -272,7 +272,7 @@ This will cause two resources to be created:
 firewall_multi { '100 accept icmp output':
   chain  => 'OUTPUT',
   proto  => 'icmp',
-  jump => 'accept',
+  jump   => 'accept',
   icmp   => [0, 8],
 }
 ```
@@ -290,7 +290,7 @@ Open a firewall for IPv4 and IPv6 on a web server:
 firewall_multi { '100 allow http and https access':
   dport    => [80, 443],
   proto    => 'tcp',
-  jump   => 'accept',
+  jump     => 'accept',
   protocol => ['ip6tables', 'iptables'],
 }
 ```
