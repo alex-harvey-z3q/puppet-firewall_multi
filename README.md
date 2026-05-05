@@ -23,7 +23,7 @@
     * [Examples](#examples)
         - [Array of sources](#array-of-sources)
         - [Arrays of sources and destinations](#arrays-of-sources-and-destinations)
-        - [Array of proto's](#array-of-protos)
+        - [Array of protos](#array-of-protos)
         - [Array of ICMP types](#array-of-icmp-types)
         - [Array of protocols](#array-of-protocols)
     * [Use with Hiera](#use-with-hiera)
@@ -39,11 +39,11 @@
 
 ## Overview
 
-The `firewall_multi` module provides a defined type wrapper for spawning [puppetlabs/firewall](https://github.com/puppetlabs/puppetlabs-firewall) resources for arrays of certain inputs. This is useful at large sites that may have many networks, due to the puppetlabs-firewall module lacking functionality to allow arrays for certain inputs. The limitation is due to the underlying Linux iptables command, which also only allows arrays for certain inputs.
+The `firewall_multi` module provides a defined type wrapper for spawning [puppetlabs/firewall](https://github.com/puppetlabs/puppetlabs-firewall) resources from arrays of certain inputs. This is useful at large sites with many networks, because puppetlabs-firewall accepts only scalar values for those inputs. The limitation comes from the underlying Linux iptables command, which does not support multiple values for every option.
 
 (For more information about the history and motivation for this project, see [MODULES-3066](https://tickets.puppetlabs.com/browse/MODULES-3066) in the Puppet Jira.)
 
-At present the following inputs can be arrays:
+Currently, the following inputs can be arrays:
 
 * source
 * destination
@@ -93,7 +93,7 @@ earlier|1.8.0
 8.0.0|8.0.0
 8.0.1|8.0.1, 8.0.2, 8.0.3, 8.1.0, 8.1.1, 8.1.2, 8.1.3, 8.1.4, 8.1.5, 8.1.6, 8.1.7, 8.2.0, 8.3.0
 
-Note that Puppet 3 support was dropped in version 1.11.0. Note that the versioning was changed to 3.0.0 to match the upstream versioning without any changes made.
+Puppet 3 support was dropped in version 1.11.0. The versioning was changed to 3.0.0 to match upstream firewall versioning, without any code changes.
 
 ## Setup
 
@@ -107,13 +107,13 @@ The firewall_multi module's only dependency is the firewall module.
 
 ### Beginning with firewall_multi
 
-It is expected that a standard set up for the firewall module is followed, in particular with respect to the purging of firewall resources. If, for instance, addresses are removed from an array of sources, the corresponding firewall resources would only be removed if purging is enabled. This might be surprising in a way that impacts security.
+It is expected that the firewall module is configured normally, in particular with respect to purging firewall resources. If, for instance, addresses are removed from an array of sources, the corresponding firewall resources are only removed if purging is enabled. This might be surprising in a way that impacts security.
 
 Otherwise, usage of the firewall_multi defined type is the same as with the firewall custom type, the only exceptions being that some parameters optionally accept arrays.
 
 ### Upgrading
 
-Firstly, ensure you have read the version compatibility matrix section above before upgrading as versions of this module sometimes must be kept in sync with the firewall module.
+Before upgrading, read the version compatibility matrix above. Versions of this module sometimes must be kept in sync with the firewall module.
 
 To upgrade the module, use the puppet module tool as normal:
 
@@ -251,7 +251,7 @@ This will cause four resources to be created:
 * Firewall['100 allow http and https access from 10.0.12.0/24 to 10.2.0.0/24']
 * Firewall['100 allow http and https access from 10.0.12.0/24 to 10.3.0.0/24']
 
-#### Array of proto's
+#### Array of protos
 
 ```puppet
 firewall_multi { '100 allow DNS lookups':
@@ -389,7 +389,7 @@ The project does not check in `Gemfile.lock`. If you already have an ignored
 local lockfile, remove it before installing; stale local lockfiles can pin old
 test helpers and break the Rake tasks.
 
-Pre config:
+Configure Bundler:
 
     bundle config set specific_platform true
     rm -f Gemfile.lock
@@ -421,7 +421,7 @@ Build the module and push to Forge:
 
     bundle exec rake module:push
 
-Clean the pkg dir (otherwise Blacksmith will try to push old copies to Forge next time you run it and it will fail):
+Clean the pkg directory. Otherwise, Blacksmith will try to push old copies to Forge next time you run it, and it will fail:
 
     bundle exec rake module:clean
 
@@ -429,21 +429,21 @@ Clean the pkg dir (otherwise Blacksmith will try to push old copies to Forge nex
 
 ### "Error: no parameter named X"
 
-On [occasion](https://github.com/alexharv074/puppet-firewall_multi/issues/19), users of this module have reported confusing failure error messages like:
+On [occasion](https://github.com/alexharv074/puppet-firewall_multi/issues/19), users of this module have reported confusing failure messages like:
 
 ```text
 Error: no parameter named 'ipvs'
 ```
 
-Sometimes seen after upgrading.
+This is sometimes seen after upgrading.
 
 ### Resolution 1 - ensure you have the right version
 
-The error message is probably not a bug in this module. Firstly, ensure that you have checked the [version compatibility](#version-compatibility) matrix above, and have installed a compatible combination of firewall/firewall_multi.
+The error message is probably not a bug in this module. First, check the [version compatibility](#version-compatibility) matrix above, and make sure you have installed a compatible combination of firewall/firewall_multi.
 
 ### Resolution 2 - environment isolation
 
-While not a problem with this module, this module - due to its requirement to be pinned against a very specific version of puppetlabs/firewall - is a likely candidate for failing if you have not properly set up [environment isolation](https://puppet.com/docs/puppet/6.4/environment_isolation.html). Follow the docs in the previous link to resolve the issue. Also, be aware of how to use r10k to automatically [generate types](https://github.com/puppetlabs/r10k/blob/master/doc/faq.mkd#how-can-run-i-puppet-generate-types-for-each-changed-environment-during-deployment) during deployments.
+While this is not a problem with this module, firewall_multi is likely to fail when [environment isolation](https://puppet.com/docs/puppet/6.4/environment_isolation.html) is not configured correctly, because it must be pinned to a specific version of puppetlabs/firewall. Follow the docs in the previous link to resolve the issue. Also, be aware of how to use r10k to automatically [generate types](https://github.com/puppetlabs/r10k/blob/master/doc/faq.mkd#how-can-run-i-puppet-generate-types-for-each-changed-environment-during-deployment) during deployments.
 
 ## Donate
 
