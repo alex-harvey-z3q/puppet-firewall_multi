@@ -147,11 +147,11 @@ resources for arrays of certain inputs.
 
 The following parameters are available in the `firewall_multi` defined type:
 
-* [`source`](#source)
-* [`destination`](#destination)
-* [`proto`](#proto)
-* [`icmp`](#icmp)
-* [`protocol`](#protocol)
+* [`source`](#-firewall_multi--source)
+* [`destination`](#-firewall_multi--destination)
+* [`proto`](#-firewall_multi--proto)
+* [`icmp`](#-firewall_multi--icmp)
+* [`protocol`](#-firewall_multi--protocol)
 ### Functions
 
 #### <a name="firewall_multi"></a>`firewall_multi`
