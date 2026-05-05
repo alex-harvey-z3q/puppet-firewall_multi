@@ -378,6 +378,15 @@ Make sure you have:
 * rake
 * bundler
 
+Use the project Ruby version:
+
+    rbenv install 3.2.0
+    rbenv local 3.2.0
+
+The project does not check in `Gemfile.lock`. If you already have an ignored
+local lockfile, remove it before installing; stale local lockfiles can pin old
+test helpers and break the Rake tasks.
+
 Pre config:
 
     bundle config set specific_platform true
@@ -385,7 +394,7 @@ Pre config:
 
 Install the necessary gems:
 
-    bundle install --path vendor/bundle
+    bundle install
 
 To run the tests from the root of the source code:
 

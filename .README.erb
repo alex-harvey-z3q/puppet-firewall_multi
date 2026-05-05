@@ -3,6 +3,7 @@
 <%
   require 'puppet-strings'
   temp_file = '/tmp/REF.md'
+  ruby_version = File.read('.ruby-version').strip
 
   PuppetStrings::generate(
     [
@@ -297,6 +298,15 @@ Make sure you have:
 * rake
 * bundler
 
+Use the project Ruby version:
+
+    rbenv install <%= ruby_version %>
+    rbenv local <%= ruby_version %>
+
+The project does not check in `Gemfile.lock`. If you already have an ignored
+local lockfile, remove it before installing; stale local lockfiles can pin old
+test helpers and break the Rake tasks.
+
 Pre config:
 
     bundle config set specific_platform true
@@ -304,7 +314,7 @@ Pre config:
 
 Install the necessary gems:
 
-    bundle install --path vendor/bundle
+    bundle install
 
 To run the tests from the root of the source code:
 

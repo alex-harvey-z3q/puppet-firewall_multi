@@ -4,7 +4,7 @@
 source "https://rubygems.org"
 
 group :tests do
-  gem "puppetlabs_spec_helper", :require => false
+  gem "puppetlabs_spec_helper", ">= 8.0.0", :require => false
   gem "rspec-puppet-utils", :require => false
   gem "metadata-json-lint", :require => false
   gem "puppet-blacksmith",  :require => false
