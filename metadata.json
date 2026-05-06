@@ -4,9 +4,9 @@
   "author": "Alex Harvey",
   "summary": "A multiplexer frontend for puppetlabs/firewall",
   "license": "MIT",
-  "source": "https://github.com/alexharv074/puppet-firewall_multi",
-  "project_page": "http://github.com/alexharv074/puppet-firewall_multi",
-  "issues_url": "https://github.com/alexharv074/puppet-firewall_multi/issues",
+  "source": "https://github.com/alex-harvey-z3q/puppet-firewall_multi",
+  "project_page": "https://github.com/alex-harvey-z3q/puppet-firewall_multi",
+  "issues_url": "https://github.com/alex-harvey-z3q/puppet-firewall_multi/issues",
   "operatingsystem_support": [
     {
       "operatingsystem": "RedHat",

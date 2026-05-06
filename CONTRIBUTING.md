@@ -43,7 +43,7 @@ Checklist (and a short version for the impatient)
 
       - Make sure you have a [GitHub account](https://github.com/join)
 
-      - [Create a ticket](https://github.com/alexharv074/puppet-firewall_multi/issues) or watch the ticket you are patching for.
+      - [Create a ticket](https://github.com/alex-harvey-z3q/puppet-firewall_multi/issues) or watch the ticket you are patching for.
 
     * Preferred method:
 
@@ -216,4 +216,3 @@ Additional Resources
 * [General GitHub documentation](http://help.github.com/)
 
 * [GitHub pull request documentation](http://help.github.com/send-pull-requests/)
-
