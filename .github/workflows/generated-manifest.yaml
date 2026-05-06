@@ -12,6 +12,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Force failure for notification testing
+        run: |
+          echo "Forced failure requested for notification testing."
+          exit 1
+
       - name: Check generated manifest is up to date
         run: |
           git clone --depth 1 https://github.com/puppetlabs/puppetlabs-firewall.git ../puppetlabs-firewall
