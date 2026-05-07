@@ -14,14 +14,6 @@ group :tests do
   gem "rubocop",         :require => false
 end
 
-group :system_tests do
-  gem "beaker",         :require => false
-  gem "beaker-pe",      :require => false
-  gem "beaker-rspec",   :require => false
-  gem "beaker-vagrant", :require => false
-  gem "beaker-puppet_install_helper", :require => false
-end
-
 if puppetversion = ENV["PUPPET_GEM_VERSION"]
   gem "puppet", puppetversion, :require => false
 else

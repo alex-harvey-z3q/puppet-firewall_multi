@@ -31,8 +31,8 @@ Checklist (and a short version for the impatient)
     - Make sure that you have tests for the bug you are fixing, or
       feature you are adding.
 
-    - Make sure the test suites passes after your commit:
-      `bundle exec rspec spec/acceptance` More information on [testing](#Testing) below
+    - Make sure the test suite passes after your commit.
+      More information on [testing](#Testing) below.
 
     - When introducing a new feature, make sure it is properly
       documented in the README.md
@@ -166,24 +166,6 @@ under [spec/defines](./spec/defines), [spec/classes](./spec/classes),
 and so on. rspec tests may have the same kind of dependencies as the
 module they are testing. While the module defines in its [Modulefile](./Modulefile),
 rspec tests define them in [.fixtures.yml](./fixtures.yml).
-
-Some puppet modules also come with [beaker](https://github.com/puppetlabs/beaker)
-tests. These tests spin up a virtual machine under
-[VirtualBox](https://www.virtualbox.org/)) with, controlling it with
-[Vagrant](http://www.vagrantup.com/) to actually simulate scripted test
-scenarios. In order to run these, you will need both of those tools
-installed on your system.
-
-You can run them by issuing the following command
-
-```shell
-% rake spec_clean
-% rspec spec/acceptance
-```
-
-This will now download a pre-fabricated image configured in the [default node-set](./spec/acceptance/nodesets/default.yml),
-install puppet, copy this module and install its dependencies per [spec/spec_helper_acceptance.rb](./spec/spec_helper_acceptance.rb)
-and then run all the tests under [spec/acceptance](./spec/acceptance).
 
 Writing Tests
 -------------

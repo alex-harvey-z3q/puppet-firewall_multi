@@ -403,10 +403,6 @@ To run the tests from the root of the source code:
     bundle exec rake spec_prep
     bundle exec rake spec
 
-To run the acceptance tests:
-
-    BEAKER_set=centos-72-x64 bundle exec rspec spec/acceptance
-
 ### Release
 
 This module uses Puppet Blacksmith to publish to the Puppet Forge.
