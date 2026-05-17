@@ -22,6 +22,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
       - uses: ruby/setup-ruby@v1
         name: Set up Ruby ${{ matrix.ruby }}
@@ -56,6 +58,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
       - uses: ruby/setup-ruby@v1
         name: Set up Ruby
@@ -68,6 +72,23 @@ jobs:
         run: |
           rm -f Gemfile.lock
           bundle install
+
+      - name: Debug shallow checkout and unshallow source
+        run: |
+          echo "Repository shallow status:"
+          git rev-parse --is-shallow-repository || true
+
+          echo
+          echo "puppetlabs_spec_helper location:"
+          bundle info puppetlabs_spec_helper || true
+
+          echo
+          echo "Searching puppetlabs_spec_helper for --unshallow:"
+          grep -R --line-number -- '--unshallow' "$(bundle info --path puppetlabs_spec_helper)" || true
+
+          echo
+          echo "Searching installed bundle for --unshallow:"
+          grep -R --line-number -- '--unshallow' "$(bundle info --path)" || true
 
       - name: Run Litmus acceptance tests
         run: |
