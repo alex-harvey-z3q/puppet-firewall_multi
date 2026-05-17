@@ -73,23 +73,6 @@ jobs:
           rm -f Gemfile.lock
           bundle install
 
-      - name: Debug shallow checkout and unshallow source
-        run: |
-          echo "Repository shallow status:"
-          git rev-parse --is-shallow-repository || true
-
-          echo
-          echo "puppetlabs_spec_helper location:"
-          bundle info puppetlabs_spec_helper || true
-
-          echo
-          echo "Searching puppetlabs_spec_helper for --unshallow:"
-          grep -R --line-number -- '--unshallow' "$(bundle info --path puppetlabs_spec_helper)" || true
-
-          echo
-          echo "Searching installed bundle for --unshallow:"
-          grep -R --line-number -- '--unshallow' "$(bundle info --path)" || true
-
       - name: Run Litmus acceptance tests
         run: |
           bundle exec rake spec_prep
