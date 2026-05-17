@@ -4,5 +4,9 @@
 fixtures:
   forge_modules:
     firewall: puppetlabs/firewall
+  repositories:
+    facts: https://github.com/puppetlabs/puppetlabs-facts.git
+    provision: https://github.com/puppetlabs/provision.git
+    puppet_agent: https://github.com/puppetlabs/puppetlabs-puppet_agent.git
   symlinks:
     firewall_multi: "#{source_dir}"

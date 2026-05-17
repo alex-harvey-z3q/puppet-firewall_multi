@@ -48,3 +48,34 @@ jobs:
           git clone --depth 1 https://github.com/puppetlabs/puppetlabs-firewall.git ../puppetlabs-firewall
           bash gen_params.sh > /tmp/init.pp
           diff -u manifests/init.pp /tmp/init.pp
+
+  acceptance:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: ruby/setup-ruby@v1
+        name: Set up Ruby
+        with:
+          ruby-version: "3.2"
+
+      - name: Install bundle
+        env:
+          PUPPET_GEM_VERSION: "~> 8.0"
+        run: |
+          rm -f Gemfile.lock
+          bundle install
+
+      - name: Run Litmus acceptance tests
+        run: |
+          bundle exec rake spec_prep
+          bundle exec rake 'litmus:provision_list[default]'
+          bundle exec rake 'litmus:install_agent[puppet8]'
+          bundle exec rake litmus:install_module
+          bundle exec rake litmus:acceptance:parallel
+
+      - name: Tear down Litmus targets
+        if: always()
+        run: bundle exec rake litmus:tear_down

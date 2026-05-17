@@ -321,6 +321,14 @@ To run the tests from the root of the source code:
     bundle exec rake spec_prep
     bundle exec rake spec
 
+To run the Litmus acceptance tests locally, ensure Docker is running, then use:
+
+    bundle exec rake 'litmus:provision_list[default]'
+    bundle exec rake 'litmus:install_agent[puppet8]'
+    bundle exec rake litmus:install_module
+    bundle exec rake litmus:acceptance:parallel
+    bundle exec rake litmus:tear_down
+
 ### Release
 
 This module uses Puppet Blacksmith to publish to the Puppet Forge.

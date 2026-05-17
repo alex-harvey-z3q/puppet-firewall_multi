@@ -9,6 +9,8 @@ group :tests do
   gem "metadata-json-lint", :require => false
   gem "puppet-blacksmith",  :require => false
   gem "puppet-strings", ">= 4.1.3", :require => false
+  gem "puppet_litmus", "~> 2.0", :require => false
+  gem "serverspec", :require => false
   gem "CFPropertyList",  :require => false
   gem "rubocop-rspec",   :require => false
   gem "rubocop",         :require => false
