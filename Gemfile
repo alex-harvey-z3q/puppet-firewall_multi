@@ -14,9 +14,11 @@ group :tests do
   gem "rubocop",         :require => false
 end
 
-group :acceptance do
-  gem "puppet_litmus", "~> 2.0", :require => false
-  gem "serverspec", :require => false
+if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new("3.1.0")
+  group :acceptance do
+    gem "puppet_litmus", "~> 2.0", :require => false
+    gem "serverspec", :require => false
+  end
 end
 
 if puppetversion = ENV["PUPPET_GEM_VERSION"]
