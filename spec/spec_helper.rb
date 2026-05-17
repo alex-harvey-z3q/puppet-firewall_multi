@@ -1,6 +1,3 @@
-# THIS FILE IS CENTRALLY MANAGED BY sync_spec.rb!
-# DO NOT EDIT IT HERE!
-
 # Without this, a warning is seen:
 #
 #   puppetlabs_spec_helper: defaults `mock_with` to `:mocha`.
