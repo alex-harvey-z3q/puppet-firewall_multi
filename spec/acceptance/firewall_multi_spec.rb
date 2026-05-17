@@ -23,7 +23,7 @@ describe "firewall_multi" do
       modulepath = File.expand_path("../fixtures/modules", __dir__)
       run_shell("HOME=/tmp puppet apply --noop --tags __compile_only --modulepath #{modulepath} /tmp/firewall_multi.pp")
     else
-      write_file("/tmp/firewall_multi.pp", manifest)
+      write_file(manifest, "/tmp/firewall_multi.pp")
       run_shell("HOME=/tmp puppet apply --noop --tags __compile_only /tmp/firewall_multi.pp")
     end
   end
