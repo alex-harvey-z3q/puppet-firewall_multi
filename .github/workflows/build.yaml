@@ -46,6 +46,9 @@ jobs:
           bundle exec rake lint
           bundle exec rake spec
 
+      - name: Run RuboCop
+        run: bundle exec rubocop
+
       - name: Check generated manifest is up to date
         run: |
           git clone --depth 1 https://github.com/puppetlabs/puppetlabs-firewall.git ../puppetlabs-firewall

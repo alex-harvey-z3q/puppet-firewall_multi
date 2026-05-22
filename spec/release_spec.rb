@@ -2,7 +2,7 @@ require "spec_helper"
 require "json"
 require "erb"
 
-PUPPETLABS_FIREWALL_DIR = "../puppetlabs-firewall"
+PUPPETLABS_FIREWALL_DIR = "../puppetlabs-firewall".freeze
 
 def read_metadata_from_path(path)
   file_path = File.join(path, "metadata.json")
@@ -15,9 +15,7 @@ fw_metadata = read_metadata_from_path(PUPPETLABS_FIREWALL_DIR)
 fm_version = metadata["version"]
 fw_version = metadata["dependencies"][0]["version_requirement"]
 
-if fw_version =~ /</
-  fw_version = fw_version.split.last
-end
+fw_version = fw_version.split.last if fw_version =~ /</
 
 # Get the last line of the version matrix.
 # https://unix.stackexchange.com/a/283489/231569
@@ -34,9 +32,7 @@ latest = `gsed -n '
 
 expected_fm, expected_fw = latest.split("|")
 
-if expected_fw =~ / /
-  expected_fw = expected_fw.split.last
-end
+expected_fw = expected_fw.split.last if expected_fw =~ / /
 
 describe "Release-related checks" do
   it "Version in metadata.json should match a tag - are you about to tag & release? If so, ignore." do

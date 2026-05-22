@@ -18,13 +18,18 @@ describe "firewall_multi" do
   end
 
   it "compiles the defined type on the target" do
-    if targeting_localhost?
-      File.write("/tmp/firewall_multi.pp", manifest)
-      modulepath = File.expand_path("../fixtures/modules", __dir__)
-      run_shell("HOME=/tmp puppet apply --noop --tags __compile_only --modulepath #{modulepath} /tmp/firewall_multi.pp")
-    else
-      write_file(manifest, "/tmp/firewall_multi.pp")
-      run_shell("HOME=/tmp puppet apply --noop --tags __compile_only /tmp/firewall_multi.pp")
-    end
+    result =
+      if targeting_localhost?
+        File.write("/tmp/firewall_multi.pp", manifest)
+        modulepath = File.expand_path("../fixtures/modules", __dir__)
+        run_shell(
+          "HOME=/tmp puppet apply --noop --tags __compile_only --modulepath #{modulepath} /tmp/firewall_multi.pp"
+        )
+      else
+        write_file(manifest, "/tmp/firewall_multi.pp")
+        run_shell("HOME=/tmp puppet apply --noop --tags __compile_only /tmp/firewall_multi.pp")
+      end
+
+    expect(result.exit_code).to eq(0)
   end
 end

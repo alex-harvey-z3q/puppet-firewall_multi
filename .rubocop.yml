@@ -1,6 +1,8 @@
 ---
-require: rubocop-rspec
+plugins:
+  - rubocop-rspec
 AllCops:
+  NewCops: disable
   Exclude:
     - bin/*
     - ".vendor/**/*"
@@ -10,7 +12,7 @@ AllCops:
 Layout/SpaceInsideHashLiteralBraces:
   EnforcedStyle: no_space
 Layout/HashAlignment:
-  Enabled: false
+  EnforcedHashRocketStyle: table
 Style/StringLiterals:
   EnforcedStyle: double_quotes
 Style/FrozenStringLiteralComment:
