@@ -77,7 +77,20 @@ jobs:
             -H "Content-Type: application/json" \
             -d @request.json > response.json
 
-          jq -r ".output_text" response.json > summary.md
+          jq -r '
+            .output_text //
+            (
+              [
+                .output[]?.content[]?
+                | select(.type == "output_text" or .type == "text")
+                | .text
+              ]
+              | join("\n")
+            )
+          ' response.json > summary.md
+
+          test -s summary.md
+          test "$(cat summary.md)" != "null"
 
       - name: Post summary comment
         if: ${{ env.OPENAI_API_KEY != '' }}
