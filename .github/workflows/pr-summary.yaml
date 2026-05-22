@@ -61,15 +61,16 @@ jobs:
                     "Title: " + $title + "\n" +
                     "Base branch: " + $base + "\n" +
                     "Head branch: " + $head + "\n\n" +
+                    "Keep the whole response under 220 words. Use flat bullets only.\n" +
                     "Write Markdown with these sections:\n" +
-                    "- Summary: 2-4 bullets describing the change.\n" +
-                    "- Maintainer Notes: mention likely risk areas, generated files, CI/test implications, or dependency changes when visible.\n" +
-                    "- Suggested Checks: list commands or checks that appear relevant; say when this cannot be inferred.\n\n" +
+                    "Summary: 2-3 bullets describing the change.\n" +
+                    "Maintainer Notes: 1-3 bullets mentioning risk areas, generated files, CI/test implications, or dependency changes when visible.\n" +
+                    "Suggested Checks: 1-3 concise bullets with relevant commands or checks; say when this cannot be inferred.\n\n" +
                     "Diff, possibly truncated to the first 60000 bytes:\n" + $diff
                   )
                 }
               ],
-              max_output_tokens: 900
+              max_output_tokens: 500
             }' > request.json
 
           curl -fsS https://api.openai.com/v1/responses \
