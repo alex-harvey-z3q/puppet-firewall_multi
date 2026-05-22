@@ -49,6 +49,9 @@ jobs:
       - name: Run RuboCop
         run: bundle exec rubocop
 
+      - name: Check dependencies for known vulnerabilities
+        run: bundle exec bundle-audit check --update
+
       - name: Check generated manifest is up to date
         run: |
           git clone --depth 1 https://github.com/puppetlabs/puppetlabs-firewall.git ../puppetlabs-firewall
