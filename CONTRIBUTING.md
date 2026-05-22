@@ -1,6 +1,8 @@
 Checklist (and a short version for the impatient)
 =================================================
 
+Temporary smoke-test note for the AI PR summary workflow.
+
   * Commits:
 
     - Make commits of logical units.
