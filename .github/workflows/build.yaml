@@ -49,6 +49,11 @@ jobs:
       - name: Run RuboCop
         run: bundle exec rubocop
 
+      - name: Check generated documentation is up to date
+        run: |
+          bundle exec rake docs
+          git diff --exit-code README.md
+
       - name: Check dependencies for known vulnerabilities
         run: bundle exec bundle-audit check --update
 
