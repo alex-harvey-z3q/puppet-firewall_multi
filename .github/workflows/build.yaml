@@ -57,6 +57,11 @@ jobs:
       - name: Check dependencies for known vulnerabilities
         run: bundle exec bundle-audit check --update
 
+      - name: Build and install package
+        run: |
+          bundle exec rake module:build
+          bundle exec puppet module install pkg/*.tar.gz --modulepath /tmp/modulepath --ignore-dependencies
+
       - name: Check generated manifest is up to date
         run: |
           git clone --depth 1 https://github.com/puppetlabs/puppetlabs-firewall.git ../puppetlabs-firewall
