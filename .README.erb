@@ -316,22 +316,33 @@ Install the necessary gems:
 
     bundle install
 
-To run the tests from the root of the source code:
+The Rakefile is the source of truth for project checks. To run the same build
+checks used by CI from the root of the source code:
 
-    bundle exec rake spec_prep
+    bundle exec rake ci:build
+
+For a narrower local loop, run individual tasks:
+
+    bundle exec rake validate
+    bundle exec rake lint
     bundle exec rake spec
+    bundle exec rake docs:check
+    bundle exec rake generated_manifest:check
+    bundle exec rake security:bundle_audit
+    bundle exec rake module:install_check
 
 To run the Litmus acceptance tests locally, ensure Docker is running, then use:
 
-    bundle exec rake 'litmus:provision_list[default]'
-    bundle exec rake 'litmus:install_agent[puppet8]'
-    bundle exec rake litmus:install_module
-    bundle exec rake litmus:acceptance:parallel
-    bundle exec rake litmus:tear_down
+    bundle exec rake ci:acceptance
+    bundle exec rake ci:acceptance_teardown
 
 ### Release
 
 This module uses Puppet Blacksmith to publish to the Puppet Forge.
+
+Before releasing, run the release consistency checks:
+
+    bundle exec rake release:check
 
 Ensure you have these lines in `~/.bash_profile`:
 
