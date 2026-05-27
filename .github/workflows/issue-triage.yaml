@@ -8,6 +8,7 @@ on:
       - edited
 
 permissions:
+  contents: read
   issues: write
 
 jobs:
@@ -15,10 +16,20 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      OPENAI_MODEL: gpt-5-mini
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
     steps:
+      - uses: actions/checkout@v6
+        if: ${{ env.OPENAI_API_KEY != '' }}
+        with:
+          persist-credentials: false
+
+      - name: Load OpenAI model config
+        if: ${{ env.OPENAI_API_KEY != '' }}
+        run: |
+          model="$(jq -er '.model | select(type == "string" and length > 0)' .github/openai-model.json)"
+          echo "OPENAI_MODEL=${model}" >> "${GITHUB_ENV}"
+
       - name: Build triage request
         if: ${{ env.OPENAI_API_KEY != '' }}
         run: |
