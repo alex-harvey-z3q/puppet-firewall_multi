@@ -456,3 +456,5 @@ If you find that this code saved your project some significant time, consider do
 [![paypal](https://www.paypalobjects.com/en_AU/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=6849RBYT6VYBQ)
 
 Also, please add a star if you find it useful!
+
+<!-- DUMMY -->
