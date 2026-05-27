@@ -7,6 +7,31 @@ const {
   upsertIssueComment
 } = require("./ai-common");
 
+const SYSTEM_PROMPT = [
+  "You summarize pull requests for maintainers.",
+  "Be concise, concrete, and cautious.",
+  "Use only the supplied title, branch names, and diff.",
+  "Do not invent test results or reviewer findings."
+].join(" ");
+
+function buildUserPrompt({pullRequest, diff}) {
+  return [
+    "Summarize this pull request for a Puppet module maintainer.",
+    "",
+    `Title: ${pullRequest.title}`,
+    `Base branch: ${pullRequest.base.ref}`,
+    `Head branch: ${pullRequest.head.ref}`,
+    "",
+    "Keep the whole response under 140 words. Use flat bullets only and complete every sentence.",
+    "Write Markdown with these sections:",
+    "Summary: 2-3 bullets describing the change.",
+    "Maintainer Notes: 1-3 bullets mentioning risk areas, generated files, CI/test implications, or dependency changes when visible.",
+    "Suggested Checks: 1-3 concise bullets with relevant commands or checks; say when this cannot be inferred.",
+    "",
+    `Diff, possibly truncated to the first 60000 bytes:\n${diff}`
+  ].join("\n");
+}
+
 module.exports = async ({github, context, core}) => {
   if (!ensureOpenAIKey(core)) {
     return;
@@ -32,30 +57,11 @@ module.exports = async ({github, context, core}) => {
     input: [
       {
         role: "system",
-        content: [
-          "You summarize pull requests for maintainers.",
-          "Be concise, concrete, and cautious.",
-          "Use only the supplied title, branch names, and diff.",
-          "Do not invent test results or reviewer findings."
-        ].join(" ")
+        content: SYSTEM_PROMPT
       },
       {
         role: "user",
-        content: [
-          "Summarize this pull request for a Puppet module maintainer.",
-          "",
-          `Title: ${pullRequest.title}`,
-          `Base branch: ${pullRequest.base.ref}`,
-          `Head branch: ${pullRequest.head.ref}`,
-          "",
-          "Keep the whole response under 140 words. Use flat bullets only and complete every sentence.",
-          "Write Markdown with these sections:",
-          "Summary: 2-3 bullets describing the change.",
-          "Maintainer Notes: 1-3 bullets mentioning risk areas, generated files, CI/test implications, or dependency changes when visible.",
-          "Suggested Checks: 1-3 concise bullets with relevant commands or checks; say when this cannot be inferred.",
-          "",
-          `Diff, possibly truncated to the first 60000 bytes:\n${diff}`
-        ].join("\n")
+        content: buildUserPrompt({pullRequest, diff})
       }
     ]
   });
