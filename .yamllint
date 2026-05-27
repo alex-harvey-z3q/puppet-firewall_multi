@@ -1,0 +1,23 @@
+---
+extends: default
+
+ignore: |
+  .bundle/
+  .gems/
+  .vagrant/
+  .yardoc/
+  bin/
+  log/
+  pkg/
+  spec/fixtures/
+  vendor/
+
+rules:
+  document-start: disable
+  line-length:
+    max: 120
+  truthy:
+    allowed-values:
+      - "true"
+      - "false"
+      - "on"

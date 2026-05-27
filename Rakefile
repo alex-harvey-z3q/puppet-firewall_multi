@@ -23,9 +23,14 @@ task :docs do
   File.write("README.md", renderer.result)
 end
 
+desc "Run yamllint"
+task :yamllint do
+  sh "yamllint ."
+end
+
 desc "Run ShellCheck"
 task :shellcheck do
   sh "shellcheck gen_params.sh"
 end
 
-task lint: :shellcheck
+task lint: [:shellcheck, :yamllint]
