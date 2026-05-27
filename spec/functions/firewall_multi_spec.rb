@@ -35,4 +35,8 @@ describe "firewall_multi" do
       expect(subject.execute(input)).to eq output
     end
   end
+
+  it "intentionally fails to test AI build failure analysis" do
+    expect("build failure analysis smoke test").to eq "passing CI"
+  end
 end
