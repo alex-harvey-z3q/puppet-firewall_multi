@@ -427,7 +427,17 @@ Before releasing, run the release consistency checks:
 
     bundle exec rake release:check
 
-Ensure you have these lines in `~/.bash_profile`:
+Releases are published automatically when a version tag is pushed:
+
+    git tag 8.4.0
+    git push origin 8.4.0
+
+The GitHub release workflow expects these repository secrets:
+
+    BLACKSMITH_FORGE_USERNAME
+    BLACKSMITH_FORGE_API_KEY
+
+For manual local releases, ensure you have these lines in `~/.bash_profile`:
 
     export BLACKSMITH_FORGE_URL=https://forgeapi.puppetlabs.com
     export BLACKSMITH_FORGE_USERNAME=alexharvey

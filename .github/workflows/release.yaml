@@ -1,0 +1,41 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "[0-9]+.[0-9]+.[0-9]+"
+
+permissions:
+  contents: read
+
+jobs:
+  forge:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - uses: ruby/setup-ruby@v1
+        name: Set up Ruby
+        with:
+          ruby-version: "3.2"
+
+      - name: Install bundle
+        env:
+          PUPPET_GEM_VERSION: "~> 8.0"
+        run: |
+          bundle config set --local without acceptance
+          rm -f Gemfile.lock
+          bundle install
+
+      - name: Run release checks
+        run: bundle exec rake release:check
+
+      - name: Publish to Puppet Forge
+        env:
+          BLACKSMITH_FORGE_URL: https://forgeapi.puppet.com
+          BLACKSMITH_FORGE_USERNAME: ${{ secrets.BLACKSMITH_FORGE_USERNAME }}
+          BLACKSMITH_FORGE_API_KEY: ${{ secrets.BLACKSMITH_FORGE_API_KEY }}
+        run: bundle exec rake module:push
