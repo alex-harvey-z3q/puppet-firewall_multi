@@ -10,3 +10,4 @@ log/
 .yardoc/
 bin/
 .git/
+.agents/
