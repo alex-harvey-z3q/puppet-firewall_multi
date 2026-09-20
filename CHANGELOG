@@ -1,3 +1,7 @@
+2026-09-20 - Version 8.4.1
+- Correct the minimum puppetlabs/firewall dependency to 8.4.0.
+- Check both dependency bounds against the documented compatibility matrix.
+
 2026-06-21 - Version 8.4.0
 - Update to support changes in firewall 8.4.0.
 
