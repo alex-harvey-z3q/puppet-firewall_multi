@@ -24,12 +24,12 @@ def metadata_from(path)
   JSON.parse(File.read(File.join(path, "metadata.json")))
 end
 
-def firewall_dependency_version(metadata)
+def firewall_dependency_requirement(metadata)
   dependency = metadata.fetch("dependencies").find do |candidate|
     candidate.fetch("name") == "puppetlabs/firewall"
   end
 
-  dependency.fetch("version_requirement").split.last
+  dependency.fetch("version_requirement")
 end
 
 def latest_version_matrix_entry
@@ -142,7 +142,10 @@ namespace :release do
       )
     end
 
-    unless firewall_dependency_version(metadata) == expected_firewall_version.split.last
+    firewall_versions = expected_firewall_version.split(",").map(&:strip)
+    expected_requirement = ">= #{firewall_versions.first} <= #{firewall_versions.last}"
+
+    unless firewall_dependency_requirement(metadata) == expected_requirement
       raise "metadata.json firewall dependency does not match README version matrix #{expected_firewall_version}"
     end
   end
