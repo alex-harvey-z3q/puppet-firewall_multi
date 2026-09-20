@@ -31,10 +31,11 @@ a release.
   examples there too. Regenerate `README.md` with `bundle exec rake docs`;
   do not edit generated documentation directly.
 - Check BOTH bounds of the firewall dependency against actual compatibility.
-  The release check expects `>= FIRST <= LAST` from the first and last upstream
-  versions in the latest README matrix row. The manifest generated for firewall
+  The release check compares parsed version ranges against `>= FIRST <= LAST`
+  from the latest README matrix row. Use `=VERSION` for a single supported
+  version. The manifest generated for firewall
   8.4.0 exposes `ctmask`, `nfmask`, and `restore_mark`; its documented range is
-  `>= 8.4.0 <= 8.4.0`, not a range starting at 8.0.1. Do not broaden the upper
+  `=8.4.0`, not a range starting at 8.0.1. Do not broaden the upper
   bound without verification.
 - For upstream feature updates, inspect the intended upstream release and
   regenerate `manifests/init.pp` using `gen_params.sh`. The generator reads

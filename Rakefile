@@ -3,6 +3,7 @@ require "puppet-strings/tasks"
 require "puppet_blacksmith/rake_tasks"
 require "fileutils"
 require "json"
+require "semantic_puppet"
 require "tmpdir"
 
 begin
@@ -145,7 +146,10 @@ namespace :release do
     firewall_versions = expected_firewall_version.split(",").map(&:strip)
     expected_requirement = ">= #{firewall_versions.first} <= #{firewall_versions.last}"
 
-    unless firewall_dependency_requirement(metadata) == expected_requirement
+    actual_range = SemanticPuppet::VersionRange.parse(firewall_dependency_requirement(metadata))
+    expected_range = SemanticPuppet::VersionRange.parse(expected_requirement)
+
+    unless actual_range == expected_range
       raise "metadata.json firewall dependency does not match README version matrix #{expected_firewall_version}"
     end
   end
