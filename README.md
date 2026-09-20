@@ -93,6 +93,7 @@ earlier|1.8.0
 8.0.0|8.0.0
 8.0.1|8.0.1, 8.0.2, 8.0.3, 8.1.0, 8.1.1, 8.1.2, 8.1.3, 8.1.4, 8.1.5, 8.1.6, 8.1.7, 8.2.0, 8.3.0
 8.4.0|8.4.0
+8.4.1|8.4.0
 
 Puppet 3 support was dropped in version 1.11.0. The versioning was changed to 3.0.0 to match upstream firewall versioning, without any code changes.
 
@@ -429,8 +430,8 @@ Before releasing, run the release consistency checks:
 
 Releases are published automatically when a version tag is pushed:
 
-    git tag 8.4.0
-    git push origin 8.4.0
+    git tag 8.4.1
+    git push origin 8.4.1
 
 The GitHub release workflow expects these repository secrets:
 
