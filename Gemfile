@@ -2,7 +2,7 @@ source "https://rubygems.org"
 
 group :tests do
   # Puppet's MultiJSON adapter passes options removed in JSON 3.
-  gem "json", ">= 2.21.2", "< 3", :require => false
+  gem "json", ">= 2.21.2", "< 4", :require => false
   gem "bundler-audit", :require => false
   gem "puppetlabs_spec_helper", ">= 8.0.0", :require => false
   gem "rspec-puppet-utils", :require => false
