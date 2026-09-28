@@ -1,8 +1,13 @@
 source "https://rubygems.org"
 
 group :tests do
-  # Puppet's MultiJSON adapter passes options removed in JSON 3.
-  gem "json", ">= 2.21.2", "< 3", :require => false
+  if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new("3.2.0")
+    gem "json", ">= 2.21.2", "< 4", :require => false
+    gem "multi_json", ">= 1.21.2", :require => false
+  else
+    # Older Ruby versions cannot use the MultiJSON release supporting JSON 3.
+    gem "json", ">= 2.21.2", "< 3", :require => false
+  end
   gem "bundler-audit", :require => false
   gem "puppetlabs_spec_helper", ">= 8.0.0", :require => false
   gem "rspec-puppet-utils", :require => false
